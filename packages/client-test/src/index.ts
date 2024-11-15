@@ -1,4 +1,4 @@
-import { Endpoint, Init, Method, Pathname, Response } from "./types";
+import { Endpoint, Init, Method, Response } from "@/types/client";
 
 type CreateClientProps = {
   domain: `https://${string}`;
@@ -11,7 +11,7 @@ type CreateClientProps = {
  */
 export function createClient({ domain, apiKey }: CreateClientProps) {
   return async <T extends Endpoint, U extends Method>(
-    pathname: Pathname<T, U>,
+    pathname: T,
     init: Init<T, U>
   ) => {
     // Create the URL
@@ -30,4 +30,16 @@ export function createClient({ domain, apiKey }: CreateClientProps) {
     // Send the request
     return fetch(request).then((res) => res.json() as Promise<Response<T, U>>);
   };
+}
+
+async function main() {
+  const client = createClient({
+    domain: "https://localhost:3000",
+    apiKey: "123",
+  });
+
+  const res = await client("/api", {
+    method: "GET",
+    body: undefined,
+  });
 }
