@@ -1,7 +1,9 @@
 {
-  "name": "client-test",
+  "name": "@godsreveal/client-test",
   "version": "0.1.0",
   "private": true,
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsc",
     "lint": "eslint --fix ."
@@ -10,8 +12,8 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
-    "@repo/eslint-config": "workspace:*",
-    "@repo/typescript-config": "workspace:*",
+    "@godsreveal/eslint-config": "workspace:*",
+    "@godsreveal/typescript-config": "workspace:*",
     "@types/node": "^20",
     "eslint": "^8",
     "eslint-config-next": "14.2.6",
