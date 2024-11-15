@@ -1,13 +1,13 @@
 {
   "name": "@godsreveal/client-test",
-  "version": "0.1.3",
+  "version": "0.1.6",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [
     "dist"
   ],
   "scripts": {
-    "build": "tsc",
+    "build": "tsc --project tsconfig.json && tsc-alias",
     "lint": "eslint --fix .",
     "release:dry": "npm pack && tar -xvzf *.tgz && rm -rf package *.tgz",
     "release": "npm publish --access public"
@@ -21,6 +21,7 @@
     "@types/node": "^20",
     "eslint": "^8",
     "eslint-config-next": "14.2.6",
-    "typescript": "5.5.4"
+    "typescript": "5.5.4",
+    "tsc-alias": "^1.8.8"
   }
 }

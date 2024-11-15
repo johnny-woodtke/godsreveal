@@ -32,6 +32,8 @@ export function createClient({ domain, apiKey }: CreateClientProps) {
   };
 }
 
+export type { Endpoint, Method, Response, Init, CreateClientProps };
+
 async function main() {
   const client = createClient({
     domain: "https://localhost:3000",
