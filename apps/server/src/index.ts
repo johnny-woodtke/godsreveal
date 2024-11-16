@@ -4,13 +4,17 @@ import z from "zod";
 import cors from "cors";
 
 const appRouter = router({
-  healthCheck: publicProcedure.query(() => {
-    console.log("healthCheck");
-    return { status: "OK" };
-  }),
+  healthCheck: publicProcedure
+    .input(z.void())
+    .output(z.object({ status: z.string() }))
+    .query(() => {
+      console.log("healthCheck");
+      return { status: "OK" };
+    }),
 
   hello: publicProcedure
     .input(z.object({ name: z.string() }))
+    .output(z.string())
     .query(({ input }) => {
       return `Hello ${input.name}`;
     }),
