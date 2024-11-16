@@ -1,24 +1,19 @@
+"use client";
+
 import Image from "next/image";
 import { Button } from "@godsreveal/ui/button";
+import { useEffect, useState } from "react";
+import { trpc } from "@/lib/trpc";
 import styles from "./page.module.css";
-import { createClient } from "@godsreveal/client-test";
-
-const client = createClient({
-  domain: "https://localhost:3000",
-  apiKey: "123",
-});
-
-async function getData() {
-  const data = await client("/api", {
-    method: "POST",
-    body: {
-      text: "Hello, world!",
-    },
-  });
-  return data;
-}
 
 export default function Home() {
+  const [msg, setMsg] = useState("");
+
+  useEffect(() => {
+    console.log("client before query");
+    trpc.hello.query({ name: "Michael" }).then((res) => setMsg(res));
+  }, []);
+
   return (
     <div className={styles.page}>
       <main className={styles.main}>
@@ -35,6 +30,7 @@ export default function Home() {
             Get started by editing <code>app/page.tsx</code>
           </li>
           <li>Save and see your changes instantly.</li>
+          <li>{msg}</li>
         </ol>
 
         <div className={styles.ctas}>

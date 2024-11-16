@@ -1,9 +1,13 @@
 import { publicProcedure, router } from "@/trpc";
 import { createHTTPServer } from "@trpc/server/adapters/standalone";
 import z from "zod";
+import cors from "cors";
 
 const appRouter = router({
-  healthCheck: publicProcedure.query(() => "OK"),
+  healthCheck: publicProcedure.query(() => {
+    console.log("healthCheck");
+    return { status: "OK" };
+  }),
 
   hello: publicProcedure
     .input(z.object({ name: z.string() }))
@@ -19,5 +23,7 @@ export type AppRouter = typeof appRouter;
  */
 const server = createHTTPServer({
   router: appRouter,
+  middleware: cors(),
 });
-server.listen(3000);
+server.listen(3001);
+console.log("🚀 Server listening on http://localhost:3001");
