@@ -1,19 +1,17 @@
-"use client";
-
 import Image from "next/image";
 import { Button } from "@godsreveal/ui/button";
-import { useEffect, useState } from "react";
-import { trpc } from "@/lib/trpc";
+
 import styles from "./page.module.css";
+import { hono } from "@/lib/hono";
 
-export default function Home() {
-  const [msg, setMsg] = useState("");
-
-  useEffect(() => {
-    console.log("client before query");
-    trpc.hello.query({ name: "Michael" }).then((res) => setMsg(res));
-  }, []);
-
+export default async function Home() {
+  const msg = await hono.hello
+    .$post({
+      json: {
+        name: "Johnny Woodtke",
+      },
+    })
+    .then((res) => res.json().then((data) => data.message));
   return (
     <div className={styles.page}>
       <main className={styles.main}>
@@ -30,7 +28,7 @@ export default function Home() {
             Get started by editing <code>app/page.tsx</code>
           </li>
           <li>Save and see your changes instantly.</li>
-          <li>{msg}</li>
+          <li>Message: {msg}</li>
         </ol>
 
         <div className={styles.ctas}>

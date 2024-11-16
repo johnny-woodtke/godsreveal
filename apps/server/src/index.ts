@@ -1,33 +1,29 @@
-import { publicProcedure, router } from "@/trpc";
-import { createHTTPServer } from "@trpc/server/adapters/standalone";
-import z from "zod";
-import cors from "cors";
+import { swaggerUI } from "@hono/swagger-ui";
+import { OpenAPIHono } from "@hono/zod-openapi";
+import { cors } from "hono/cors";
 
-const appRouter = router({
-  healthCheck: publicProcedure
-    .input(z.void())
-    .output(z.object({ status: z.string() }))
-    .query(() => {
-      console.log("healthCheck");
-      return { status: "OK" };
-    }),
+import hello from "@/routes/hello";
 
-  hello: publicProcedure
-    .input(z.object({ name: z.string() }))
-    .output(z.string())
-    .query(({ input }) => {
-      return `Hello ${input.name}`;
-    }),
-});
+const app = new OpenAPIHono()
+  .openapi(hello.route, async (c) => {
+    const data = c.req.valid("json");
+    return c.json(await hello.handler(data), 200);
+  })
+  .doc("/openapi.json", {
+    openapi: "3.1.0",
+    info: {
+      title: "God's Reveal API",
+      version: "1.0.0",
+    },
+  })
+  .get(
+    "/docs",
+    swaggerUI({
+      url: "/openapi.json",
+    })
+  );
 
-export type AppRouter = typeof appRouter;
+app.use("*", cors());
 
-/**
- * Create and start the server
- */
-const server = createHTTPServer({
-  router: appRouter,
-  middleware: cors(),
-});
-server.listen(3001);
-console.log("🚀 Server listening on http://localhost:3001");
+export type App = typeof app;
+export default app;

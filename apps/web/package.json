@@ -11,7 +11,7 @@
   "dependencies": {
     "@godsreveal/server": "workspace:*",
     "@godsreveal/ui": "workspace:*",
-    "@trpc/client": "^10.45.2",
+    "hono": "^4.6.10",
     "next": "14.2.6",
     "react": "18.3.1",
     "react-dom": "18.3.1"

@@ -8,25 +8,26 @@
     "dist"
   ],
   "scripts": {
-    "dev": "tsx watch src/index.ts",
+    "dev": "wrangler dev src/index.ts",
     "build": "tsc --project tsconfig.json && tsc-alias",
     "start": "echo 'Not implemented'",
     "lint": "eslint ."
   },
   "dependencies": {
-    "@trpc/server": "^10.45.2",
-    "cors": "^2.8.5",
+    "@hono/swagger-ui": "^0.4.1",
+    "@hono/zod-openapi": "^0.17.1",
+    "hono": "^4.6.10",
     "zod": "^3.23.8"
   },
   "devDependencies": {
+    "@cloudflare/workers-types": "^4.20240405.0",
     "@godsreveal/eslint-config": "workspace:*",
     "@godsreveal/typescript-config": "workspace:*",
-    "@types/cors": "^2.8.17",
     "@types/node": "^20",
     "eslint": "^8",
     "eslint-config-next": "14.2.6",
-    "tsx": "^4.7.1",
+    "tsc-alias": "^1.8.8",
     "typescript": "5.5.4",
-    "tsc-alias": "^1.8.8"
+    "wrangler": "^3.53.0"
   }
 }
