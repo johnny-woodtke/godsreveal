@@ -1,5 +1,5 @@
 {
-  "name": "web",
+  "name": "@godsreveal/web",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -7,11 +7,14 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "clean": "rm -rf .turbo .next node_modules",
+    "clean": "rm -rf .turbo .next",
     "check-types": "tsc --noEmit"
   },
   "dependencies": {
+    "@godsreveal/server": "*",
     "@godsreveal/ui": "*",
+    "@elysiajs/eden": "^1.1.3",
+    "elysia": "latest",
     "next": "14.2.3",
     "react": "18.2.0",
     "react-dom": "18.2.0"
@@ -24,6 +27,7 @@
     "@types/react-dom": "18.2.0",
     "eslint": "^8",
     "eslint-config-next": "15.0.3",
-    "typescript": "5.5.4"
+    "typescript": "5.5.4",
+    "bun-types": "latest"
   }
 }

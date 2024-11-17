@@ -1,6 +1,8 @@
 import Image, { type ImageProps } from "next/image";
 import { Button } from "@godsreveal/ui/button";
 import styles from "./page.module.css";
+import ClientMessage from "@/components/client-message";
+import { client } from "@/lib/eden";
 
 type Props = Omit<ImageProps, "src"> & {
   srcLight: string;
@@ -18,7 +20,11 @@ const ThemeImage = (props: Props) => {
   );
 };
 
-export default function Home() {
+export const dynamic = "force-dynamic";
+
+export default async function Home() {
+  const { data } = await client.index.get();
+
   return (
     <div className={styles.page}>
       <main className={styles.main}>
@@ -36,6 +42,8 @@ export default function Home() {
             Get started by editing <code>apps/web/app/page.tsx</code>
           </li>
           <li>Save and see your changes instantly.</li>
+          <li>Server: {data}</li>
+          <ClientMessage />
         </ol>
 
         <div className={styles.ctas}>

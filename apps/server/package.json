@@ -1,18 +1,28 @@
 {
-  "name": "server",
+  "name": "@godsreveal/server",
   "version": "1.0.50",
+  "main": "dist/index.js",
+  "types": "dist-types/index.d.ts",
+  "files": [
+    "dist",
+    "dist-types"
+  ],
+  "private": true,
   "scripts": {
     "dev": "bun run --watch src/index.ts",
-    "build": "bun build src/index.ts --target bun --outdir ./dist",
+    "build": "bun build src/index.ts --target bun --outdir ./dist && tsc",
     "start": "NODE_ENV=production bun dist/index.js",
-    "clean": "rm -rf .turbo dist node_modules",
+    "clean": "rm -rf .turbo dist dist-types",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
+    "@elysiajs/cors": "^1.1.1",
+    "@elysiajs/swagger": "^1.1.6",
     "elysia": "latest"
   },
   "devDependencies": {
-    "bun-types": "latest"
+    "bun-types": "latest",
+    "typescript": "5.5.4"
   },
   "module": "src/index.js"
 }

@@ -1,5 +1,5 @@
 {
-  "name": "docs",
+  "name": "@godsreveal/docs",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "clean": "rm -rf .turbo .next node_modules",
+    "clean": "rm -rf .turbo .next",
     "check-types": "tsc --noEmit"
   },
   "dependencies": {
