@@ -43,7 +43,9 @@ export default async function Home() {
           </li>
           <li>Save and see your changes instantly.</li>
           <li>Server: {data}</li>
-          <ClientMessage />
+          <li>
+            <ClientMessage />
+          </li>
         </ol>
 
         <div className={styles.ctas}>

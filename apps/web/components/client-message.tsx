@@ -8,11 +8,13 @@ export default function ClientMessage() {
   const [message, setMessage] = useState("");
 
   useEffect(() => {
-    client
-      .id({ id: 1 })
-      .get()
-      .then((res) => setMessage(res.data ?? ""));
+    client.mirror
+      .post({
+        id: 1,
+        name: "test",
+      })
+      .then((res) => setMessage(res.data?.name ?? ""));
   }, []);
 
-  return <li>Client: {message}</li>;
+  return <>Client: {message}</>;
 }
