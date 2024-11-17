@@ -9,7 +9,7 @@
   ],
   "private": true,
   "scripts": {
-    "dev": "dotenv -e .env -- bun run --watch src/index.ts",
+    "dev": "bun run --watch src/index.ts",
     "build": "bun build src/index.ts --target bun --outdir ./dist && tsc",
     "start": "NODE_ENV=production bun dist/index.js",
     "clean": "rm -rf .turbo dist dist-types",
@@ -22,8 +22,7 @@
   },
   "devDependencies": {
     "bun-types": "latest",
-    "typescript": "5.5.4",
-    "dotenv-cli": "7.4.2"
+    "typescript": "5.5.4"
   },
   "module": "src/index.js"
 }
