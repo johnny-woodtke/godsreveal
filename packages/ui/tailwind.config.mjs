@@ -1,5 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 import defaultTheme from "tailwindcss/defaultTheme";
+
 import animate from "tailwindcss-animate";
 
 /** @type {import('tailwindcss').Config} */
@@ -16,9 +17,9 @@ export default {
   ],
   theme: {
     screens: {
+      ...defaultTheme.screens,
       xs: "280px",
       "2xl": "1400px",
-      ...defaultTheme.screens,
     },
     container: {
       center: true,

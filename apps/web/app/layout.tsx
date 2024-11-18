@@ -4,12 +4,12 @@ import { cn } from "@godsreveal/lib";
 import "@godsreveal/ui/globals.css";
 import "globals.css";
 import { ModeToggle, ThemeProvider } from "@/components/theme-provider";
-import { Button } from "@godsreveal/ui";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
   variable: "--font-geist-sans",
 });
+
 const geistMono = localFont({
   src: "./fonts/GeistMonoVF.woff",
   variable: "--font-geist-mono",
