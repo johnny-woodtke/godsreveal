@@ -4,17 +4,17 @@
   "rsc": false,
   "tsx": true,
   "tailwind": {
-    "config": "tailwind.config.js",
-    "css": "src/index.css",
+    "config": "tailwind.config.mjs",
+    "css": "globals.css",
     "baseColor": "zinc",
     "cssVariables": true,
     "prefix": ""
   },
   "aliases": {
     "components": "@/components",
-    "utils": "@/lib/utils",
+    "utils": "@godsreveal/lib",
     "ui": "@/components",
-    "lib": "@/lib",
+    "lib": "@godsreveal/lib",
     "hooks": "@/hooks"
   },
   "iconLibrary": "lucide"

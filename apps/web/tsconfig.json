@@ -11,7 +11,9 @@
       {
         "name": "next"
       }
-    ]
+    ],
+    "emitDeclarationOnly": false,
+    "strict": true
   },
   "include": [
     "next-env.d.ts",
@@ -23,6 +25,6 @@
     "postcss.config.mjs"
   ],
   "exclude": [
-    "node_modules",
+    "node_modules"
   ]
 }

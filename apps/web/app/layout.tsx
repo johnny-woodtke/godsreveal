@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
-import { cn } from "@godsreveal/ui";
+import { cn } from "@godsreveal/lib";
 import "@godsreveal/ui/globals.css";
-import "globals.css";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -26,7 +25,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={cn(geistSans.variable, geistMono.variable, "bg-primary/10")}
+        className={cn(geistSans.variable, geistMono.variable, "bg-primary/30")}
       >
         {children}
       </body>
