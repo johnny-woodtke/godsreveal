@@ -1,8 +1,8 @@
 import Image, { type ImageProps } from "next/image";
-import { Button } from "@godsreveal/ui/button";
 import styles from "./page.module.css";
 import ClientMessage from "@/components/client-message";
 import { client } from "@/lib/eden";
+import ClientButton from "@/components/client-button";
 
 type Props = Omit<ImageProps, "src"> & {
   srcLight: string;
@@ -73,9 +73,7 @@ export default async function Home() {
             Read our docs
           </a>
         </div>
-        <Button appName="web" className={styles.secondary}>
-          Open alert
-        </Button>
+        <ClientButton />
       </main>
       <footer className={styles.footer}>
         <a

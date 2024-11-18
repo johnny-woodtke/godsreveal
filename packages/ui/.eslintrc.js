@@ -1,7 +1,7 @@
 /** @type {import("eslint").Linter.Config} */
-export default {
+module.exports = {
   root: true,
-  extends: ["@godsreveal/eslint-config/react-internal.mjs"],
+  extends: ["@godsreveal/eslint-config/react-internal.js"],
   parser: "@typescript-eslint/parser",
   parserOptions: {
     project: "./tsconfig.lint.json",
