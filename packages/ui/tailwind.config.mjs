@@ -11,6 +11,7 @@ export default {
     "./app/**/*.{js,ts,jsx,tsx}",
     "./src/**/*.{js,ts,jsx,tsx}",
     // Add the ui package
+    "../../packages/ui/**/*.{js,ts,jsx,tsx}",
     "@godsreveal/ui/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
