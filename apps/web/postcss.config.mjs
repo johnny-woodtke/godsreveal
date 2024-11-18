@@ -1,7 +1,3 @@
-/** @type {import('postcss').Config} */
-module.exports = {
-  plugins: {
-    tailwindcss: {},
-    autoprefixer: {},
-  },
-};
+import config from "@godsreveal/ui/postcss.config.mjs";
+
+export default config;
