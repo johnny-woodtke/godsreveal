@@ -1,26 +1,30 @@
 {
   "name": "@godsreveal/server",
   "version": "1.0.50",
-  "main": "dist/index.js",
-  "types": "dist-types/index.d.ts",
+  "main": "dist/js/index.js",
+  "types": "dist/types/index.d.ts",
   "files": [
-    "dist",
-    "dist-types"
+    "dist"
   ],
   "private": true,
   "scripts": {
     "dev": "bun run --watch src/index.ts",
-    "build": "bun build src/index.ts --target bun --outdir ./dist && tsc",
-    "start": "NODE_ENV=production bun dist/index.js",
+    "build": "bun build src/index.ts --target bun --outdir ./dist/js && tsc",
+    "start": "NODE_ENV=production bun dist/js/index.js",
     "clean": "rm -rf .turbo dist dist-types",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint . --max-warnings 0",
+    "format": "prettier --write \"**/*.{ts,tsx,md}\""
   },
   "dependencies": {
     "@elysiajs/cors": "^1.1.1",
     "@elysiajs/swagger": "^1.1.6",
     "elysia": "latest"
   },
+  "prettier": "@godsreveal/prettier-config",
   "devDependencies": {
+    "@godsreveal/typescript-config": "*",
+    "@godsreveal/prettier-config": "*",
     "@types/bun": "latest",
     "typescript": "5.5.4"
   },

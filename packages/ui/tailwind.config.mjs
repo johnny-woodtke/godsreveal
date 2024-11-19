@@ -1,7 +1,7 @@
+import animate from "tailwindcss-animate";
+
 /** @type {import('tailwindcss').Config} */
 import defaultTheme from "tailwindcss/defaultTheme";
-
-import animate from "tailwindcss-animate";
 
 /** @type {import('tailwindcss').Config} */
 export default {

@@ -7,6 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "clean": "rm -rf .turbo .next",
     "check-types": "tsc --noEmit"
   },
@@ -23,9 +24,11 @@
     "react": "18.2.0",
     "react-dom": "18.2.0"
   },
+  "prettier": "@godsreveal/prettier-config",
   "devDependencies": {
     "@godsreveal/eslint-config": "*",
     "@godsreveal/typescript-config": "*",
+    "@godsreveal/prettier-config": "*",
     "@tanstack/eslint-plugin-query": "^5.60.1",
     "@types/bun": "latest",
     "@types/node": "^20",

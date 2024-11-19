@@ -1,8 +1,9 @@
 "use client";
 
-import { client } from "@/lib/eden";
 import { useQuery } from "@tanstack/react-query";
 import { Loader2 } from "lucide-react";
+
+import { client } from "@/lib/eden";
 
 export default function ClientMessage() {
   const { data: message, isFetching } = useQuery({

@@ -15,9 +15,12 @@
   },
   "scripts": {
     "lint": "eslint . --max-warnings 0",
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "generate:component": "sh ./scripts/generate.sh"
   },
+  "prettier": "@godsreveal/prettier-config",
   "devDependencies": {
+    "@godsreveal/prettier-config": "*",
     "tailwindcss": "^3.4.15",
     "postcss": "^8.4.49",
     "autoprefixer": "^10.4.20"

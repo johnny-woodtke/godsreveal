@@ -4,14 +4,18 @@
   "main": "src/index.ts",
   "types": "src/index.ts",
   "private": true,
-  "scripts": {},
+  "scripts": {
+    "format": "prettier --write \"**/*.{ts,tsx,md}\""
+  },
   "dependencies": {
     "clsx": "^2.1.1",
     "tailwind-merge": "^2.5.4"
   },
+  "prettier": "@godsreveal/prettier-config",
   "devDependencies": {
-    "@types/bun": "latest",
     "@godsreveal/typescript-config": "*",
+    "@godsreveal/prettier-config": "*",
+    "@types/bun": "latest",
     "typescript": "5.5.4"
   }
 }

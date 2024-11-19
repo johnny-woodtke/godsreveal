@@ -1,6 +1,6 @@
-import { Elysia, t } from "elysia";
-import { swagger } from "@elysiajs/swagger";
 import { cors } from "@elysiajs/cors";
+import { swagger } from "@elysiajs/swagger";
+import { Elysia, t } from "elysia";
 
 const port = process.env.PORT;
 if (!port) {
@@ -50,7 +50,7 @@ const app = new Elysia()
   .listen(port);
 
 console.log(
-  `🦊 Elysia is running at ${app.server?.hostname}:${app.server?.port}`
+  `🦊 Elysia is running at ${app.server?.hostname}:${app.server?.port}`,
 );
 
 export type App = typeof app;

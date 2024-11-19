@@ -1,11 +1,12 @@
-import { cn } from "@godsreveal/lib";
-import localFont from "next/font/local";
-import type { Metadata } from "next";
-import "@godsreveal/ui/globals.css";
 import "globals.css";
+import type { Metadata } from "next";
+import localFont from "next/font/local";
 
-import { ModeToggle } from "@/components/theme-provider";
+import { cn } from "@godsreveal/lib";
+import "@godsreveal/ui/globals.css";
+
 import Providers from "@/components/providers";
+import { ModeToggle } from "@/components/theme-provider";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
