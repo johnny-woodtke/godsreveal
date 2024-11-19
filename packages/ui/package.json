@@ -15,6 +15,7 @@
   },
   "scripts": {
     "lint": "eslint . --max-warnings 0",
+    "clean": "rm -rf .turbo node_modules",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "generate:component": "sh ./scripts/generate.sh"
   },
