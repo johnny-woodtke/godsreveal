@@ -1,9 +1,11 @@
-import type { Metadata } from "next";
-import localFont from "next/font/local";
 import { cn } from "@godsreveal/lib";
+import localFont from "next/font/local";
+import type { Metadata } from "next";
 import "@godsreveal/ui/globals.css";
 import "globals.css";
-import { ModeToggle, ThemeProvider } from "@/components/theme-provider";
+
+import { ModeToggle } from "@/components/theme-provider";
+import Providers from "@/components/providers";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -28,14 +30,14 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={cn(geistSans.variable, geistMono.variable)}>
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+        <Providers>
           <div className="p-4">
             <div className="flex h-12 items-center justify-end">
               <ModeToggle />
             </div>
             {children}
           </div>
-        </ThemeProvider>
+        </Providers>
       </body>
     </html>
   );
