@@ -1,0 +1,11 @@
+.dockerfile
+.dockerignore
+.env
+.eslintrc.js
+.git
+.gitignore
+.turbo
+dist
+fly.toml
+README.md
+node_modules

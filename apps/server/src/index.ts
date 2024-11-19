@@ -2,7 +2,7 @@ import { cors } from "@elysiajs/cors";
 import { swagger } from "@elysiajs/swagger";
 import { Elysia, t } from "elysia";
 
-const port = process.env.PORT;
+const port = Bun.env.PORT;
 if (!port) {
   throw new Error("PORT is not set");
 }
