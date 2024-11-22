@@ -19,21 +19,19 @@ export function getJwtSecretKeyOrThrow() {
 }
 
 const noAuthRoutes = [
-  // regex for any route starting with /swagger
-  /^\/swagger\//,
+  // regex for any route starting with /swagger: like /swagger, /swagger#header, etc.
+  /^\/swagger/,
 ];
 
 function isNoAuthRoute(request: Request): boolean {
   const pathname = new URL(request.url).pathname;
-  console.log("Pathname", pathname);
-  return noAuthRoutes.some((route) => pathname.match(route));
+  return noAuthRoutes.some((route) => route.test(pathname));
 }
 
 function verifyJwt(request: Request): boolean {
   // get bearer token
   const token = request.headers.get("Authorization")?.split(" ")[1];
   if (!token) {
-    console.log("No token");
     return false;
   }
 
@@ -42,24 +40,21 @@ function verifyJwt(request: Request): boolean {
   try {
     payload = jwt.verify(token, getJwtSecretKeyOrThrow());
   } catch (error) {
-    console.error("Error verifying JWT", error);
     return false;
   }
 
   // parse payload
   const parsedPayload = jwtPayloadSchema.safeParse(payload);
   if (!parsedPayload.success) {
-    console.log("Invalid JWT payload");
     return false;
   }
 
   // check origin
   const { origin } = parsedPayload.data;
-  console.log("Token origin", origin);
   return origin === request.headers.get("origin");
 }
 
 export function verifyAuth(request: Request): boolean {
   // check if route is in noAuthRoutes, else verify JWT
-  return isNoAuthRoute(request) ? true : verifyJwt(request);
+  return isNoAuthRoute(request) || verifyJwt(request);
 }
