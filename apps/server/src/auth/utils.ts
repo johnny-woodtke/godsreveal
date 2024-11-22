@@ -24,13 +24,16 @@ const noAuthRoutes = [
 ];
 
 function isNoAuthRoute(request: Request): boolean {
-  return noAuthRoutes.some((route) => request.url.match(route));
+  const pathname = new URL(request.url).pathname;
+  console.log("Pathname", pathname);
+  return noAuthRoutes.some((route) => pathname.match(route));
 }
 
 function verifyJwt(request: Request): boolean {
   // get bearer token
   const token = request.headers.get("Authorization")?.split(" ")[1];
   if (!token) {
+    console.log("No token");
     return false;
   }
 
@@ -46,6 +49,7 @@ function verifyJwt(request: Request): boolean {
   // parse payload
   const parsedPayload = jwtPayloadSchema.safeParse(payload);
   if (!parsedPayload.success) {
+    console.log("Invalid JWT payload");
     return false;
   }
 
