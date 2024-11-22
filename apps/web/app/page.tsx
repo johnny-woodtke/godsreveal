@@ -3,6 +3,7 @@ import ClientMessage from "@/components/client-message";
 import { client } from "@/lib/eden";
 
 export const dynamic = "force-dynamic";
+export const fetchCache = "force-no-store";
 
 export default async function Home() {
   const { data: message } = await client.index.get();

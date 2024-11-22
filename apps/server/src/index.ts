@@ -9,7 +9,24 @@ if (!port) {
 
 const app = new Elysia()
   .use(swagger())
-  .use(cors())
+  .use(
+    cors(),
+    // cors({
+    //   origin:
+    //     Bun.env.NODE_ENV === "production"
+    //       ? [
+    //           // regex to match godsreveal.com domain
+    //           /^(https?:\/\/)?(www\.)?godsreveal\.com$/,
+    //           // regex to match server.godsreveal.com domain
+    //           /^(https?:\/\/)?server\.godsreveal\.com$/,
+    //         ]
+    //       : // allow any origin in development
+    //         "*",
+    // }),
+  )
+  .onBeforeHandle(({ request }) => {
+    console.log("headers", request.headers);
+  })
   .get("/", () => "Hello Elysia", {
     detail: {
       summary: "Hello Elysia",
