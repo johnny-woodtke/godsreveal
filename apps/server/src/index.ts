@@ -20,7 +20,9 @@ const app = new Elysia()
     ),
   )
   .onBeforeHandle(({ request }) => {
-    console.log("headers", request.headers);
+    // log origin that CORS policy is checking
+    console.log("NODE_ENV", Bun.env.NODE_ENV);
+    console.log("origin", request.headers.get("origin"));
   })
   .get("/", () => "Hello Elysia", {
     detail: {
