@@ -3,12 +3,12 @@
 import { useQuery } from "@tanstack/react-query";
 import { Loader2 } from "lucide-react";
 
-import { client } from "@/lib/eden";
+import { eden } from "@/lib/eden";
 
 export default function ClientMessage() {
   const { data: message, isFetching } = useQuery({
     queryKey: ["message", "client"],
-    queryFn: () => client.index.get().then((res) => res.data),
+    queryFn: () => eden.client.index.get().then((res) => res.data),
   });
 
   return (

@@ -2,6 +2,8 @@ import { cors } from "@elysiajs/cors";
 import { swagger } from "@elysiajs/swagger";
 import { Elysia, t } from "elysia";
 
+import { verifyAuth } from "@/auth/utils";
+
 const port = Bun.env.PORT;
 if (!port) {
   throw new Error("PORT is not set");
@@ -9,20 +11,13 @@ if (!port) {
 
 const app = new Elysia()
   .use(swagger())
-  .use(
-    cors(
-      Bun.env.NODE_ENV === "production"
-        ? {
-            origin: /^https:\/\/([\w-]+\.)*godsreveal\.com$/,
-            credentials: true,
-          }
-        : {},
-    ),
-  )
-  .onBeforeHandle(({ request }) => {
-    // log origin that CORS policy is checking
-    console.log("NODE_ENV", Bun.env.NODE_ENV);
-    console.log("origin", request.headers.get("origin"));
+  .use(cors())
+  .onBeforeHandle(({ request, error }) => {
+    // verify auth
+    console.log("Request origin", request.headers.get("origin"));
+    if (!verifyAuth(request)) {
+      return error(401, "Unauthorized");
+    }
   })
   .get("/", () => "Hello Elysia", {
     detail: {
