@@ -10,19 +10,14 @@ if (!port) {
 const app = new Elysia()
   .use(swagger())
   .use(
-    cors(),
-    // cors({
-    //   origin:
-    //     Bun.env.NODE_ENV === "production"
-    //       ? [
-    //           // regex to match godsreveal.com domain
-    //           /^(https?:\/\/)?(www\.)?godsreveal\.com$/,
-    //           // regex to match server.godsreveal.com domain
-    //           /^(https?:\/\/)?server\.godsreveal\.com$/,
-    //         ]
-    //       : // allow any origin in development
-    //         "*",
-    // }),
+    cors(
+      Bun.env.NODE_ENV === "production"
+        ? {
+            origin: /^https:\/\/([\w-]+\.)*godsreveal\.com$/,
+            credentials: true,
+          }
+        : {},
+    ),
   )
   .onBeforeHandle(({ request }) => {
     console.log("headers", request.headers);
