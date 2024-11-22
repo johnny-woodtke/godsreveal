@@ -12,13 +12,9 @@ if (!port) {
 const app = new Elysia()
   .use(swagger())
   .use(cors())
-  .onBeforeHandle(({ request, error }) => {
-    // verify auth
-    console.log("Request origin", request.headers.get("origin"));
-    if (!verifyAuth(request)) {
-      return error(401, "Unauthorized");
-    }
-  })
+  .onBeforeHandle(({ request, error }) =>
+    !verifyAuth(request) ? error(401, "Unauthorized") : undefined,
+  )
   .get("/", () => "Hello Elysia", {
     detail: {
       summary: "Hello Elysia",
