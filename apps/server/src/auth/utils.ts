@@ -23,6 +23,10 @@ const noAuthRoutes = [
   /^\/swagger\//,
 ];
 
+function isNoAuthRoute(request: Request): boolean {
+  return noAuthRoutes.some((route) => request.url.match(route));
+}
+
 function verifyJwt(request: Request): boolean {
   // get bearer token
   const token = request.headers.get("Authorization")?.split(" ")[1];
@@ -52,12 +56,6 @@ function verifyJwt(request: Request): boolean {
 }
 
 export function verifyAuth(request: Request): boolean {
-  // check if route is in noAuthRoutes
-  const isNoAuthRoute = noAuthRoutes.some((route) => request.url.match(route));
-  if (isNoAuthRoute) {
-    return true;
-  }
-
-  // verify JWT
-  return verifyJwt(request);
+  // check if route is in noAuthRoutes, else verify JWT
+  return isNoAuthRoute(request) ? true : verifyJwt(request);
 }
