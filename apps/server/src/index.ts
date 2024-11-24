@@ -3,6 +3,7 @@ import { swagger } from "@elysiajs/swagger";
 import { Elysia, t } from "elysia";
 
 import { verifyAuth } from "@/auth/utils";
+import { chat } from "@/openai/user";
 
 const port = Bun.env.PORT;
 if (!port) {
@@ -15,43 +16,41 @@ const app = new Elysia()
   .onBeforeHandle(({ request, error }) =>
     !verifyAuth(request) ? error(401, "Unauthorized") : undefined,
   )
-  .get("/", () => "Hello Elysia", {
+  .get("/", () => "Server is running", {
     detail: {
-      summary: "Hello Elysia",
-      description: "This is a simple hello world endpoint",
+      summary: "Server Status",
+      description: "This is a simple server status endpoint",
     },
     response: {
       200: t.String(),
     },
   })
-  .get("/id/:id", ({ params }) => params.id, {
-    params: t.Object({
-      id: t.Number(),
-    }),
-    detail: {
-      summary: "Get ID",
-      description: "This is a simple get id endpoint",
-    },
-    response: {
-      200: t.Number(),
-    },
-  })
-  .post("/mirror", ({ body }) => body, {
-    body: t.Object({
-      id: t.Number(),
-      name: t.String(),
-    }),
-    detail: {
-      summary: "Mirror",
-      description: "This is a simple mirror endpoint",
-    },
-    response: {
-      200: t.Object({
-        id: t.Number(),
-        name: t.String(),
-      }),
-    },
-  })
+  .group("/chat", (app) =>
+    app.post(
+      "/",
+      async ({ body, error }) =>
+        chat(body)
+          .then((res) => res)
+          .catch((e) => {
+            const msg = "Error in POST /chat";
+            console.error(msg, e);
+            return error(500, "Something went wrong. Please try again later.");
+          }),
+      {
+        body: t.Object({
+          message: t.String(),
+        }),
+        detail: {
+          summary: "Chat with EschatoloGPT",
+          tags: ["chat"],
+        },
+        response: {
+          200: t.String(),
+          500: t.String(),
+        },
+      },
+    ),
+  )
   .listen(port);
 
 console.log(

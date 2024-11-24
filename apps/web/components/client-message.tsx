@@ -13,7 +13,8 @@ export default function ClientMessage() {
 
   return (
     <div className="flex items-center gap-2">
-      Client: {isFetching ? <Loader2 className="animate-spin" /> : message}
+      Client message:{" "}
+      {isFetching ? <Loader2 className="animate-spin" /> : message}
     </div>
   );
 }

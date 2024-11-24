@@ -21,6 +21,8 @@ export function getJwtSecretKeyOrThrow() {
 const noAuthRoutes = [
   // regex for any route starting with /swagger: like /swagger, /swagger#header, etc.
   /^\/swagger/,
+  // regex for exact match of health route: /
+  /^\/$/,
 ];
 
 function isNoAuthRoute(request: Request): boolean {
