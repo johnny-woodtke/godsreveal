@@ -3,7 +3,7 @@ import { swagger } from "@elysiajs/swagger";
 import { Elysia, t } from "elysia";
 
 import { verifyAuth } from "@/auth/utils";
-import { chat } from "@/openai/user";
+import { chat, getMessages } from "@/openai/user";
 
 const port = Bun.env.PORT;
 if (!port) {
@@ -26,30 +26,76 @@ const app = new Elysia()
     },
   })
   .group("/chat", (app) =>
-    app.post(
-      "/",
-      async ({ body, error }) =>
-        chat(body)
-          .then((res) => res)
-          .catch((e) => {
-            const msg = "Error in POST /chat";
-            console.error(msg, e);
-            return error(500, "Something went wrong. Please try again later.");
+    app
+      .post(
+        "/",
+        async ({ body, error }) =>
+          chat(body)
+            .then((threadId) => {
+              return { threadId };
+            })
+            .catch((e) => {
+              const msg = "Error in POST /chat";
+              console.error(msg, e);
+              return error(
+                500,
+                "Something went wrong. Please try again later.",
+              );
+            }),
+        {
+          body: t.Object({
+            message: t.String(),
+            threadId: t.Optional(t.String()),
           }),
-      {
-        body: t.Object({
-          message: t.String(),
-        }),
-        detail: {
-          summary: "Chat with EschatoloGPT",
-          tags: ["chat"],
+          detail: {
+            summary: "Chat with EschatoloGPT",
+            tags: ["chat"],
+          },
+          response: {
+            200: t.Object({
+              threadId: t.String(),
+            }),
+            500: t.String(),
+          },
         },
-        response: {
-          200: t.String(),
-          500: t.String(),
+      )
+      .get(
+        "/:threadId",
+        async ({ params: { threadId }, error }) =>
+          getMessages({ threadId })
+            .then((res) => {
+              return res;
+            })
+            .catch((e) => {
+              const msg = "Error in GET /chat/:threadId";
+              console.error(msg, e);
+              return error(
+                500,
+                "Something went wrong. Please try again later.",
+              );
+            }),
+        {
+          params: t.Object({
+            threadId: t.String(),
+          }),
+          detail: {
+            summary: "Get messages from a thread",
+            tags: ["chat"],
+          },
+          response: {
+            200: t.Object({
+              messages: t.Array(
+                t.Object({
+                  id: t.String(),
+                  content: t.String(),
+                }),
+              ),
+              hasMore: t.Boolean(),
+            }),
+            500: t.String(),
+          },
         },
-      },
-    ),
+      ),
   )
   .listen(port);
 

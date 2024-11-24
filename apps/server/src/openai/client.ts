@@ -9,6 +9,7 @@ export function openai(pathname: `/${string}`, init?: RequestInit) {
   headers.set("Content-Type", "application/json");
   headers.set("Authorization", `Bearer ${getOpenAiSecretKeyOrThrow()}`);
   headers.set("OpenAI-Organization", getOpenAiOrgIdOrThrow());
+  headers.set("OpenAI-Beta", "assistants=v2");
 
   // update fetch args
   const updatedInit = {
