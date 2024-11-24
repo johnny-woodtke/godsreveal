@@ -59,6 +59,7 @@ const app = new Elysia()
               messages: t.Array(
                 t.Object({
                   id: t.String(),
+                  role: t.String(),
                   content: t.String(),
                 }),
               ),
@@ -101,6 +102,7 @@ const app = new Elysia()
               messages: t.Array(
                 t.Object({
                   id: t.String(),
+                  role: t.String(),
                   content: t.String(),
                 }),
               ),

@@ -12,6 +12,7 @@ export async function getMessages({ threadId }: GetMessagesProps): Promise<
   | {
       messages: {
         id: string;
+        role: "user" | "assistant";
         content: string;
       }[];
       hasMore: boolean;
@@ -35,6 +36,7 @@ export async function getMessages({ threadId }: GetMessagesProps): Promise<
   return {
     messages: res.data.map((message: any) => ({
       id: message.id,
+      role: message.role,
       content: message.content[0].text.value,
     })),
     hasMore: res.has_more,
