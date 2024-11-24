@@ -1,4 +1,4 @@
-import { openai } from "@/openai/client";
+import { getAssistantIdOrThrow, openai } from "@/openai/client";
 
 type GetMessagesProps = {
   threadId: string;
@@ -110,14 +110,6 @@ async function addMessageToThreadAndRun({
 
   // listen to stream response and return threadId and runId
   return listenToRunStream(res);
-}
-
-function getAssistantIdOrThrow() {
-  const assistantId = Bun.env.EGPT_ASSISTANT_ID;
-  if (!assistantId) {
-    throw new Error("EGPT_ASSISTANT_ID is not set");
-  }
-  return assistantId;
 }
 
 async function listenToRunStream(res: Response) {

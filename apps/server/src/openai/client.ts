@@ -39,10 +39,10 @@ function getOpenAiOrgIdOrThrow() {
   return orgId;
 }
 
-function getOpenAiProjectIdOrThrow() {
-  const projectId = Bun.env.OPENAI_PROJECT_ID;
-  if (!projectId) {
-    throw new Error("OPENAI_PROJECT_ID is not set");
+export function getAssistantIdOrThrow() {
+  const assistantId = Bun.env.EGPT_ASSISTANT_ID;
+  if (!assistantId) {
+    throw new Error("EGPT_ASSISTANT_ID is not set");
   }
-  return projectId;
+  return assistantId;
 }
