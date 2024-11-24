@@ -31,8 +31,11 @@ const app = new Elysia()
         "/",
         async ({ body, error }) =>
           chat(body)
-            .then((threadId) => {
-              return { threadId };
+            .then((res) => {
+              if ("status" in res) {
+                return error(res.status, res.message);
+              }
+              return res;
             })
             .catch((e) => {
               const msg = "Error in POST /chat";
@@ -53,8 +56,16 @@ const app = new Elysia()
           },
           response: {
             200: t.Object({
+              messages: t.Array(
+                t.Object({
+                  id: t.String(),
+                  content: t.String(),
+                }),
+              ),
+              hasMore: t.Boolean(),
               threadId: t.String(),
             }),
+            404: t.String(),
             500: t.String(),
           },
         },
@@ -64,6 +75,9 @@ const app = new Elysia()
         async ({ params: { threadId }, error }) =>
           getMessages({ threadId })
             .then((res) => {
+              if ("status" in res) {
+                return error(res.status, res.message);
+              }
               return res;
             })
             .catch((e) => {
@@ -91,7 +105,9 @@ const app = new Elysia()
                 }),
               ),
               hasMore: t.Boolean(),
+              threadId: t.String(),
             }),
+            404: t.String(),
             500: t.String(),
           },
         },
