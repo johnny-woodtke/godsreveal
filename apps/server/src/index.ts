@@ -3,7 +3,7 @@ import { swagger } from "@elysiajs/swagger";
 import { Elysia, t } from "elysia";
 
 import { verifyAuth } from "@/auth/utils";
-import { chat, getMessages } from "@/openai/user";
+import { chat, getMessages, getMessagesResponseSchema } from "@/openai/user";
 
 const port = Bun.env.PORT;
 if (!port) {
@@ -55,24 +55,14 @@ const app = new Elysia()
             tags: ["chat"],
           },
           response: {
-            200: t.Object({
-              messages: t.Array(
-                t.Object({
-                  id: t.String(),
-                  role: t.String(),
-                  content: t.String(),
-                }),
-              ),
-              hasMore: t.Boolean(),
-              threadId: t.String(),
-            }),
+            200: getMessagesResponseSchema,
             404: t.String(),
             500: t.String(),
           },
         },
       )
       .get(
-        "/:threadId",
+        "/thread/:threadId",
         async ({ params: { threadId }, error }) =>
           getMessages({ threadId })
             .then((res) => {
@@ -98,17 +88,7 @@ const app = new Elysia()
             tags: ["chat"],
           },
           response: {
-            200: t.Object({
-              messages: t.Array(
-                t.Object({
-                  id: t.String(),
-                  role: t.String(),
-                  content: t.String(),
-                }),
-              ),
-              hasMore: t.Boolean(),
-              threadId: t.String(),
-            }),
+            200: getMessagesResponseSchema,
             404: t.String(),
             500: t.String(),
           },

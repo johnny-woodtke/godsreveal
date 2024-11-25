@@ -1,26 +1,32 @@
+import { Static, t } from "elysia";
+
 import { getAssistantIdOrThrow, openai } from "@/openai/client";
 
 type GetMessagesProps = {
   threadId: string;
 };
 
+export const getMessagesResponseSchema = t.Object({
+  messages: t.Array(
+    t.Object({
+      id: t.String(),
+      role: t.Union([t.Literal("user"), t.Literal("assistant")]),
+      content: t.String(),
+    }),
+  ),
+  hasMore: t.Boolean(),
+  threadId: t.String(),
+});
+
 export async function getMessages({ threadId }: GetMessagesProps): Promise<
   | {
       status: 404;
       message: string;
     }
-  | {
-      messages: {
-        id: string;
-        role: "user" | "assistant";
-        content: string;
-      }[];
-      hasMore: boolean;
-      threadId: string;
-    }
+  | Static<typeof getMessagesResponseSchema>
 > {
   // get response from openai
-  const res = await openai(`/v1/threads/${threadId}/messages?order=asc`).then(
+  const res = await openai(`/v1/threads/${threadId}/messages?order=desc`).then(
     (res) => res.json(),
   );
 

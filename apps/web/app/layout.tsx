@@ -5,7 +5,7 @@ import localFont from "next/font/local";
 import { cn } from "@godsreveal/lib";
 import "@godsreveal/ui/globals.css";
 
-import ChatButton from "@/components/chat/chat-button";
+import ChatModal from "@/components/chat/chat-modal";
 import Header from "@/components/header";
 import Providers from "@/components/providers";
 
@@ -38,7 +38,7 @@ export default function RootLayout({
           <div className="mx-auto max-w-screen-lg p-4">{children}</div>
           <div className="fixed bottom-0 w-full">
             <div className="mx-auto flex max-w-screen-lg justify-end p-4">
-              <ChatButton />
+              <ChatModal />
             </div>
           </div>
         </Providers>
