@@ -2,102 +2,25 @@ import { Static, t } from "elysia";
 
 import { getAssistantIdOrThrow, openai } from "@/openai/client";
 
-type GetMessagesProps = {
-  threadId: string;
-};
-
-export const getMessagesResponseSchema = t.Object({
-  messages: t.Array(
-    t.Object({
-      id: t.String(),
-      role: t.Union([t.Literal("user"), t.Literal("assistant")]),
-      content: t.String(),
-    }),
-  ),
-  hasMore: t.Boolean(),
-  threadId: t.String(),
-});
-
-export async function getMessages({ threadId }: GetMessagesProps): Promise<
-  | {
-      status: 404;
-      message: string;
-    }
-  | Static<typeof getMessagesResponseSchema>
-> {
-  // get response from openai
-  const res = await openai(`/v1/threads/${threadId}/messages?order=desc`).then(
-    (res) => res.json(),
-  );
-
-  // check if response is ok
-  if (res.error) {
-    return {
-      status: 404,
-      message: "Thread not found",
-    };
-  }
-
-  // return response
-  return {
-    messages: res.data.map((message: any) => ({
-      id: message.id,
-      role: message.role,
-      content: message.content[0].text.value,
-    })),
-    hasMore: res.has_more,
-    threadId,
-  };
-}
-
-type ChatProps = {
-  message: string;
-  threadId?: string;
-};
-
-export async function chat({ message, threadId: inputtedThreadId }: ChatProps) {
-  // get thread for message fetching
-  const threadId = await (inputtedThreadId
-    ? addMessageToThreadAndRun({
-        threadId: inputtedThreadId,
-        message,
-      })
-    : createNewThreadAndRun({ message }));
-
-  // get messages from thread
-  return getMessages({ threadId });
-}
-
-type CreateNewThreadAndRunProps = {
-  message: string;
-};
-
-async function createNewThreadAndRun({ message }: CreateNewThreadAndRunProps) {
-  // create new thread and run assistant
-  const res = await openai("/v1/threads/runs", {
+export async function createThread() {
+  // create new thread
+  const res = await openai("/v1/threads", {
     method: "POST",
-    body: JSON.stringify({
-      assistant_id: getAssistantIdOrThrow(),
-      thread: {
-        messages: [{ role: "user", content: message }],
-      },
-      stream: true,
-    }),
-  });
+  }).then((res) => res.json());
 
-  // listen to stream response for runId, threadId
-  return listenToRunStream(res);
+  // return threadId
+  return res.id;
 }
 
-type AddMessageToThreadAndRunProps = {
+type AddMessageToThreadProps = {
   threadId: string;
   message: string;
 };
 
-async function addMessageToThreadAndRun({
+export async function addMessageToThread({
   threadId,
   message,
-}: AddMessageToThreadAndRunProps) {
+}: AddMessageToThreadProps) {
   // add message to thread
   await openai(`/v1/threads/${threadId}/messages`, {
     method: "POST",
@@ -106,7 +29,47 @@ async function addMessageToThreadAndRun({
       content: message,
     }),
   });
+}
 
+type GetMessagesFromThreadProps = {
+  threadId: string;
+};
+
+export const getMessagesFromThreadSchema = t.Array(
+  t.Object({
+    id: t.String(),
+    role: t.Union([t.Literal("user"), t.Literal("assistant")]),
+    content: t.String(),
+  }),
+);
+
+export async function getMessagesFromThread({
+  threadId,
+}: GetMessagesFromThreadProps): Promise<
+  Static<typeof getMessagesFromThreadSchema>
+> {
+  // get messages from thread
+  const res = await openai(`/v1/threads/${threadId}/messages`).then((res) =>
+    res.json(),
+  );
+
+  // format and return messages
+  return res.data
+    .sort((a: any, b: any) => a.created_at - b.created_at)
+    .map((message: any) => ({
+      id: message.id,
+      role: message.role,
+      content: message.content[0].text.value,
+    }));
+}
+
+type RunThreadProps = {
+  threadId: string;
+};
+
+export async function runThread({
+  threadId,
+}: RunThreadProps): Promise<Static<typeof getMessagesFromThreadSchema>> {
   // create an assistant run for the thread
   const res = await openai(`/v1/threads/${threadId}/runs`, {
     method: "POST",
@@ -116,21 +79,23 @@ async function addMessageToThreadAndRun({
     }),
   });
 
-  // listen to stream response and return threadId and runId
-  return listenToRunStream(res);
+  // listen for run complete
+  await listenForThreadRunCompletion(res);
+
+  // return messages from thread
+  return getMessagesFromThread({ threadId });
 }
 
-async function listenToRunStream(res: Response) {
+const RUN_COMPLETED_EVENT = "thread.run.completed";
+
+async function listenForThreadRunCompletion(res: Response) {
   // get reader from response
   const reader = res.body?.getReader();
   if (!reader) {
     throw new Error("No response stream available");
   }
 
-  // initialize threadId
-  let threadId: string | undefined;
-
-  // read the stream we get thread run completion
+  // read the stream
   while (true) {
     // read the stream
     const { done, value } = await reader.read();
@@ -151,19 +116,9 @@ async function listenToRunStream(res: Response) {
     };
 
     // check if event is thread.run.completed
-    if (chunkData.event === "thread.run.completed") {
+    if (chunkData.event === RUN_COMPLETED_EVENT) {
       // parse data and break
-      const data = JSON.parse(chunkData.data || "{}");
-      threadId = data.thread_id;
       break;
     }
   }
-
-  // throw error if threadId is not found
-  if (!threadId) {
-    throw new Error("Failed to get thread ID from response");
-  }
-
-  // return threadId
-  return threadId;
 }

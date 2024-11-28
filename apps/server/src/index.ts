@@ -3,7 +3,13 @@ import { swagger } from "@elysiajs/swagger";
 import { Elysia, t } from "elysia";
 
 import { verifyAuth } from "@/auth/utils";
-import { chat, getMessages, getMessagesResponseSchema } from "@/openai/user";
+import {
+  addMessageToThread,
+  createThread,
+  getMessagesFromThread,
+  getMessagesFromThreadSchema,
+  runThread,
+} from "@/openai/user";
 
 const port = Bun.env.PORT;
 if (!port) {
@@ -25,76 +31,79 @@ const app = new Elysia()
       200: t.String(),
     },
   })
-  .group("/chat", (app) =>
-    app
-      .post(
-        "/",
-        async ({ body, error }) =>
-          chat(body)
-            .then((res) => {
-              if ("status" in res) {
-                return error(res.status, res.message);
-              }
-              return res;
-            })
-            .catch((e) => {
-              const msg = "Error in POST /chat";
-              console.error(msg, e);
-              return error(
-                500,
-                "Something went wrong. Please try again later.",
-              );
-            }),
-        {
-          body: t.Object({
-            message: t.String(),
-            threadId: t.Optional(t.String()),
-          }),
-          detail: {
-            summary: "Chat with EschatoloGPT",
-            tags: ["chat"],
-          },
-          response: {
-            200: getMessagesResponseSchema,
-            404: t.String(),
-            500: t.String(),
-          },
-        },
-      )
-      .get(
-        "/thread/:threadId",
-        async ({ params: { threadId }, error }) =>
-          getMessages({ threadId })
-            .then((res) => {
-              if ("status" in res) {
-                return error(res.status, res.message);
-              }
-              return res;
-            })
-            .catch((e) => {
-              const msg = "Error in GET /chat/:threadId";
-              console.error(msg, e);
-              return error(
-                500,
-                "Something went wrong. Please try again later.",
-              );
-            }),
-        {
-          params: t.Object({
-            threadId: t.String(),
-          }),
-          detail: {
-            summary: "Get messages from a thread",
-            tags: ["chat"],
-          },
-          response: {
-            200: getMessagesResponseSchema,
-            404: t.String(),
-            500: t.String(),
-          },
-        },
-      ),
+  .post(
+    "/thread",
+    async ({ body }) => {
+      // get or create thread
+      let threadId: string;
+      if (!body.threadId) {
+        threadId = await createThread();
+      } else {
+        threadId = body.threadId;
+      }
+
+      // add message to thread
+      await addMessageToThread({
+        threadId,
+        message: body.message,
+      });
+
+      // get messages in thread
+      const messages = await getMessagesFromThread({
+        threadId,
+      });
+
+      // return response
+      return {
+        messages,
+        threadId,
+      };
+    },
+    {
+      body: t.Object({
+        message: t.String(),
+        threadId: t.Optional(t.String()),
+      }),
+      detail: {
+        summary: "Get or create a thread and add a message to it",
+      },
+      response: {
+        200: t.Object({
+          messages: getMessagesFromThreadSchema,
+          threadId: t.String(),
+        }),
+      },
+    },
   )
+  .get(
+    "/thread/:threadId",
+    ({ params }) =>
+      getMessagesFromThread({
+        threadId: params.threadId,
+      }),
+    {
+      detail: {
+        summary: "Get messages from a thread",
+      },
+      params: t.Object({
+        threadId: t.String(),
+      }),
+      response: {
+        200: getMessagesFromThreadSchema,
+      },
+    },
+  )
+  .post("/thread/run", ({ body }) => runThread({ threadId: body.threadId }), {
+    detail: {
+      summary: "Run a thread",
+    },
+    body: t.Object({
+      threadId: t.String(),
+    }),
+    response: {
+      200: getMessagesFromThreadSchema,
+    },
+  })
   .listen(port);
 
 console.log(

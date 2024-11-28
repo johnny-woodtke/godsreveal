@@ -17,7 +17,7 @@ import {
 
 import { getClient } from "@/lib/eden";
 
-type FormProps = {
+type ChatProps = {
   message: string;
 };
 
@@ -31,8 +31,6 @@ export default function ChatModal() {
     }[]
   >([]);
 
-  const client = getClient();
-
   const [threadId, setThreadId] = useState<string | null>(null);
   const [messages, setMessages] = useState<
     {
@@ -42,27 +40,73 @@ export default function ChatModal() {
     }[]
   >([]);
 
-  const form = useForm<FormProps>();
+  const form = useForm<ChatProps>({
+    defaultValues: {
+      message: "",
+    },
+  });
 
-  async function onSubmit(data: FormProps) {
-    // send message to openai
-    const res = await client.chat.index.post({
-      message: data.message,
-      ...(threadId ? { threadId } : {}),
-    });
+  const isUserSubmitting = form.formState.isSubmitting;
+  const [isAssistantSubmitting, setIsAssistantSubmitting] = useState(false);
 
-    // if error, set error
-    if (res.error) {
-      console.error(res.error);
-      form.setError("message", { message: res.error.value });
-      return;
+  const client = getClient();
+
+  async function runThread(threadId: string) {
+    try {
+      // set submitting
+      setIsAssistantSubmitting(true);
+
+      // run thread
+      const res = await client.thread.run.post({
+        threadId,
+      });
+
+      // if no data, throw error
+      if (!res.data) {
+        throw new Error("Failed to run thread");
+      }
+
+      // set messages
+      setMessages(res.data);
+    } catch (e) {
+      console.error(e);
+      form.setError("message", { message: "Failed to run thread" });
+    } finally {
+      setIsAssistantSubmitting(false);
     }
+  }
 
-    // set messages
-    setMessages(res.data.messages);
+  async function onSubmit(data: ChatProps) {
+    try {
+      // post message to thread
+      const res = await client.thread.post({
+        message: data.message,
+        ...(threadId ? { threadId } : {}),
+      });
 
-    // set thread id
-    setThreadId(res.data.threadId);
+      // if no data, throw error
+      if (!res.data) {
+        throw new Error("Failed to send message");
+      }
+
+      // set messages
+      setMessages(res.data.messages);
+
+      // set thread
+      setThreadId(res.data.threadId);
+
+      // run post submit
+      runThread(res.data.threadId).catch((e) => {
+        console.error(e);
+        form.setError("message", { message: "Failed to run thread" });
+      });
+
+      // clear form
+      form.reset();
+    } catch (e) {
+      console.error(e);
+      form.setError("message", { message: "Failed to send message" });
+    }
   }
 
   return (
@@ -117,17 +161,30 @@ export default function ChatModal() {
               </div>
 
               <form
-                className="flex items-center gap-2 border-t p-4"
+                className="flex flex-col gap-2 border-t p-4"
                 onSubmit={form.handleSubmit(onSubmit)}
               >
-                <Input
-                  type="text"
-                  placeholder="Type your message..."
-                  {...form.register("message")}
-                />
-                <Button type="submit" size="icon">
-                  <SendIcon className="size-4" />
-                </Button>
+                <div className="flex w-full items-center gap-2">
+                  <Input
+                    type="text"
+                    placeholder="Type your message..."
+                    {...form.register("message", {
+                      disabled: isUserSubmitting || isAssistantSubmitting,
+                    })}
+                  />
+                  <Button
+                    type="submit"
+                    size="icon"
+                    disabled={isUserSubmitting || isAssistantSubmitting}
+                  >
+                    <SendIcon className="size-4" />
+                  </Button>
+                </div>
+                {form.formState.errors.message && (
+                  <span className="text-red-500">
+                    {form.formState.errors.message.message}
+                  </span>
+                )}
               </form>
             </div>
           </div>
