@@ -32,7 +32,7 @@ const app = new Elysia()
     },
   })
   .post(
-    "/thread",
+    "/thread/message",
     async ({ body }) => {
       // get or create thread
       let threadId: string;

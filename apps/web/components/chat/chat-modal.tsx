@@ -1,7 +1,7 @@
 "use client";
 
 import { BotIcon, SendIcon } from "lucide-react";
-import { Dispatch, SetStateAction, useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
 import { cn } from "@godsreveal/lib";
@@ -15,6 +15,7 @@ import {
   Input,
 } from "@godsreveal/ui";
 
+import { Thread, useThreads } from "@/components/chat/useThreads";
 import { getClient } from "@/lib/eden";
 
 type ChatProps = {
@@ -24,14 +25,60 @@ type ChatProps = {
 export default function ChatModal() {
   const [isOpen, setIsOpen] = useState(false);
 
-  const [otherThreads, setOtherThreads] = useState<
-    {
-      threadId: string;
-      title: string;
-    }[]
-  >([]);
-
+  const { threads, addThread } = useThreads();
   const [threadId, setThreadId] = useState<string | null>(null);
+
+  const [isThreadLoading, setIsThreadLoading] = useState(false);
+
+  // add thread to threads when threadId updates
+  useEffect(() => {
+    if (threadId) {
+      addThread({
+        id: threadId,
+        title: `Thread: ${threadId}`,
+      });
+    }
+  }, [threadId]);
+
+  async function fetchThreadMessages(threadId: string) {
+    try {
+      // set loading
+      setIsThreadLoading(true);
+
+      // fetch messages
+      const res = await client.thread({ threadId }).get();
+
+      // if no data, throw error
+      if (!res.data) {
+        throw new Error("Failed to fetch thread messages");
+      }
+
+      // set messages
+      setMessages(res.data);
+    } catch (e) {
+      console.error("Failed to fetch thread messages:", e);
+      form.setError("message", {
+        message: "Failed to fetch thread messages",
+      });
+    } finally {
+      setIsThreadLoading(false);
+    }
+  }
+
+  function onSelectThread(threadId: string) {
+    // unset messages
+    setMessages([]);
+
+    // set thread
+    setThreadId(threadId);
+
+    // reset form
+    form.reset();
+
+    // fetch thread messages
+    fetchThreadMessages(threadId);
+  }
+
   const [messages, setMessages] = useState<
     {
       id: string;
@@ -79,7 +126,7 @@ export default function ChatModal() {
   async function onSubmit(data: ChatProps) {
     try {
       // post message to thread
-      const res = await client.thread.post({
+      const res = await client.thread.message.post({
         message: data.message,
         ...(threadId ? { threadId } : {}),
       });
@@ -96,10 +143,7 @@ export default function ChatModal() {
       setThreadId(res.data.threadId);
 
       // run post submit
-      runThread(res.data.threadId).catch((e) => {
-        console.error(e);
-        form.setError("message", { message: "Failed to run thread" });
-      });
+      runThread(res.data.threadId);
 
       // clear form
       form.reset();
@@ -130,8 +174,8 @@ export default function ChatModal() {
           <div className="w-1/4 border-r">
             <ThreadList
               currentThreadId={threadId}
-              threads={otherThreads}
-              setThreadId={setThreadId}
+              threads={threads}
+              onSelectThread={onSelectThread}
             />
           </div>
 
@@ -169,13 +213,20 @@ export default function ChatModal() {
                     type="text"
                     placeholder="Type your message..."
                     {...form.register("message", {
-                      disabled: isUserSubmitting || isAssistantSubmitting,
+                      disabled:
+                        isUserSubmitting ||
+                        isAssistantSubmitting ||
+                        isThreadLoading,
                     })}
                   />
                   <Button
                     type="submit"
                     size="icon"
-                    disabled={isUserSubmitting || isAssistantSubmitting}
+                    disabled={
+                      isUserSubmitting ||
+                      isAssistantSubmitting ||
+                      isThreadLoading
+                    }
                   >
                     <SendIcon className="size-4" />
                   </Button>
@@ -196,27 +247,24 @@ export default function ChatModal() {
 
 type ThreadListProps = {
   currentThreadId: string | null;
-  threads: {
-    threadId: string;
-    title: string;
-  }[];
-  setThreadId: Dispatch<SetStateAction<string | null>>;
+  threads: Thread[];
+  onSelectThread: (threadId: string) => void;
 };
 
 function ThreadList({
   currentThreadId,
   threads,
-  setThreadId,
+  onSelectThread,
 }: ThreadListProps) {
   return (
     <ul className="space-y-2">
       {threads.map((thread) => (
         <li
-          key={thread.threadId}
-          onClick={() => setThreadId(thread.threadId)}
+          key={thread.id}
+          onClick={() => onSelectThread(thread.id)}
           className={cn(
             "cursor-pointer rounded-md p-2",
-            currentThreadId === thread.threadId && "bg-secondary",
+            currentThreadId === thread.id && "bg-secondary",
           )}
         >
           {thread.title}
