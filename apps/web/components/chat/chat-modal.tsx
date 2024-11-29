@@ -3,13 +3,14 @@
 import {
   BotIcon,
   ChevronLeftIcon,
-  ChevronRightIcon,
   Loader2Icon,
   PlusIcon,
   SendIcon,
+  TrashIcon,
 } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
+import ReactMarkdown from "react-markdown";
 
 import { cn } from "@godsreveal/lib";
 import {
@@ -30,23 +31,46 @@ type ChatProps = {
 };
 
 export default function ChatModal() {
+  // modal open or closed
   const [isOpen, setIsOpen] = useState(false);
 
-  const { threads, addThread } = useThreads();
+  // current thread
   const [threadId, setThreadId] = useState<string | null>(null);
 
+  // other threads
+  const { addThread, removeThread } = useThreads();
+
+  // fetching thread messages loading state
   const [isThreadLoading, setIsThreadLoading] = useState(false);
 
-  // add thread to threads when threadId updates
-  useEffect(() => {
-    if (threadId) {
-      addThread({
-        id: threadId,
-        title: `Thread: ${threadId}`,
-      });
-    }
-  }, [threadId]);
+  // messages
+  const [messages, setMessages] = useState<
+    {
+      id: string;
+      role: "user" | "assistant";
+      content: string;
+    }[]
+  >([]);
 
+  // message input form
+  const form = useForm<ChatProps>({
+    defaultValues: {
+      message: "",
+    },
+  });
+
+  // user submitting message loading state
+  const isUserSubmitting = form.formState.isSubmitting;
+
+  // assistant submitting message loading state
+  const [isAssistantSubmitting, setIsAssistantSubmitting] = useState(false);
+
+  // server client
+  const client = getClient();
+
+  /**
+   * Fetches the messages for the inputted thread and sets the messages state.
+   */
   async function fetchThreadMessages(threadId: string) {
     try {
       // set loading
@@ -72,6 +96,9 @@ export default function ChatModal() {
     }
   }
 
+  /**
+   * Sets the current thread. Input `null` to start a new thread.
+   */
   function onSelectThread(threadId: string | null) {
     // unset messages
     setMessages([]);
@@ -86,34 +113,16 @@ export default function ChatModal() {
     threadId && fetchThreadMessages(threadId);
   }
 
-  const [messages, setMessages] = useState<
-    {
-      id: string;
-      role: "user" | "assistant";
-      content: string;
-    }[]
-  >([]);
-
-  const form = useForm<ChatProps>({
-    defaultValues: {
-      message: "",
-    },
-  });
-
-  const isUserSubmitting = form.formState.isSubmitting;
-  const [isAssistantSubmitting, setIsAssistantSubmitting] = useState(false);
-
-  const client = getClient();
-
+  /**
+   * Runs the inputted thread to get an assistant response.
+   */
   async function runThread(threadId: string) {
     try {
       // set submitting
       setIsAssistantSubmitting(true);
 
       // run thread
-      const res = await client.thread.run.post({
-        threadId,
-      });
+      const res = await client.thread({ threadId }).run.post();
 
       // if no data, throw error
       if (!res.data) {
@@ -126,10 +135,14 @@ export default function ChatModal() {
       console.error(e);
       form.setError("message", { message: "Failed to run thread" });
     } finally {
+      // unset submitting
       setIsAssistantSubmitting(false);
     }
   }
 
+  /**
+   * Submits a message to the thread.
+   */
   async function onSubmit(data: ChatProps) {
     try {
       // post message to thread
@@ -146,26 +159,27 @@ export default function ChatModal() {
       // set messages
       setMessages(res.data.messages);
 
+      // add thread to threads
+      if (!threadId) {
+        addThread({
+          id: res.data.threadId,
+          title: `Thread: ${res.data.threadId}`,
+        });
+      }
+
       // set thread
       setThreadId(res.data.threadId);
 
-      // run post submit
-      runThread(res.data.threadId);
-
       // clear form
       form.reset();
+
+      // run post submit
+      runThread(res.data.threadId);
     } catch (e) {
       console.error(e);
       form.setError("message", { message: "Failed to send message" });
     }
   }
-
-  const messagesEndRef = useRef<HTMLDivElement>(null);
-
-  // Add this effect to scroll to bottom when messages change
-  useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages, isUserSubmitting, isAssistantSubmitting]);
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
@@ -184,7 +198,7 @@ export default function ChatModal() {
       <DialogContent
         className={cn(
           "h-full max-h-full w-full max-w-full overflow-hidden sm:max-h-[90vh] sm:max-w-screen-xl",
-          "focus:outline-none",
+          "focus:outline-none focus-visible:ring-0",
         )}
       >
         <div className="flex h-full flex-col gap-4">
@@ -195,61 +209,63 @@ export default function ChatModal() {
             </DialogTitle>
           </DialogHeader>
 
-          <div className="flex h-full flex-col border-t sm:flex-row">
-            <div className="relative h-full sm:w-1/4">
+          <div className="flex h-full border-t sm:flex-row">
+            <div className="h-full sm:w-1/4">
               <ThreadList
                 currentThreadId={threadId}
-                threads={threads}
                 onSelectThread={onSelectThread}
               />
             </div>
 
-            <div className="flex-1 sm:w-3/4">
+            <div className="h-full sm:w-3/4">
               <div className="flex h-full flex-col">
-                <div
-                  className="flex-1 space-y-4 overflow-y-auto scroll-smooth px-4 py-6"
-                  ref={messagesEndRef}
-                >
-                  {isThreadLoading ? (
-                    <div className="flex h-32 items-center justify-center">
-                      <Loader2Icon className="size-6 animate-spin text-muted-foreground" />
-                    </div>
-                  ) : (
-                    messages.map((message) => (
-                      <div
-                        key={message.id}
-                        className={`flex ${
-                          message.role === "assistant"
-                            ? "justify-start"
-                            : "justify-end"
-                        }`}
-                      >
+                <div className="relative flex-1">
+                  <div className="absolute inset-0 space-y-4 overflow-y-auto scroll-smooth px-4 py-6">
+                    {isThreadLoading ? (
+                      <div className="flex h-32 items-center justify-center">
+                        <Loader2Icon className="size-6 animate-spin text-muted-foreground" />
+                      </div>
+                    ) : (
+                      messages.map((message) => (
                         <div
-                          className={cn(
-                            "relative max-w-[80%] rounded-2xl px-4 py-2.5 shadow-sm",
+                          key={message.id}
+                          className={`flex ${
                             message.role === "assistant"
-                              ? "bg-secondary/80 text-secondary-foreground"
-                              : "bg-primary text-primary-foreground",
-                            message.role === "assistant"
-                              ? "rounded-bl-none"
-                              : "rounded-br-none",
-                          )}
+                              ? "justify-start"
+                              : "justify-end"
+                          }`}
                         >
-                          {message.content}
+                          <article
+                            className={cn(
+                              "relative max-w-[80%] rounded-2xl px-4 py-2.5 shadow-sm",
+                              message.role === "assistant"
+                                ? "prose dark:prose-invert max-w-none bg-secondary/80 text-secondary-foreground"
+                                : "bg-primary text-primary-foreground",
+                              message.role === "assistant"
+                                ? "rounded-bl-none"
+                                : "rounded-br-none",
+                            )}
+                          >
+                            {message.role === "assistant" ? (
+                              <ReactMarkdown>{message.content}</ReactMarkdown>
+                            ) : (
+                              message.content
+                            )}
+                          </article>
+                        </div>
+                      ))
+                    )}
+                    {isAssistantSubmitting && (
+                      <div className="flex justify-start">
+                        <div className="relative flex max-w-[80%] items-center gap-2 rounded-2xl rounded-bl-none bg-secondary/80 px-4 py-2.5 shadow-sm">
+                          <Loader2Icon className="size-4 animate-spin text-muted-foreground" />
+                          <span className="text-sm text-muted-foreground">
+                            Thinking...
+                          </span>
                         </div>
                       </div>
-                    ))
-                  )}
-                  {(isUserSubmitting || isAssistantSubmitting) && (
-                    <div className="flex justify-start">
-                      <div className="relative flex max-w-[80%] items-center gap-2 rounded-2xl rounded-bl-none bg-secondary/80 px-4 py-2.5 shadow-sm">
-                        <Loader2Icon className="size-4 animate-spin text-muted-foreground" />
-                        <span className="text-sm text-muted-foreground">
-                          Thinking...
-                        </span>
-                      </div>
-                    </div>
-                  )}
+                    )}
+                  </div>
                 </div>
 
                 <form
@@ -278,7 +294,7 @@ export default function ChatModal() {
                         isThreadLoading
                       }
                     >
-                      {isUserSubmitting || isAssistantSubmitting ? (
+                      {isUserSubmitting ? (
                         <Loader2Icon className="size-4 animate-spin" />
                       ) : (
                         <SendIcon className="size-4" />
@@ -302,15 +318,17 @@ export default function ChatModal() {
 
 type ThreadListProps = {
   currentThreadId: string | null;
-  threads: Thread[];
   onSelectThread: (threadId: string | null) => void;
 };
 
 function ThreadList({
   currentThreadId,
-  threads,
+
   onSelectThread,
 }: ThreadListProps) {
+  // threads
+  const { threads, removeThread } = useThreads();
+
   return (
     <div className="flex h-full flex-col border-r p-3">
       <div className="mb-3 flex items-center justify-between border-b p-3">
@@ -344,16 +362,31 @@ function ThreadList({
           {threads.map((thread) => (
             <li
               key={thread.id}
-              onClick={() => onSelectThread(thread.id)}
               className={cn(
                 "cursor-pointer rounded-lg px-3 py-2 transition-colors hover:bg-secondary/80",
-                "text-sm font-medium",
+                "flex items-center justify-between text-sm font-medium",
                 currentThreadId === thread.id
                   ? "bg-secondary text-secondary-foreground"
                   : "text-foreground/80",
               )}
             >
-              {thread.title}
+              <span onClick={() => onSelectThread(thread.id)}>
+                {thread.title}
+              </span>
+              <Button
+                variant="ghost"
+                size="icon"
+                className="size-6 opacity-50 hover:opacity-100"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  removeThread(thread.id);
+                  if (currentThreadId === thread.id) {
+                    onSelectThread(null);
+                  }
+                }}
+              >
+                <TrashIcon className="size-4" />
+              </Button>
             </li>
           ))}
           {threads.length === 0 && (

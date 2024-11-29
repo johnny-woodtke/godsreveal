@@ -93,17 +93,21 @@ const app = new Elysia()
       },
     },
   )
-  .post("/thread/run", ({ body }) => runThread({ threadId: body.threadId }), {
-    detail: {
-      summary: "Run a thread",
+  .post(
+    "/thread/:threadId/run",
+    ({ params }) => runThread({ threadId: params.threadId }),
+    {
+      detail: {
+        summary: "Run a thread",
+      },
+      params: t.Object({
+        threadId: t.String(),
+      }),
+      response: {
+        200: getMessagesFromThreadSchema,
+      },
     },
-    body: t.Object({
-      threadId: t.String(),
-    }),
-    response: {
-      200: getMessagesFromThreadSchema,
-    },
-  })
+  )
   .listen(port);
 
 console.log(

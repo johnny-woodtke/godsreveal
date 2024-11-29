@@ -1,6 +1,5 @@
+import typography from "@tailwindcss/typography";
 import animate from "tailwindcss-animate";
-
-/** @type {import('tailwindcss').Config} */
 import defaultTheme from "tailwindcss/defaultTheme";
 
 /** @type {import('tailwindcss').Config} */
@@ -86,5 +85,5 @@ export default {
       },
     },
   },
-  plugins: [animate],
+  plugins: [typography, animate],
 };
