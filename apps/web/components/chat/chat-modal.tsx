@@ -3,6 +3,7 @@
 import {
   BotIcon,
   ChevronLeftIcon,
+  ChevronRightIcon,
   Loader2Icon,
   PlusIcon,
   SendIcon,
@@ -38,7 +39,10 @@ export default function ChatModal() {
   const [threadId, setThreadId] = useState<string | null>(null);
 
   // other threads
-  const { addThread, removeThread } = useThreads();
+  const { addThread } = useThreads();
+
+  // small screen thread list open or closed
+  const [isThreadListOpen, setIsThreadListOpen] = useState(false);
 
   // fetching thread messages loading state
   const [isThreadLoading, setIsThreadLoading] = useState(false);
@@ -210,14 +214,45 @@ export default function ChatModal() {
           </DialogHeader>
 
           <div className="flex h-full border-t sm:flex-row">
-            <div className="h-full sm:w-1/4">
+            {/* large screenthread list */}
+            <div className="h-full max-sm:hidden sm:w-1/4">
               <ThreadList
                 currentThreadId={threadId}
                 onSelectThread={onSelectThread}
               />
             </div>
 
-            <div className="h-full sm:w-3/4">
+            {/* small screen thread list */}
+            <div className="relative h-full w-full sm:hidden">
+              <div
+                className={cn(
+                  "absolute z-50 transition-transform duration-300",
+                  isThreadListOpen ? "translate-x-0" : "-translate-x-full",
+                )}
+              >
+                <div className="flex h-full w-full">
+                  <ThreadList
+                    currentThreadId={threadId}
+                    onSelectThread={onSelectThread}
+                  />
+                  <Button
+                    variant="secondary"
+                    size="icon"
+                    className="mt-2 h-10 w-6"
+                    onClick={() => setIsThreadListOpen(!isThreadListOpen)}
+                  >
+                    {isThreadListOpen ? (
+                      <ChevronLeftIcon className="size-4" />
+                    ) : (
+                      <ChevronRightIcon className="size-4" />
+                    )}
+                  </Button>
+                </div>
+              </div>
+            </div>
+
+            {/* chat messages */}
+            <div className="h-full w-full sm:w-3/4">
               <div className="flex h-full flex-col">
                 <div className="relative flex-1">
                   <div className="absolute inset-0 space-y-4 overflow-y-auto scroll-smooth px-4 py-6">
@@ -321,27 +356,14 @@ type ThreadListProps = {
   onSelectThread: (threadId: string | null) => void;
 };
 
-function ThreadList({
-  currentThreadId,
-
-  onSelectThread,
-}: ThreadListProps) {
+function ThreadList({ currentThreadId, onSelectThread }: ThreadListProps) {
   // threads
   const { threads, removeThread } = useThreads();
 
   return (
     <div className="flex h-full flex-col border-r p-3">
       <div className="mb-3 flex items-center justify-between border-b p-3">
-        <div className="flex items-center gap-2">
-          <Button
-            type="button"
-            variant="secondary"
-            size="icon"
-            className="lg:hidden"
-            onClick={() => onSelectThread(currentThreadId)}
-          >
-            <ChevronLeftIcon className="size-4" />
-          </Button>
+        <div className="flex items-center">
           <h3 className="text-lg font-medium">Conversations</h3>
         </div>
         <Button
