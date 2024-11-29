@@ -1,7 +1,14 @@
 "use client";
 
-import { BotIcon, SendIcon } from "lucide-react";
-import { useEffect, useState } from "react";
+import {
+  BotIcon,
+  ChevronLeftIcon,
+  ChevronRightIcon,
+  Loader2Icon,
+  PlusIcon,
+  SendIcon,
+} from "lucide-react";
+import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 
 import { cn } from "@godsreveal/lib";
@@ -65,7 +72,7 @@ export default function ChatModal() {
     }
   }
 
-  function onSelectThread(threadId: string) {
+  function onSelectThread(threadId: string | null) {
     // unset messages
     setMessages([]);
 
@@ -76,7 +83,7 @@ export default function ChatModal() {
     form.reset();
 
     // fetch thread messages
-    fetchThreadMessages(threadId);
+    threadId && fetchThreadMessages(threadId);
   }
 
   const [messages, setMessages] = useState<
@@ -153,26 +160,43 @@ export default function ChatModal() {
     }
   }
 
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  // Add this effect to scroll to bottom when messages change
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages, isUserSubmitting, isAssistantSubmitting]);
+
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger>
         <Button
           variant="outline"
           size="icon"
-          className="group transition-all duration-200 hover:w-[160px]"
+          className="group relative h-10 w-10 transition-all duration-300 hover:w-[160px]"
         >
-          <span className="hidden group-hover:block">Ask EschatoloGPT</span>
-          <BotIcon className="size-full" />
+          <BotIcon className="absolute left-2.5 size-5" />
+          <span className="ml-7 hidden opacity-0 transition-opacity group-hover:block group-hover:opacity-100">
+            Ask EschatoloGPT
+          </span>
         </Button>
       </DialogTrigger>
-      <DialogContent className="h-full max-h-full w-full max-w-full sm:max-h-[90vh] sm:max-w-screen-xl">
+      <DialogContent
+        className={cn(
+          "h-full max-h-full w-full max-w-full overflow-hidden sm:max-h-[90vh] sm:max-w-screen-xl",
+          "focus:outline-none",
+        )}
+      >
         <div className="flex h-full flex-col gap-4">
           <DialogHeader>
-            <DialogTitle>Ask EschatoloGPT</DialogTitle>
+            <DialogTitle className="flex items-center gap-2">
+              <BotIcon className="size-5" />
+              Ask EschatoloGPT
+            </DialogTitle>
           </DialogHeader>
 
-          <div className="flex h-full flex-row border-t">
-            <div className="w-1/4 border-r">
+          <div className="flex h-full flex-col border-t sm:flex-row">
+            <div className="relative h-full sm:w-1/4">
               <ThreadList
                 currentThreadId={threadId}
                 threads={threads}
@@ -180,39 +204,63 @@ export default function ChatModal() {
               />
             </div>
 
-            <div className="w-3/4">
+            <div className="flex-1 sm:w-3/4">
               <div className="flex h-full flex-col">
-                <div className="flex-1 space-y-4 overflow-y-auto p-4">
-                  {messages.map((message) => (
-                    <div
-                      key={message.id}
-                      className={`flex ${
-                        message.role === "assistant"
-                          ? "justify-start"
-                          : "justify-end"
-                      }`}
-                    >
+                <div
+                  className="flex-1 space-y-4 overflow-y-auto scroll-smooth px-4 py-6"
+                  ref={messagesEndRef}
+                >
+                  {isThreadLoading ? (
+                    <div className="flex h-32 items-center justify-center">
+                      <Loader2Icon className="size-6 animate-spin text-muted-foreground" />
+                    </div>
+                  ) : (
+                    messages.map((message) => (
                       <div
-                        className={`max-w-[80%] rounded-lg p-3 ${
+                        key={message.id}
+                        className={`flex ${
                           message.role === "assistant"
-                            ? "bg-secondary"
-                            : "bg-primary text-primary-foreground"
+                            ? "justify-start"
+                            : "justify-end"
                         }`}
                       >
-                        {message.content}
+                        <div
+                          className={cn(
+                            "relative max-w-[80%] rounded-2xl px-4 py-2.5 shadow-sm",
+                            message.role === "assistant"
+                              ? "bg-secondary/80 text-secondary-foreground"
+                              : "bg-primary text-primary-foreground",
+                            message.role === "assistant"
+                              ? "rounded-bl-none"
+                              : "rounded-br-none",
+                          )}
+                        >
+                          {message.content}
+                        </div>
+                      </div>
+                    ))
+                  )}
+                  {(isUserSubmitting || isAssistantSubmitting) && (
+                    <div className="flex justify-start">
+                      <div className="relative flex max-w-[80%] items-center gap-2 rounded-2xl rounded-bl-none bg-secondary/80 px-4 py-2.5 shadow-sm">
+                        <Loader2Icon className="size-4 animate-spin text-muted-foreground" />
+                        <span className="text-sm text-muted-foreground">
+                          Thinking...
+                        </span>
                       </div>
                     </div>
-                  ))}
+                  )}
                 </div>
 
                 <form
-                  className="flex flex-col gap-2 border-t p-4"
+                  className="flex flex-col gap-2 border-t bg-background p-4"
                   onSubmit={form.handleSubmit(onSubmit)}
                 >
                   <div className="flex w-full items-center gap-2">
                     <Input
                       type="text"
-                      placeholder="Type your message..."
+                      placeholder="Message EschatoloGPT..."
+                      className="rounded-full bg-secondary/50 transition-all duration-200 focus-visible:ring-primary"
                       {...form.register("message", {
                         disabled:
                           isUserSubmitting ||
@@ -223,17 +271,22 @@ export default function ChatModal() {
                     <Button
                       type="submit"
                       size="icon"
+                      className="shrink-0 rounded-full"
                       disabled={
                         isUserSubmitting ||
                         isAssistantSubmitting ||
                         isThreadLoading
                       }
                     >
-                      <SendIcon className="size-4" />
+                      {isUserSubmitting || isAssistantSubmitting ? (
+                        <Loader2Icon className="size-4 animate-spin" />
+                      ) : (
+                        <SendIcon className="size-4" />
+                      )}
                     </Button>
                   </div>
                   {form.formState.errors.message && (
-                    <span className="text-sm text-red-500">
+                    <span className="text-sm text-destructive">
                       {form.formState.errors.message.message}
                     </span>
                   )}
@@ -250,7 +303,7 @@ export default function ChatModal() {
 type ThreadListProps = {
   currentThreadId: string | null;
   threads: Thread[];
-  onSelectThread: (threadId: string) => void;
+  onSelectThread: (threadId: string | null) => void;
 };
 
 function ThreadList({
@@ -259,19 +312,57 @@ function ThreadList({
   onSelectThread,
 }: ThreadListProps) {
   return (
-    <ul className="space-y-2">
-      {threads.map((thread) => (
-        <li
-          key={thread.id}
-          onClick={() => onSelectThread(thread.id)}
-          className={cn(
-            "cursor-pointer rounded-md p-2",
-            currentThreadId === thread.id && "bg-secondary",
-          )}
+    <div className="flex h-full flex-col border-r p-3">
+      <div className="mb-3 flex items-center justify-between border-b p-3">
+        <div className="flex items-center gap-2">
+          <Button
+            type="button"
+            variant="secondary"
+            size="icon"
+            className="lg:hidden"
+            onClick={() => onSelectThread(currentThreadId)}
+          >
+            <ChevronLeftIcon className="size-4" />
+          </Button>
+          <h3 className="text-lg font-medium">Conversations</h3>
+        </div>
+        <Button
+          variant="outline"
+          size="sm"
+          className="gap-2 rounded-full"
+          onClick={(e) => {
+            e.preventDefault();
+            onSelectThread(null);
+          }}
         >
-          {thread.title}
-        </li>
-      ))}
-    </ul>
+          <PlusIcon className="size-4" />
+          New Chat
+        </Button>
+      </div>
+      <div className="flex-1 overflow-y-auto">
+        <ul className="space-y-1.5">
+          {threads.map((thread) => (
+            <li
+              key={thread.id}
+              onClick={() => onSelectThread(thread.id)}
+              className={cn(
+                "cursor-pointer rounded-lg px-3 py-2 transition-colors hover:bg-secondary/80",
+                "text-sm font-medium",
+                currentThreadId === thread.id
+                  ? "bg-secondary text-secondary-foreground"
+                  : "text-foreground/80",
+              )}
+            >
+              {thread.title}
+            </li>
+          ))}
+          {threads.length === 0 && (
+            <li className="px-3 py-8 text-center text-sm text-muted-foreground">
+              No conversations yet
+            </li>
+          )}
+        </ul>
+      </div>
+    </div>
   );
 }
