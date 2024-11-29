@@ -165,78 +165,80 @@ export default function ChatModal() {
           <BotIcon className="size-full" />
         </Button>
       </DialogTrigger>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>Ask EschatoloGPT</DialogTitle>
-        </DialogHeader>
+      <DialogContent className="h-full max-h-full w-full max-w-full sm:max-h-[90vh] sm:max-w-screen-xl">
+        <div className="flex h-full flex-col gap-4">
+          <DialogHeader>
+            <DialogTitle>Ask EschatoloGPT</DialogTitle>
+          </DialogHeader>
 
-        <div className="flex flex-row border-t">
-          <div className="w-1/4 border-r">
-            <ThreadList
-              currentThreadId={threadId}
-              threads={threads}
-              onSelectThread={onSelectThread}
-            />
-          </div>
+          <div className="flex h-full flex-row border-t">
+            <div className="w-1/4 border-r">
+              <ThreadList
+                currentThreadId={threadId}
+                threads={threads}
+                onSelectThread={onSelectThread}
+              />
+            </div>
 
-          <div className="w-3/4">
-            <div className="flex h-[500px] flex-col">
-              <div className="flex-1 space-y-4 overflow-y-auto p-4">
-                {messages.map((message) => (
-                  <div
-                    key={message.id}
-                    className={`flex ${
-                      message.role === "assistant"
-                        ? "justify-start"
-                        : "justify-end"
-                    }`}
-                  >
+            <div className="w-3/4">
+              <div className="flex h-full flex-col">
+                <div className="flex-1 space-y-4 overflow-y-auto p-4">
+                  {messages.map((message) => (
                     <div
-                      className={`max-w-[80%] rounded-lg p-3 ${
+                      key={message.id}
+                      className={`flex ${
                         message.role === "assistant"
-                          ? "bg-secondary"
-                          : "bg-primary text-primary-foreground"
+                          ? "justify-start"
+                          : "justify-end"
                       }`}
                     >
-                      {message.content}
+                      <div
+                        className={`max-w-[80%] rounded-lg p-3 ${
+                          message.role === "assistant"
+                            ? "bg-secondary"
+                            : "bg-primary text-primary-foreground"
+                        }`}
+                      >
+                        {message.content}
+                      </div>
                     </div>
-                  </div>
-                ))}
-              </div>
+                  ))}
+                </div>
 
-              <form
-                className="flex flex-col gap-2 border-t p-4"
-                onSubmit={form.handleSubmit(onSubmit)}
-              >
-                <div className="flex w-full items-center gap-2">
-                  <Input
-                    type="text"
-                    placeholder="Type your message..."
-                    {...form.register("message", {
-                      disabled:
+                <form
+                  className="flex flex-col gap-2 border-t p-4"
+                  onSubmit={form.handleSubmit(onSubmit)}
+                >
+                  <div className="flex w-full items-center gap-2">
+                    <Input
+                      type="text"
+                      placeholder="Type your message..."
+                      {...form.register("message", {
+                        disabled:
+                          isUserSubmitting ||
+                          isAssistantSubmitting ||
+                          isThreadLoading,
+                      })}
+                    />
+                    <Button
+                      type="submit"
+                      size="icon"
+                      disabled={
                         isUserSubmitting ||
                         isAssistantSubmitting ||
-                        isThreadLoading,
-                    })}
-                  />
-                  <Button
-                    type="submit"
-                    size="icon"
-                    disabled={
-                      isUserSubmitting ||
-                      isAssistantSubmitting ||
-                      isThreadLoading
-                    }
-                  >
-                    <SendIcon className="size-4" />
-                  </Button>
-                </div>
-                {form.formState.errors.message && (
-                  <span className="text-red-500">
-                    {form.formState.errors.message.message}
-                  </span>
-                )}
-              </form>
+                        isThreadLoading
+                      }
+                    >
+                      <SendIcon className="size-4" />
+                    </Button>
+                  </div>
+                  {form.formState.errors.message && (
+                    <span className="text-sm text-red-500">
+                      {form.formState.errors.message.message}
+                    </span>
+                  )}
+                </form>
+              </div>
             </div>
           </div>
         </div>
