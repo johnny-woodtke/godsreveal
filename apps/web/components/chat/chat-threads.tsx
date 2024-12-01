@@ -16,7 +16,7 @@ export default function ChatThreads({ setIsThreadListOpen }: ChatThreadsProps) {
 
   return (
     <div className="flex h-full flex-col overflow-hidden bg-background">
-      <div className="flex items-center gap-2 border-b p-4">
+      <div className="flex items-center gap-2 border-b p-3">
         <MessageCircleIcon className="size-5" />
         <h2 className="font-semibold">Previous Chats</h2>
       </div>

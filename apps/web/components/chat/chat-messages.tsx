@@ -48,7 +48,7 @@ export default function ChatMessages() {
               "sm:max-w-[80%]",
               // assistant message classes
               message.role === "assistant" &&
-                "prose dark:prose-invert bg-muted",
+                "prose dark:prose-invert max-sm:prose-sm bg-muted",
               // user message classes
               message.role === "user" && "bg-primary text-primary-foreground",
             )}

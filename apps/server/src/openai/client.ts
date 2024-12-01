@@ -39,7 +39,12 @@ function getOpenAiOrgIdOrThrow() {
   return orgId;
 }
 
-export function getAssistantIdOrThrow() {
+const assistantIdMap = {
+  egpt: Bun.env.EGPT_ASSISTANT_ID,
+  "thread-namer": Bun.env.THREAD_NAMER_ASSISTANT_ID,
+};
+
+export function getAssistantIdOrThrow(name: "egpt" | "thread-namer") {
   const assistantId = Bun.env.EGPT_ASSISTANT_ID;
   if (!assistantId) {
     throw new Error("EGPT_ASSISTANT_ID is not set");

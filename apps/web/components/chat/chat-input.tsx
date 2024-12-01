@@ -25,11 +25,11 @@ export default function ChatInput({ isThreadListOpen }: ChatInputProps) {
     <form
       onSubmit={form.handleSubmit(onSubmit)}
       className={cn(
-        "flex w-full items-center gap-2 border-t py-4",
+        "flex w-full items-center gap-2 border-t",
         // small screen classes
-        "px-1",
+        "max-sm:px-1 max-sm:pt-4",
         // large screen classes
-        "sm:px-4",
+        "sm:p-4",
       )}
     >
       <Input

@@ -8,6 +8,7 @@ import {
   createThread,
   getMessagesFromThread,
   getMessagesFromThreadSchema,
+  getThreadName,
   runThread,
 } from "@/openai/user";
 
@@ -95,7 +96,8 @@ const app = new Elysia()
   )
   .post(
     "/thread/:threadId/run",
-    ({ params }) => runThread({ threadId: params.threadId }),
+    ({ params }) =>
+      runThread({ threadId: params.threadId, assistantName: "egpt" }),
     {
       detail: {
         summary: "Run a thread",
@@ -105,6 +107,21 @@ const app = new Elysia()
       }),
       response: {
         200: getMessagesFromThreadSchema,
+      },
+    },
+  )
+  .get(
+    "/thread/:threadId/name",
+    ({ params }) => getThreadName({ threadId: params.threadId }),
+    {
+      detail: {
+        summary: "Get the name of a thread",
+      },
+      params: t.Object({
+        threadId: t.String(),
+      }),
+      response: {
+        200: t.String(),
       },
     },
   )

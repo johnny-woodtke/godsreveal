@@ -2,7 +2,7 @@ import { Static, t } from "elysia";
 
 import { getAssistantIdOrThrow, openai } from "@/openai/client";
 
-export async function createThread() {
+export async function createThread(): Promise<string> {
   // create new thread
   const res = await openai("/v1/threads", {
     method: "POST",
@@ -65,16 +65,18 @@ export async function getMessagesFromThread({
 
 type RunThreadProps = {
   threadId: string;
+  assistantName: "egpt" | "thread-namer";
 };
 
 export async function runThread({
   threadId,
+  assistantName,
 }: RunThreadProps): Promise<Static<typeof getMessagesFromThreadSchema>> {
   // create an assistant run for the thread
   const res = await openai(`/v1/threads/${threadId}/runs`, {
     method: "POST",
     body: JSON.stringify({
-      assistant_id: getAssistantIdOrThrow(),
+      assistant_id: getAssistantIdOrThrow(assistantName),
       stream: true,
     }),
   });
@@ -122,3 +124,45 @@ async function listenForThreadRunCompletion(res: Response) {
     }
   }
 }
+
+type GetThreadNameProps = {
+  threadId: string;
+};
+
+export async function getThreadName({ threadId }: GetThreadNameProps) {
+  // get thread messages
+  const threadMessages = await getMessagesFromThread({ threadId });
+
+  // format messages into a string
+  const messagesString = threadMessages
+    .map((message) => `${roleMap[message.role]}: ${message.content}`)
+    .join("\n");
+
+  // create thread
+  const nameThreadId = await createThread();
+
+  // add messages to thread
+  await addMessageToThread({ threadId: nameThreadId, message: messagesString });
+
+  // run thread
+  const messages = await runThread({
+    threadId: nameThreadId,
+    assistantName: "thread-namer",
+  });
+
+  // get thread name from assistant response
+  const threadName = messages[1]?.content;
+
+  // throw error if no thread name
+  if (!threadName) {
+    throw new Error("No thread name found");
+  }
+
+  // return thread name
+  return threadName;
+}
+
+const roleMap = {
+  user: "User",
+  assistant: "Assistant",
+};

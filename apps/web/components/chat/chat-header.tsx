@@ -2,6 +2,7 @@ import { BotIcon, SquarePenIcon } from "lucide-react";
 import { MenuIcon } from "lucide-react";
 import { Dispatch, SetStateAction } from "react";
 
+import { cn } from "@godsreveal/lib";
 import { Button, DialogHeader, DialogTitle } from "@godsreveal/ui";
 
 import { useChat } from "./chat-provider";
@@ -15,7 +16,13 @@ export default function ChatHeader({ setIsThreadListOpen }: ChatHeaderProps) {
 
   return (
     <DialogHeader>
-      <DialogTitle className="flex justify-between border-b pb-1">
+      <DialogTitle
+        className={cn(
+          "flex justify-between border-b pb-1",
+          // large screen classes
+          "sm:pl-3",
+        )}
+      >
         <Button
           className="sm:hidden"
           variant="ghost"
