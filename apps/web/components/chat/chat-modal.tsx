@@ -44,18 +44,22 @@ export default function ChatModal() {
             {/* header */}
             <ChatHeader setIsThreadListOpen={setIsThreadListOpen} />
 
-            <div className="relative flex h-full w-full">
+            <div className="relative flex h-full w-full overflow-hidden">
               {/* thread list */}
               <div
                 className={cn(
                   "h-full",
                   // small screen classes
-                  "w-full",
+                  "max-sm:absolute max-sm:inset-0 max-sm:w-full max-sm:z-10",
+                  "max-sm:transition-transform max-sm:duration-300",
+                  isThreadListOpen
+                    ? "max-sm:translate-x-0"
+                    : "max-sm:-translate-x-full",
                   // large screen classes
                   "sm:w-1/4 sm:border-r",
                 )}
               >
-                <ChatThreads isThreadListOpen={isThreadListOpen} />
+                <ChatThreads setIsThreadListOpen={setIsThreadListOpen} />
               </div>
 
               {/* messages and input */}

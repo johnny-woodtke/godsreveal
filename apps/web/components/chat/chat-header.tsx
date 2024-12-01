@@ -33,7 +33,7 @@ export default function ChatHeader({ setIsThreadListOpen }: ChatHeaderProps) {
           size="icon"
           onClick={() => onSelectThread(null)}
         >
-          <SquarePenIcon className="size-4" />
+          <SquarePenIcon className="size-8" />
         </Button>
       </DialogTitle>
     </DialogHeader>
