@@ -1,5 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
-import { Loader2, MessageCircleIcon, Trash2Icon } from "lucide-react";
+import { MessageCircleIcon, Trash2Icon } from "lucide-react";
 import { Dispatch, SetStateAction } from "react";
 
 import { cn } from "@godsreveal/lib";
