@@ -90,7 +90,9 @@ export async function runThread({
 
 const RUN_COMPLETED_EVENT = "thread.run.completed";
 
-async function listenForThreadRunCompletion(res: Response) {
+async function listenForThreadRunCompletion(
+  res: Response,
+): Promise<{ threadId: string }> {
   // get reader from response
   const reader = res.body?.getReader();
   if (!reader) {
@@ -114,15 +116,19 @@ async function listenForThreadRunCompletion(res: Response) {
     const lines = chunk.split("\n");
     const chunkData = {
       event: lines[0]?.split(": ")[1],
-      data: lines[1]?.split(": ")[1],
+      data: lines[1] ?? "{}",
     };
 
     // check if event is thread.run.completed
     if (chunkData.event === RUN_COMPLETED_EVENT) {
-      // parse data and break
-      break;
+      // parse data and return
+      const data = JSON.parse(chunkData.data);
+      return { threadId: data.thread_id };
     }
   }
+
+  // throw error if no thread ID
+  throw new Error("No thread ID found");
 }
 
 type GetThreadNameProps = {
@@ -131,35 +137,34 @@ type GetThreadNameProps = {
 
 export async function getThreadName({ threadId }: GetThreadNameProps) {
   // get thread messages
-  const threadMessages = await getMessagesFromThread({ threadId });
+  const messages = await getMessagesFromThread({ threadId });
 
-  // format messages into a string
-  const messagesString = threadMessages
-    .map((message) => `${roleMap[message.role]}: ${message.content}`)
-    .join("\n");
-
-  // create thread
-  const nameThreadId = await createThread();
-
-  // add messages to thread
-  await addMessageToThread({ threadId: nameThreadId, message: messagesString });
-
-  // run thread
-  const messages = await runThread({
-    threadId: nameThreadId,
-    assistantName: "thread-namer",
+  // create thread and run
+  const res = await openai(`/v1/threads/runs`, {
+    method: "POST",
+    body: JSON.stringify({
+      assistant_id: getAssistantIdOrThrow("thread-namer"),
+      thread: {
+        messages,
+      },
+      stream: true,
+    }),
   });
 
-  // get thread name from assistant response
-  const threadName = messages[1]?.content;
+  // listen for run complete
+  const { threadId: nameThreadId } = await listenForThreadRunCompletion(res);
 
-  // throw error if no thread name
-  if (!threadName) {
+  // get messages from name thread
+  const nameMessages = await getMessagesFromThread({ threadId: nameThreadId });
+
+  // get name from messages
+  const name = nameMessages[nameMessages.length - 1]?.content;
+  if (!name) {
     throw new Error("No thread name found");
   }
 
-  // return thread name
-  return threadName;
+  // return name
+  return name;
 }
 
 const roleMap = {
