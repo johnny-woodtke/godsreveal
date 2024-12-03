@@ -105,6 +105,8 @@ const app = new Elysia()
     {
       detail: {
         summary: "Run a thread",
+        description:
+          "Runs a thread by sending it to the EschatoloGPT assistant for a response",
       },
       params: t.Object({
         threadId: t.String(),
@@ -116,7 +118,8 @@ const app = new Elysia()
   )
   .get("/thread/:threadId/name", ({ params }) => getThreadName(params), {
     detail: {
-      summary: "Get the name of a thread",
+      summary: "Get the thread name",
+      description: "Gets the name of a thread by analyzing the messages",
     },
     params: t.Object({
       threadId: t.String(),
