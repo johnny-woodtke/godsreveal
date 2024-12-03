@@ -11,16 +11,17 @@ import ChatInput from "./chat-input";
 import ChatMessages from "./chat-messages";
 import ChatProvider from "./chat-provider";
 import ChatThreads from "./chat-threads";
+import { useParams } from "./useParams";
 
 export default function ChatModal() {
   // modal open or closed
-  const [isOpen, setIsOpen] = useState(false);
+  const { chatModalOpen, setChatModalOpen } = useParams();
 
   // thread list open or closed
   const [isThreadListOpen, setIsThreadListOpen] = useState(false);
 
   return (
-    <Dialog open={isOpen} onOpenChange={setIsOpen}>
+    <Dialog open={chatModalOpen} onOpenChange={setChatModalOpen}>
       <DialogTrigger>
         <Button
           variant="outline"
@@ -50,7 +51,7 @@ export default function ChatModal() {
                 className={cn(
                   "h-full",
                   // small screen classes
-                  "max-sm:absolute max-sm:inset-0 max-sm:w-full max-sm:z-10",
+                  "max-sm:absolute max-sm:inset-0 max-sm:z-10 max-sm:w-full",
                   "max-sm:transition-transform max-sm:duration-300",
                   isThreadListOpen
                     ? "max-sm:translate-x-0"

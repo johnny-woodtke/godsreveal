@@ -99,6 +99,9 @@ async function listenForThreadRunCompletion(
     throw new Error("No response stream available");
   }
 
+  // thread ID
+  let threadId: string | undefined;
+
   // read the stream
   while (true) {
     // read the stream
@@ -116,19 +119,33 @@ async function listenForThreadRunCompletion(
     const lines = chunk.split("\n");
     const chunkData = {
       event: lines[0]?.split(": ")[1],
-      data: lines[1] ?? "{}",
+      data: lines[1]?.split(": ")[1],
     };
+
+    // set thread ID
+    if (!threadId && chunkData.data) {
+      try {
+        const data = JSON.parse(chunkData.data);
+        if (data.thread_id && typeof data.thread_id === "string") {
+          threadId = data.thread_id;
+        }
+      } catch {}
+    }
 
     // check if event is thread.run.completed
     if (chunkData.event === RUN_COMPLETED_EVENT) {
-      // parse data and return
-      const data = JSON.parse(chunkData.data);
-      return { threadId: data.thread_id };
+      // break
+      break;
     }
   }
 
   // throw error if no thread ID
-  throw new Error("No thread ID found");
+  if (!threadId) {
+    throw new Error("No thread ID found");
+  }
+
+  // return thread ID
+  return { threadId };
 }
 
 type GetThreadNameProps = {
@@ -145,7 +162,10 @@ export async function getThreadName({ threadId }: GetThreadNameProps) {
     body: JSON.stringify({
       assistant_id: getAssistantIdOrThrow("thread-namer"),
       thread: {
-        messages,
+        messages: messages.map((message) => ({
+          role: message.role,
+          content: message.content,
+        })),
       },
       stream: true,
     }),
@@ -158,9 +178,14 @@ export async function getThreadName({ threadId }: GetThreadNameProps) {
   const nameMessages = await getMessagesFromThread({ threadId: nameThreadId });
 
   // get name from messages
-  const name = nameMessages[nameMessages.length - 1]?.content;
+  let name = nameMessages[nameMessages.length - 1]?.content;
   if (!name) {
     throw new Error("No thread name found");
+  }
+
+  // remove surrounding quotes if present
+  if (name.startsWith('"') && name.endsWith('"')) {
+    name = name.slice(1, -1);
   }
 
   // return name

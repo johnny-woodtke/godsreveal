@@ -32,6 +32,15 @@ const app = new Elysia()
       200: t.String(),
     },
   })
+  .post("/thread/create", createThread, {
+    detail: {
+      summary: "Create a thread",
+      description: "Creates a new thread and returns the threadId",
+    },
+    response: {
+      200: t.String(),
+    },
+  })
   .post(
     "/thread/message",
     async ({ body }) => {
@@ -66,7 +75,9 @@ const app = new Elysia()
         threadId: t.Optional(t.String()),
       }),
       detail: {
-        summary: "Get or create a thread and add a message to it",
+        summary: "Send message",
+        description:
+          "Creates or gets a thread and adds a user-role message to it",
       },
       response: {
         200: t.Object({
@@ -76,28 +87,21 @@ const app = new Elysia()
       },
     },
   )
-  .get(
-    "/thread/:threadId",
-    ({ params }) =>
-      getMessagesFromThread({
-        threadId: params.threadId,
-      }),
-    {
-      detail: {
-        summary: "Get messages from a thread",
-      },
-      params: t.Object({
-        threadId: t.String(),
-      }),
-      response: {
-        200: getMessagesFromThreadSchema,
-      },
+  .get("/thread/:threadId", ({ params }) => getMessagesFromThread(params), {
+    detail: {
+      summary: "Get messages",
+      description: "Gets all messages from a thread",
     },
-  )
+    params: t.Object({
+      threadId: t.String(),
+    }),
+    response: {
+      200: getMessagesFromThreadSchema,
+    },
+  })
   .post(
     "/thread/:threadId/run",
-    ({ params }) =>
-      runThread({ threadId: params.threadId, assistantName: "egpt" }),
+    ({ params }) => runThread({ ...params, assistantName: "egpt" }),
     {
       detail: {
         summary: "Run a thread",
@@ -110,22 +114,22 @@ const app = new Elysia()
       },
     },
   )
-  .get(
-    "/thread/:threadId/name",
-    ({ params }) => getThreadName({ threadId: params.threadId }),
-    {
-      detail: {
-        summary: "Get the name of a thread",
-      },
-      params: t.Object({
-        threadId: t.String(),
-      }),
-      response: {
-        200: t.String(),
-      },
+  .get("/thread/:threadId/name", ({ params }) => getThreadName(params), {
+    detail: {
+      summary: "Get the name of a thread",
     },
-  )
-  .listen(port);
+    params: t.Object({
+      threadId: t.String(),
+    }),
+    response: {
+      200: t.String(),
+    },
+  })
+  .listen({
+    port,
+    // 60 seconds
+    idleTimeout: 60,
+  });
 
 console.log(
   `🦊 Elysia is running at ${app.server?.hostname}:${app.server?.port}`,

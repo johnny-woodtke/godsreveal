@@ -2,8 +2,7 @@ import ClientButton from "@/components/client-button";
 import ClientMessage from "@/components/client-message";
 import { getClient } from "@/lib/eden";
 
-export const dynamic = "force-dynamic";
-export const fetchCache = "force-no-store";
+
 
 export default async function Home() {
   const client = getClient();

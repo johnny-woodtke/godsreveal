@@ -5,12 +5,14 @@ import {
   SetStateAction,
   createContext,
   useContext,
+  useEffect,
   useState,
 } from "react";
 import { UseFormReturn, useForm } from "react-hook-form";
 
 import { getClient } from "@/lib/eden";
 
+import { useParams } from "./useParams";
 import { Thread, useThreads } from "./useThreads";
 
 type Message = {
@@ -25,7 +27,7 @@ type ChatProps = {
 
 type ChatContextType = {
   threadId: string | null;
-  setThreadId: Dispatch<SetStateAction<string | null>>;
+  setThreadId: (threadId: string | null) => Promise<void>;
 
   threads: Thread[];
   addThread: (thread: Thread) => void;
@@ -33,6 +35,9 @@ type ChatContextType = {
 
   isThreadLoading: boolean;
   setIsThreadLoading: Dispatch<SetStateAction<boolean>>;
+
+  isThreadNaming: boolean;
+  setIsThreadNaming: Dispatch<SetStateAction<boolean>>;
 
   messages: Message[];
   setMessages: Dispatch<SetStateAction<Message[]>>;
@@ -57,7 +62,7 @@ type ChatProviderProps = {
 
 export default function ChatProvider({ children }: ChatProviderProps) {
   // current thread
-  const [threadId, setThreadId] = useState<string | null>(null);
+  const { threadId, setThreadId, chatModalOpen } = useParams();
 
   // other threads
   const { threads, addThread, removeThread } = useThreads();
@@ -80,6 +85,9 @@ export default function ChatProvider({ children }: ChatProviderProps) {
 
   // assistant submitting message loading state
   const [isAssistantSubmitting, setIsAssistantSubmitting] = useState(false);
+
+  // thread naming loading state
+  const [isThreadNaming, setIsThreadNaming] = useState(false);
 
   // server client
   const client = getClient();
@@ -112,6 +120,11 @@ export default function ChatProvider({ children }: ChatProviderProps) {
     }
   }
 
+  // fetch thread messages on chat modal open and threadId change
+  useEffect(() => {
+    chatModalOpen && threadId && fetchThreadMessages(threadId);
+  }, [chatModalOpen]);
+
   /**
    * Sets the current thread. Input `null` to start a new thread.
    */
@@ -119,14 +132,48 @@ export default function ChatProvider({ children }: ChatProviderProps) {
     // unset messages
     setMessages([]);
 
-    // set thread
-    setThreadId(threadId);
-
     // reset form
     form.reset();
 
-    // fetch thread messages
-    threadId && fetchThreadMessages(threadId);
+    // set thread
+    setThreadId(threadId).then(() => {
+      // fetch thread messages
+      threadId && fetchThreadMessages(threadId);
+    });
+  }
+
+  /**
+   * Sets the name of the inputted thread ID.
+   */
+  async function setThreadName(threadId: string) {
+    try {
+      // check if thread already exists
+      if (threads.find((t) => t.id === threadId)) {
+        return;
+      }
+
+      // set loading
+      setIsThreadNaming(true);
+
+      // get thread name
+      const res = await client.thread({ threadId }).name.get();
+
+      // if no data, throw error
+      if (!res.data) {
+        throw new Error("Failed to set thread name");
+      }
+
+      // add thread to threads
+      addThread({
+        id: threadId,
+        title: res.data,
+      });
+    } catch (e) {
+      console.error("Failed to set thread name:", e);
+    } finally {
+      // unset loading
+      setIsThreadNaming(false);
+    }
   }
 
   /**
@@ -147,6 +194,9 @@ export default function ChatProvider({ children }: ChatProviderProps) {
 
       // set messages
       setMessages(res.data);
+
+      // add thread to threads and set thread name
+      setThreadName(threadId);
     } catch (e) {
       console.error(e);
       form.setError("message", { message: "Failed to run thread" });
@@ -159,11 +209,11 @@ export default function ChatProvider({ children }: ChatProviderProps) {
   /**
    * Submits a message to the thread.
    */
-  async function onSubmit(data: ChatProps) {
+  async function onSubmit({ message }: ChatProps) {
     try {
       // post message to thread
       const res = await client.thread.message.post({
-        message: data.message,
+        message,
         ...(threadId ? { threadId } : {}),
       });
 
@@ -174,17 +224,6 @@ export default function ChatProvider({ children }: ChatProviderProps) {
 
       // set messages
       setMessages(res.data.messages);
-
-      // add thread to threads
-      if (!threadId) {
-        addThread({
-          id: res.data.threadId,
-          title: `Thread: ${res.data.threadId}`,
-        });
-      }
-
-      // set thread
-      setThreadId(res.data.threadId);
 
       // clear form
       form.reset();
@@ -207,6 +246,8 @@ export default function ChatProvider({ children }: ChatProviderProps) {
         removeThread,
         isThreadLoading,
         setIsThreadLoading,
+        isThreadNaming,
+        setIsThreadNaming,
         messages,
         setMessages,
         form,

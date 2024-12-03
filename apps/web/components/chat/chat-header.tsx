@@ -18,9 +18,9 @@ export default function ChatHeader({ setIsThreadListOpen }: ChatHeaderProps) {
     <DialogHeader>
       <DialogTitle
         className={cn(
-          "flex justify-between border-b pb-1",
+          "flex justify-between border-b px-1 pb-1",
           // large screen classes
-          "sm:pl-3",
+          "sm:px-3",
         )}
       >
         <Button
@@ -38,7 +38,10 @@ export default function ChatHeader({ setIsThreadListOpen }: ChatHeaderProps) {
         <Button
           variant="ghost"
           size="icon"
-          onClick={() => onSelectThread(null)}
+          onClick={() => {
+            onSelectThread(null);
+            setIsThreadListOpen(false);
+          }}
         >
           <SquarePenIcon className="size-8" />
         </Button>

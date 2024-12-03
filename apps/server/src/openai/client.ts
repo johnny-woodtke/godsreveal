@@ -45,9 +45,9 @@ const assistantIdMap = {
 };
 
 export function getAssistantIdOrThrow(name: "egpt" | "thread-namer") {
-  const assistantId = Bun.env.EGPT_ASSISTANT_ID;
+  const assistantId = assistantIdMap[name];
   if (!assistantId) {
-    throw new Error("EGPT_ASSISTANT_ID is not set");
+    throw new Error(`${name} assistant ID is not set`);
   }
   return assistantId;
 }

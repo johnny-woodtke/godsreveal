@@ -1,4 +1,4 @@
-import { MessageCircleIcon, Trash2Icon } from "lucide-react";
+import { Loader2Icon, MessageCircleIcon, Trash2Icon } from "lucide-react";
 import { Dispatch, SetStateAction } from "react";
 
 import { cn } from "@godsreveal/lib";
@@ -11,7 +11,8 @@ type ChatThreadsProps = {
 };
 
 export default function ChatThreads({ setIsThreadListOpen }: ChatThreadsProps) {
-  const { threads, removeThread, onSelectThread, threadId } = useChat();
+  const { threads, removeThread, onSelectThread, threadId, isThreadNaming } =
+    useChat();
 
   return (
     <div className="flex h-full flex-col overflow-hidden bg-background">
@@ -21,12 +22,13 @@ export default function ChatThreads({ setIsThreadListOpen }: ChatThreadsProps) {
       </div>
 
       <div className="flex-1 overflow-y-auto p-2">
-        {threads.length === 0 ? (
+        {threads.length === 0 && !isThreadNaming ? (
           <p className="p-4 text-center text-sm text-muted-foreground">
             No conversations yet
           </p>
         ) : (
           <div className="space-y-2">
+            {/* threads */}
             {threads.map((thread) => (
               <div
                 key={thread.id}
@@ -65,6 +67,12 @@ export default function ChatThreads({ setIsThreadListOpen }: ChatThreadsProps) {
                 </Button>
               </div>
             ))}
+
+            {isThreadNaming && (
+              <div className="flex w-full items-center justify-center py-2">
+                <Loader2Icon className="size-5 animate-spin" />
+              </div>
+            )}
           </div>
         )}
       </div>
