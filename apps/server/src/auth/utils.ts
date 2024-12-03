@@ -58,5 +58,13 @@ function verifyJwt(request: Request): boolean {
 
 export function verifyAuth(request: Request): boolean {
   // check if route is in noAuthRoutes, else verify JWT
-  return isNoAuthRoute(request) || verifyJwt(request);
+  const allowed = isNoAuthRoute(request) || verifyJwt(request);
+
+  // log unauthorized origin
+  if (!allowed) {
+    console.log("Unauthorized origin", request.headers.get("origin"));
+  }
+
+  // return allowed
+  return allowed;
 }
