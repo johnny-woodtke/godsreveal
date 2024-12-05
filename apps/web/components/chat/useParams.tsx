@@ -9,6 +9,8 @@ export function useParams() {
   const router = useRouter();
   const pathname = usePathname();
 
+  const client = getClient();
+
   const threadId = searchParams.get(THREAD_ID_PARAM);
 
   /**
@@ -30,8 +32,6 @@ export function useParams() {
 
     router.push(`${pathname}?${params.toString()}`);
   }
-
-  const client = getClient();
 
   const chatModalOpen = searchParams.get(CHAT_MODAL_OPEN_PARAM) === "true";
 

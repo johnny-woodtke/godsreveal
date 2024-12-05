@@ -18,24 +18,29 @@ export default function ChatHeader({ setIsThreadListOpen }: ChatHeaderProps) {
     <DialogHeader>
       <DialogTitle
         className={cn(
-          "flex justify-between border-b px-1 pb-1",
+          "flex items-center justify-between border-b px-1 pb-1",
           // large screen classes
           "sm:px-3",
         )}
       >
         <Button
-          className="sm:hidden"
+          asChild
+          className="size-10 cursor-pointer sm:hidden"
           variant="ghost"
           size="icon"
           onClick={() => setIsThreadListOpen((open) => !open)}
         >
-          <MenuIcon className="size-4" />
+          <MenuIcon className="p-2" />
         </Button>
-        <span className="flex items-center gap-2">
+
+        <span className="flex flex-1 items-center justify-center gap-2">
           <BotIcon className="size-5" />
           EschatoloGPT
         </span>
+
         <Button
+          asChild
+          className="size-9 cursor-pointer"
           variant="ghost"
           size="icon"
           onClick={() => {
@@ -43,7 +48,7 @@ export default function ChatHeader({ setIsThreadListOpen }: ChatHeaderProps) {
             setIsThreadListOpen(false);
           }}
         >
-          <SquarePenIcon className="size-8" />
+          <SquarePenIcon className="p-2" />
         </Button>
       </DialogTitle>
     </DialogHeader>

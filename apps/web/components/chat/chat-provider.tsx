@@ -30,7 +30,6 @@ type ChatContextType = {
   setThreadId: (threadId: string | null) => Promise<void>;
 
   threads: Thread[];
-  addThread: (thread: Thread) => void;
   removeThread: (threadId: string) => void;
 
   isThreadLoading: boolean;
@@ -65,7 +64,8 @@ export default function ChatProvider({ children }: ChatProviderProps) {
   const { threadId, setThreadId, chatModalOpen } = useParams();
 
   // other threads
-  const { threads, addThread, removeThread } = useThreads();
+  const { upsertThread, hasThread, getThread, threads, removeThread } =
+    useThreads();
 
   // fetching thread messages loading state
   const [isThreadLoading, setIsThreadLoading] = useState(false);
@@ -129,13 +129,13 @@ export default function ChatProvider({ children }: ChatProviderProps) {
    * Sets the current thread. Input `null` to start a new thread.
    */
   function onSelectThread(threadId: string | null) {
-    // unset messages
+    // unset messages if there were any
     setMessages([]);
 
     // reset form
     form.reset();
 
-    // set thread
+    // set thread if there were messages
     setThreadId(threadId).then(() => {
       // fetch thread messages
       threadId && fetchThreadMessages(threadId);
@@ -147,11 +147,6 @@ export default function ChatProvider({ children }: ChatProviderProps) {
    */
   async function setThreadName(threadId: string) {
     try {
-      // check if thread already exists
-      if (threads.find((t) => t.id === threadId)) {
-        return;
-      }
-
       // set loading
       setIsThreadNaming(true);
 
@@ -164,9 +159,10 @@ export default function ChatProvider({ children }: ChatProviderProps) {
       }
 
       // add thread to threads
-      addThread({
+      upsertThread({
         id: threadId,
         title: res.data,
+        updatedAt: new Date(),
       });
     } catch (e) {
       console.error("Failed to set thread name:", e);
@@ -195,8 +191,8 @@ export default function ChatProvider({ children }: ChatProviderProps) {
       // set messages
       setMessages(res.data);
 
-      // add thread to threads and set thread name
-      setThreadName(threadId);
+      // if thread does not exist, set thread name and updatedAt
+      !hasThread(threadId) && setThreadName(threadId);
     } catch (e) {
       console.error(e);
       form.setError("message", { message: "Failed to run thread" });
@@ -228,6 +224,10 @@ export default function ChatProvider({ children }: ChatProviderProps) {
       // clear form
       form.reset();
 
+      // update thread updatedAt if thread exists
+      const thread = getThread(res.data.threadId);
+      thread && upsertThread({ ...thread, updatedAt: new Date() });
+
       // run post submit
       runThread(res.data.threadId);
     } catch (e) {
@@ -242,7 +242,6 @@ export default function ChatProvider({ children }: ChatProviderProps) {
         threadId,
         setThreadId,
         threads,
-        addThread,
         removeThread,
         isThreadLoading,
         setIsThreadLoading,
