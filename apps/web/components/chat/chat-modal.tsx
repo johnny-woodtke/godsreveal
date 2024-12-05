@@ -22,7 +22,7 @@ export default function ChatModal() {
 
   return (
     <Dialog open={chatModalOpen} onOpenChange={setChatModalOpen}>
-      <DialogTrigger>
+      <DialogTrigger asChild>
         <Button
           variant="outline"
           size="icon"

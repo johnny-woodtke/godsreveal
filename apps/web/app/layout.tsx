@@ -1,6 +1,7 @@
 import "globals.css";
 import type { Metadata } from "next";
 import localFont from "next/font/local";
+import { Suspense } from "react";
 
 import { cn } from "@godsreveal/lib";
 import "@godsreveal/ui/globals.css";
@@ -25,7 +26,6 @@ export const metadata: Metadata = {
     '"And when these things begin to come to pass, then look up, and lift up your heads; for your redemption draweth nigh."\n    Luke 21:28',
 };
 
-export const dynamic = "force-dynamic";
 export const fetchCache = "force-no-store";
 
 export default function RootLayout({
@@ -39,11 +39,13 @@ export default function RootLayout({
         <Providers>
           <Header />
           <div className="mx-auto max-w-screen-lg p-4">{children}</div>
-          <div className="fixed bottom-0 w-full">
-            <div className="mx-auto flex max-w-screen-lg justify-end p-4">
-              <ChatModal />
+          <Suspense>
+            <div className="fixed bottom-0 w-full">
+              <div className="mx-auto flex max-w-screen-lg justify-end p-4">
+                <ChatModal />
+              </div>
             </div>
-          </div>
+          </Suspense>
         </Providers>
       </body>
     </html>
