@@ -25,6 +25,7 @@ export default function ChatThreads({ setIsThreadListOpen }: ChatThreadsProps) {
     useChat();
 
   const threadGroups = groupThreadsByDate(threads);
+  const hasTodayThreads = threadGroups.some((group) => group.label === "Today");
 
   return (
     <div className="flex h-full flex-col overflow-hidden bg-background">
@@ -34,7 +35,7 @@ export default function ChatThreads({ setIsThreadListOpen }: ChatThreadsProps) {
       </div>
 
       <div className="flex-1 overflow-y-auto p-2">
-        {threads.length === 0 && isThreadNaming && (
+        {!hasTodayThreads && isThreadNaming && (
           <div className="flex w-full items-center justify-center py-2">
             <Loader2Icon className="size-5 animate-spin" />
           </div>
@@ -53,13 +54,11 @@ export default function ChatThreads({ setIsThreadListOpen }: ChatThreadsProps) {
                 </h3>
 
                 <div className="space-y-1">
-                  {group.label === "Today" &&
-                    isThreadNaming &&
-                    threads.length > 0 && (
-                      <div className="flex w-full items-center justify-center">
-                        <Loader2Icon className="size-5 animate-spin" />
-                      </div>
-                    )}
+                  {group.label === "Today" && isThreadNaming && (
+                    <div className="flex w-full items-center justify-center pt-1">
+                      <Loader2Icon className="size-5 animate-spin" />
+                    </div>
+                  )}
                   {group.threads.map((thread) => (
                     <ThreadItem
                       key={thread.id}

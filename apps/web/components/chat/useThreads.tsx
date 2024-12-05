@@ -1,6 +1,7 @@
 "use client";
 
-import { getCookie, setCookie } from "cookies-next/client";
+import { setCookie as _setCookie, getCookie } from "cookies-next/client";
+import { addYears } from "date-fns";
 import { useEffect, useState } from "react";
 
 export type Thread = {
@@ -35,6 +36,16 @@ export function useThreads() {
   }, []);
 
   /**
+   * Sets the threads cookie. Should be called after threads state is updated.
+   */
+  function setCookie(threads: Thread[]) {
+    _setCookie(THREADS_COOKIE_NAME, JSON.stringify(threads), {
+      // set the cookie to expire in one year
+      expires: addYears(new Date(), 1),
+    });
+  }
+
+  /**
    * Upserts a thread to the threads cookie.
    */
   function upsertThread(thread: Thread) {
@@ -59,14 +70,18 @@ export function useThreads() {
 
     // update threads state and cookie
     setThreads(sorted);
-    setCookie(THREADS_COOKIE_NAME, JSON.stringify(sorted));
+    setCookie(sorted);
   }
 
   /**
    * Removes a thread from the threads cookie.
    */
   function removeThread(id: string) {
-    setThreads(threads.filter((t) => t.id !== id));
+    // remove thread
+    const newThreads = threads.filter((t) => t.id !== id);
+    // update threads state and cookie
+    setThreads(newThreads);
+    setCookie(newThreads);
   }
 
   /**
