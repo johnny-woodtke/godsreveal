@@ -34,6 +34,12 @@ export default function ChatThreads({ setIsThreadListOpen }: ChatThreadsProps) {
       </div>
 
       <div className="flex-1 overflow-y-auto p-2">
+        {threads.length === 0 && isThreadNaming && (
+          <div className="flex w-full items-center justify-center py-2">
+            <Loader2Icon className="size-5 animate-spin" />
+          </div>
+        )}
+
         {threads.length === 0 && !isThreadNaming ? (
           <p className="p-4 text-center text-sm text-muted-foreground">
             No conversations yet
@@ -42,16 +48,18 @@ export default function ChatThreads({ setIsThreadListOpen }: ChatThreadsProps) {
           <div className="space-y-4">
             {threadGroups.map((group) => (
               <div key={group.label} className="space-y-2">
-                <h3 className="px-2 text-sm font-medium text-muted-foreground border-b pb-2 mr-2">
+                <h3 className="mr-2 border-b px-2 pb-2 text-sm font-medium text-muted-foreground">
                   {group.label}
                 </h3>
 
                 <div className="space-y-1">
-                  {group.label === "Today" && isThreadNaming && (
-                    <div className="flex w-full items-center justify-center">
-                      <Loader2Icon className="size-5 animate-spin" />
-                    </div>
-                  )}
+                  {group.label === "Today" &&
+                    isThreadNaming &&
+                    threads.length > 0 && (
+                      <div className="flex w-full items-center justify-center">
+                        <Loader2Icon className="size-5 animate-spin" />
+                      </div>
+                    )}
                   {group.threads.map((thread) => (
                     <ThreadItem
                       key={thread.id}
