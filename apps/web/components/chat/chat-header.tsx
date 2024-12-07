@@ -24,13 +24,12 @@ export default function ChatHeader({ setIsThreadListOpen }: ChatHeaderProps) {
         )}
       >
         <Button
-          asChild
-          className="size-10 cursor-pointer sm:hidden"
+          className="size-9 sm:hidden"
           variant="ghost"
           size="icon"
           onClick={() => setIsThreadListOpen((open) => !open)}
         >
-          <MenuIcon className="p-2" />
+          <MenuIcon className="!size-5" />
         </Button>
 
         <span className="flex flex-1 items-center justify-center gap-2">
@@ -39,8 +38,7 @@ export default function ChatHeader({ setIsThreadListOpen }: ChatHeaderProps) {
         </span>
 
         <Button
-          asChild
-          className="size-9 cursor-pointer"
+          className="size-9"
           variant="ghost"
           size="icon"
           onClick={() => {
@@ -48,7 +46,7 @@ export default function ChatHeader({ setIsThreadListOpen }: ChatHeaderProps) {
             setIsThreadListOpen(false);
           }}
         >
-          <SquarePenIcon className="p-2" />
+          <SquarePenIcon className="!size-5" />
         </Button>
       </DialogTitle>
     </DialogHeader>

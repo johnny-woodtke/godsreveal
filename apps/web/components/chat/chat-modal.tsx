@@ -35,7 +35,7 @@ export default function ChatModal() {
         >
           <BotIcon
             className={cn(
-              "absolute left-1/2 size-6 -translate-x-1/2 transition-all duration-300",
+              "absolute left-1/2 !size-5 -translate-x-1/2 transition-all duration-300",
               "group-hover:left-3 group-hover:translate-x-0 group-hover:animate-bounce",
             )}
           />
