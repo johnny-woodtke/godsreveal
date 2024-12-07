@@ -64,8 +64,13 @@ export default function ChatProvider({ children }: ChatProviderProps) {
   const { threadId, setThreadId, chatModalOpen } = useParams();
 
   // other threads
-  const { upsertThread, hasThread, getThread, threads, removeThread } =
-    useThreads();
+  const {
+    upsertThread,
+    hasThread,
+    getThread,
+    threads,
+    removeThread: _removeThread,
+  } = useThreads();
 
   // fetching thread messages loading state
   const [isThreadLoading, setIsThreadLoading] = useState(false);
@@ -91,6 +96,19 @@ export default function ChatProvider({ children }: ChatProviderProps) {
 
   // server client
   const client = getClient();
+
+  /**
+   * Removes the inputted thread.
+   */
+  function removeThread(inputtedThreadId: string) {
+    // remove thread from cookies/state
+    _removeThread(inputtedThreadId);
+
+    // if threadId is the current thread, unset it
+    if (threadId === inputtedThreadId) {
+      onSelectThread(null);
+    }
+  }
 
   /**
    * Fetches the messages for the inputted thread and sets the messages state.
@@ -119,11 +137,6 @@ export default function ChatProvider({ children }: ChatProviderProps) {
       setIsThreadLoading(false);
     }
   }
-
-  // fetch thread messages on chat modal open and threadId change
-  useEffect(() => {
-    chatModalOpen && threadId && fetchThreadMessages(threadId);
-  }, [chatModalOpen]);
 
   /**
    * Sets the current thread. Input `null` to start a new thread.
@@ -235,6 +248,23 @@ export default function ChatProvider({ children }: ChatProviderProps) {
       form.setError("message", { message: "Failed to send message" });
     }
   }
+
+  // handle chat modal open
+  useEffect(() => {
+    // if closed, return
+    if (!chatModalOpen) {
+      return;
+    }
+
+    // if threadId, fetch messages
+    if (threadId) {
+      fetchThreadMessages(threadId);
+      return;
+    }
+
+    // if no threadId, create thread
+    onSelectThread(null);
+  }, [chatModalOpen]);
 
   return (
     <ChatContext.Provider

@@ -43,13 +43,6 @@ export function useParams() {
 
     if (open) {
       params.set(CHAT_MODAL_OPEN_PARAM, "true");
-
-      // create thread and set threadId
-      const res = await client.thread.create.post();
-      if (!res.data) {
-        throw new Error("Failed to create thread");
-      }
-      params.set(THREAD_ID_PARAM, res.data);
     } else {
       params.delete(CHAT_MODAL_OPEN_PARAM);
       params.delete(THREAD_ID_PARAM);

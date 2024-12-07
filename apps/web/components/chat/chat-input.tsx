@@ -16,6 +16,7 @@ export default function ChatInput({ isThreadListOpen }: ChatInputProps) {
     isUserSubmitting,
     isAssistantSubmitting,
     isThreadLoading,
+    threadId,
   } = useChat();
 
   const isLoading =
@@ -39,14 +40,19 @@ export default function ChatInput({ isThreadListOpen }: ChatInputProps) {
             placeholder="Your message..."
             {...form.register("message", {
               required: true,
-              disabled: isLoading || isThreadListOpen,
+              disabled: isLoading || isThreadListOpen || !threadId,
             })}
           />
           <Button
             type="submit"
             size="icon"
             variant="secondary"
-            disabled={!form.formState.isValid || isLoading || isThreadListOpen}
+            disabled={
+              !form.formState.isValid ||
+              isLoading ||
+              isThreadListOpen ||
+              !threadId
+            }
           >
             <SendIcon className="size-4" />
           </Button>
