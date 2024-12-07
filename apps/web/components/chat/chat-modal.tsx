@@ -24,12 +24,22 @@ export default function ChatModal() {
     <Dialog open={chatModalOpen} onOpenChange={setChatModalOpen}>
       <DialogTrigger asChild>
         <Button
-          variant="outline"
+          variant="default"
           size="icon"
-          className="group relative h-10 w-10 transition-all duration-300 hover:w-[160px]"
+          className={cn(
+            "animate-slow-pulse group relative size-12 rounded-full bg-primary/90",
+            "shadow-lg shadow-primary/20 transition-all duration-300 hover:w-[180px]",
+            "hover:scale-105 hover:animate-none hover:shadow-xl hover:shadow-primary/30",
+            "active:scale-95 active:shadow-md",
+          )}
         >
-          <BotIcon className="absolute left-2.5 size-5" />
-          <span className="ml-7 hidden opacity-0 transition-opacity group-hover:block group-hover:opacity-100">
+          <BotIcon
+            className={cn(
+              "absolute left-1/2 size-6 -translate-x-1/2 transition-all duration-300",
+              "group-hover:left-3 group-hover:translate-x-0 group-hover:animate-bounce",
+            )}
+          />
+          <span className="ml-8 hidden opacity-0 transition-all duration-300 group-hover:block group-hover:opacity-100">
             Ask EschatoloGPT
           </span>
         </Button>
