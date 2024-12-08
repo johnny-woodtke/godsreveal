@@ -126,6 +126,11 @@ export default async function Home() {
           </ExternalLink>
         </li>
         <li>
+          <ExternalLink href="https://youtu.be/hsITd6NoDH8?si=UBlHfLo3ip08Exga">
+            The Mark of the Beast Revealed
+          </ExternalLink>
+        </li>
+        <li>
           <ExternalLink href="https://endtimes.substack.com/p/gods-7000-year-calendar">
             God's 7,000-Year Calendar
           </ExternalLink>
