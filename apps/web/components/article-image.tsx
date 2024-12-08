@@ -6,7 +6,7 @@ type ArticleImageProps = {
   src: string;
   alt: string;
   className?: string;
-  caption?: string;
+  caption?: React.ReactNode;
   captionClassName?: string;
 };
 
@@ -19,7 +19,10 @@ export default function ArticleImage({
 }: ArticleImageProps) {
   return (
     <div
-      className={cn("relative mx-auto w-full sm:w-[75%] lg:w-[50%]", className)}
+      className={cn(
+        "relative mx-auto my-12 w-full sm:w-[75%] lg:w-[50%]",
+        className,
+      )}
     >
       <Image
         src={src}
