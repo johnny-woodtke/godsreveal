@@ -73,18 +73,32 @@ export default async function Home() {
         <cite>Luke 21:28</cite>
       </blockquote>
 
-      <ArticleHeader id="foundational-resources" as="h1">
-        Foundational Resources
+      <ArticleHeader id="resources" as="h1">
+        Resources
       </ArticleHeader>
       <p>
-        The following section contains resources that were foundational to my
-        understanding of Bible's end times narrative.
+        The following section contains resources that have been especially
+        helpful to me in understanding the end times. I've included links to
+        videos/articles that I think are particularly insightful from each
+        ministry, but I encourage you to explore the ministries'
+        websites/channels if anything here sparks your interest.
+      </p>
+
+      <p>
+        As always, remember you can ask the Holy Spirit and/or come back to this
+        website to ask EschatoloGPT any questions you may have about these
+        resources.
       </p>
 
       <ArticleHeader as="h2" id="got-questions">
         Got Questions
       </ArticleHeader>
       <ul>
+        <li>
+          <ExternalLink href="https://www.gotquestions.org/Eschatology.html">
+            What is Christian Eschatology?
+          </ExternalLink>
+        </li>
         <li>
           <ExternalLink href="https://www.gotquestions.org/tribulation.html">
             What is the end times tribulation?
@@ -93,6 +107,12 @@ export default async function Home() {
         <li>
           <ExternalLink href="https://www.gotquestions.org/end-times-Israel.html">
             What is Israel's role in the end times?
+          </ExternalLink>
+        </li>
+        <li>
+          <ExternalLink href="https://www.gotquestions.org/millennium.html">
+            What is the millennial kingdom, and should it be understood
+            literally?
           </ExternalLink>
         </li>
       </ul>
@@ -147,6 +167,11 @@ export default async function Home() {
       </ArticleHeader>
       <ul>
         <li>
+          <ExternalLink href="https://www.youtube.com/live/UMuhAY_Etvg?si=ny9vTXvkfQ7oy7Sa">
+            Rapture: The Final Four?
+          </ExternalLink>
+        </li>
+        <li>
           <ExternalLink href="https://www.youtube.com/live/_inUGuQ8BwM?si=9UiIAemOImonCfZ5r">
             The Final Two - A Prophecy Perspective
           </ExternalLink>
@@ -191,7 +216,44 @@ export default async function Home() {
             The Prophecies of Daniel
           </ExternalLink>
         </li>
+        <li>
+          <ExternalLink href="https://joelstrumpet.com/wp-content/uploads/2019/02/MIdeast-Beast-Master-File-Joel-Richardson.pdf">
+            The Mid-East Beast: The Scriptural Case for an Islamic Antichrist
+          </ExternalLink>
+        </li>
       </ul>
+
+      <ArticleHeader as="h2" id="prophecy-depot">
+        Prophecy Depot Ministries
+      </ArticleHeader>
+      <ul>
+        <li>
+          <ExternalLink href="http://www.prophecydepotministries.net/2023/why-the-destruction-of-damascus-is-a-future-war-prophecy/">
+            Why the Destruction of Damascus is a Future War Prophecy
+          </ExternalLink>
+        </li>
+        <li>
+          <ExternalLink href="http://www.prophecydepotministries.net/2022/are-jeremiah-4934-39-and-ezekiel-38-the-same-event-what-about-psalm-83/">
+            Are Jeremiah 49:34-39 and Ezekiel 38 the same event? What about
+            Psalm 83?
+          </ExternalLink>
+        </li>
+      </ul>
+
+      <ArticleImage
+        src="/psalm-83-confederacy.png"
+        alt="Psalm 83 confederacy"
+        caption={
+          <>
+            An illustration of the modern day equivalents of the Psalm 83
+            confederacy [
+            <ExternalLink href="http://www.prophecydepotministries.net/2022/are-jeremiah-4934-39-and-ezekiel-38-the-same-event-what-about-psalm-83/">
+              Prophecy Depot Ministries
+            </ExternalLink>
+            ].
+          </>
+        }
+      />
     </article>
   );
 }
