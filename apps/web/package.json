@@ -17,6 +17,7 @@
     "@godsreveal/server": "*",
     "@godsreveal/ui": "*",
     "@tanstack/react-query": "^5.60.5",
+    "@vercel/analytics": "^1.4.1",
     "cookies-next": "^5.0.2",
     "date-fns": "^4.1.0",
     "elysia": "latest",

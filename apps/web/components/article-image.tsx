@@ -8,6 +8,7 @@ type ArticleImageProps = {
   className?: string;
   caption?: React.ReactNode;
   captionClassName?: string;
+  large?: boolean;
 };
 
 export default function ArticleImage({
@@ -16,11 +17,13 @@ export default function ArticleImage({
   className,
   caption,
   captionClassName,
+  large = false,
 }: ArticleImageProps) {
   return (
     <div
       className={cn(
-        "relative mx-auto my-12 w-full sm:w-[75%] lg:w-[50%]",
+        "relative mx-auto my-12 w-full",
+        !large && "sm:w-[75%] lg:w-[50%]",
         className,
       )}
     >
