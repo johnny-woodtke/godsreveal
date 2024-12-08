@@ -6,7 +6,7 @@ import ExternalLink from "@/components/external-link";
 
 export const dynamic = "force-dynamic";
 
-export default async function Home() {
+export default function Home() {
   return (
     <article className="prose w-full min-w-full overflow-y-scroll pb-12 dark:prose-invert max-sm:prose-sm">
       <ArticleHeader id="" as="h1" className="invisible">
