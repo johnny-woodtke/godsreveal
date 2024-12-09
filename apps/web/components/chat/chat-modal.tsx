@@ -11,11 +11,11 @@ import ChatInput from "./chat-input";
 import ChatMessages from "./chat-messages";
 import ChatProvider from "./chat-provider";
 import ChatThreads from "./chat-threads";
-import { useParams } from "./useParams";
+import { useChatParams } from "./use-chat-params";
 
 export default function ChatModal() {
   // modal open or closed
-  const { chatModalOpen, setChatModalOpen } = useParams();
+  const { chatModalOpen, setChatModalOpen } = useChatParams();
 
   // thread list open or closed
   const [isThreadListOpen, setIsThreadListOpen] = useState(false);

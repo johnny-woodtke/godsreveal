@@ -1,13 +1,12 @@
 "use client";
 
 import { LinkIcon } from "lucide-react";
-import { usePathname, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 import { useInView } from "react-intersection-observer";
 
 import { Button } from "@godsreveal/ui";
 
-import { usePushUrl } from "@/components/usePushUrl";
+import { usePushUrl } from "@/components/use-push-url";
 
 interface ArticleHeaderProps {
   id: string;
@@ -22,9 +21,6 @@ export default function ArticleHeader({
   className,
   as = "h2",
 }: ArticleHeaderProps) {
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
-
   const { getUrl } = usePushUrl();
   const { ref, inView } = useInView({
     rootMargin: "0% 0% -92% 0%",
@@ -34,8 +30,6 @@ export default function ArticleHeader({
     // if header is in view, update the url to include the id as a fragment
     if (inView) {
       const url = getUrl({
-        pathname,
-        searchParams,
         urlFragment: id,
         includeHost: true,
       });
@@ -45,8 +39,6 @@ export default function ArticleHeader({
 
   function copyUrl() {
     const url = getUrl({
-      pathname,
-      searchParams,
       urlFragment: id,
       includeHost: true,
     });

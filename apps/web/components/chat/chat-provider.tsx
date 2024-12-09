@@ -12,8 +12,8 @@ import { UseFormReturn, useForm } from "react-hook-form";
 
 import { getClient } from "@/lib/eden";
 
-import { useParams } from "./useParams";
-import { Thread, useThreads } from "./useThreads";
+import { useChatParams } from "./use-chat-params";
+import { ChatThread, useChatThreads } from "./use-chat-threads";
 
 type Message = {
   id: string;
@@ -29,7 +29,7 @@ type ChatContextType = {
   threadId: string | null;
   setThreadId: (threadId: string | null) => Promise<void>;
 
-  threads: Thread[];
+  threads: ChatThread[];
   removeThread: (threadId: string) => void;
 
   isThreadLoading: boolean;
@@ -61,7 +61,7 @@ type ChatProviderProps = {
 
 export default function ChatProvider({ children }: ChatProviderProps) {
   // current thread
-  const { threadId, setThreadId, chatModalOpen } = useParams();
+  const { threadId, setThreadId, chatModalOpen } = useChatParams();
 
   // other threads
   const {
@@ -70,7 +70,7 @@ export default function ChatProvider({ children }: ChatProviderProps) {
     getThread,
     threads,
     removeThread: _removeThread,
-  } = useThreads();
+  } = useChatThreads();
 
   // fetching thread messages loading state
   const [isThreadLoading, setIsThreadLoading] = useState(false);

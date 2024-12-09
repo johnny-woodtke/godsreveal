@@ -1,14 +1,15 @@
 import Link from "next/link";
 
-import ArticleHeader from "@/components/article-header";
-import ArticleImage from "@/components/article-image";
-import ExternalLink from "@/components/external-link";
+import Article from "@/components/article";
+import ArticleHeader from "@/components/article/article-header";
+import ArticleImage from "@/components/article/article-image";
+import ExternalLink from "@/components/article/external-link";
 
 export const dynamic = "force-dynamic";
 
 export default function Home() {
   return (
-    <article className="prose w-full min-w-full overflow-y-scroll pb-12 dark:prose-invert max-sm:prose-sm">
+    <Article className="pb-12">
       <ArticleHeader id="" as="h1" className="invisible">
         God's Reveal
       </ArticleHeader>
@@ -280,6 +281,6 @@ export default function Home() {
         Bible Studies
       </ArticleHeader>
       <p>Bible studies coming soon...</p>
-    </article>
+    </Article>
   );
 }

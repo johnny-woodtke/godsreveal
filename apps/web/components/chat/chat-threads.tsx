@@ -14,7 +14,7 @@ import { cn } from "@godsreveal/lib";
 import { Button } from "@godsreveal/ui";
 
 import { useChat } from "./chat-provider";
-import { Thread } from "./useThreads";
+import { ChatThread } from "./use-chat-threads";
 
 type ChatThreadsProps = {
   setIsThreadListOpen: Dispatch<SetStateAction<boolean>>;
@@ -87,14 +87,14 @@ function isLastWeek(date: Date): boolean {
 
 type ThreadGroup = {
   label: "Today" | "Yesterday" | "This Week" | "Last Week" | string;
-  threads: Thread[];
+  threads: ChatThread[];
 };
 
-function groupThreadsByDate(threads: Thread[]) {
+function groupThreadsByDate(threads: ChatThread[]) {
   const groups: ThreadGroup[] = [];
 
   // Helper function to add threads to a group
-  const addToGroup = (label: string, threadsToAdd: Thread[]) => {
+  const addToGroup = (label: string, threadsToAdd: ChatThread[]) => {
     if (threadsToAdd.length > 0) {
       groups.push({ label, threads: threadsToAdd });
     }
@@ -151,7 +151,7 @@ function groupThreadsByDate(threads: Thread[]) {
 }
 
 type ThreadItemProps = {
-  thread: Thread;
+  thread: ChatThread;
   threadId: string | null;
   onSelectThread: (threadId: string | null) => void;
   setIsThreadListOpen: Dispatch<SetStateAction<boolean>>;

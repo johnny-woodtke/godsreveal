@@ -1,16 +1,13 @@
 "use client";
 
-import { usePathname, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 
-import { usePushUrl } from "@/components/usePushUrl";
-import { useUrlFragment } from "@/components/useUrlFragment";
+import { usePushUrl } from "@/components/use-push-url";
 import { getClient } from "@/lib/eden";
 
-export function useParams() {
+export function useChatParams() {
   const searchParams = useSearchParams();
-  const pathname = usePathname();
 
-  const urlFragment = useUrlFragment();
   const { push } = usePushUrl();
 
   const client = getClient();
@@ -34,7 +31,7 @@ export function useParams() {
       params.set(THREAD_ID_PARAM, res.data);
     }
 
-    push({ pathname, searchParams: params, urlFragment });
+    push({ searchParams: params });
   }
 
   const chatModalOpen = searchParams.get(CHAT_MODAL_OPEN_PARAM) === "true";
@@ -52,7 +49,7 @@ export function useParams() {
       params.delete(THREAD_ID_PARAM);
     }
 
-    push({ pathname, searchParams: params, urlFragment });
+    push({ searchParams: params });
   }
 
   return { threadId, setThreadId, chatModalOpen, setChatModalOpen };

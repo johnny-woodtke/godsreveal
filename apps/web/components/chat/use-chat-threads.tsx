@@ -4,7 +4,7 @@ import { setCookie as _setCookie, getCookie } from "cookies-next/client";
 import { addYears } from "date-fns";
 import { useEffect, useState } from "react";
 
-export type Thread = {
+export type ChatThread = {
   id: string;
   updatedAt: Date;
   title: string;
@@ -13,9 +13,9 @@ export type Thread = {
 /**
  * Stores and serves thread IDs and names using browser cookies.
  */
-export function useThreads() {
+export function useChatThreads() {
   // state for threads
-  const [threads, setThreads] = useState<Thread[]>([]);
+  const [threads, setThreads] = useState<ChatThread[]>([]);
 
   // load threads from cookie on initial load
   useEffect(() => {
@@ -38,7 +38,7 @@ export function useThreads() {
   /**
    * Sets the threads cookie. Should be called after threads state is updated.
    */
-  function setCookie(threads: Thread[]) {
+  function setCookie(threads: ChatThread[]) {
     _setCookie(THREADS_COOKIE_NAME, JSON.stringify(threads), {
       // set the cookie to expire in one year
       expires: addYears(new Date(), 1),
@@ -48,7 +48,7 @@ export function useThreads() {
   /**
    * Upserts a thread to the threads cookie.
    */
-  function upsertThread(thread: Thread) {
+  function upsertThread(thread: ChatThread) {
     // check if thread with ID already exists
     const index = threads.findIndex((t) => t.id === thread.id);
 
@@ -94,7 +94,7 @@ export function useThreads() {
   /**
    * Gets a thread from the threads cookie.
    */
-  function getThread(id: string): Thread | undefined {
+  function getThread(id: string): ChatThread | undefined {
     return threads.find((t) => t.id === id);
   }
 
@@ -110,7 +110,7 @@ export function useThreads() {
 
 const THREADS_COOKIE_NAME = "godsreveal-threads";
 
-function parseThreads(threads?: string): Thread[] {
+function parseThreads(threads?: string): ChatThread[] {
   // return empty array if no threads
   if (!threads) {
     return [];
@@ -133,7 +133,7 @@ function parseThreads(threads?: string): Thread[] {
     );
 }
 
-function isThread(item: unknown): item is Thread {
+function isThread(item: unknown): item is ChatThread {
   return (
     // check if item is defined object
     !!item &&
