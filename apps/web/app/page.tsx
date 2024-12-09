@@ -73,21 +73,24 @@ export default function Home() {
         <cite>Luke 21:28</cite>
       </blockquote>
 
-      <ArticleHeader id="resources" as="h1">
-        Resources
+      <ArticleHeader id="studies" as="h1">
+        Extra-Biblical Studies
       </ArticleHeader>
       <p>
         The following section contains resources that have been especially
-        helpful to me in understanding the end times. I've included links to
-        videos/articles that I think are particularly insightful from each
-        ministry, but I encourage you to explore the ministries'
-        websites/channels if anything here sparks your interest.
+        helpful to me in understanding the end times. These resources are
+        extra-Biblical, but they all point to God's Word.
       </p>
-
       <p>
-        As always, remember you can ask the Holy Spirit and/or come back to this
-        website to ask EschatoloGPT any questions you may have about these
-        resources.
+        I've done my best to include links to videos/articles that I think are
+        particularly insightful from each ministry, but I encourage you to
+        explore the ministries' websites/channels on your own if you'd like to
+        know more.
+      </p>
+      <p>
+        As always, please remember you can ask the Holy Spirit and/or come back
+        to this website to ask EschatoloGPT any questions you may have about
+        these resources.
       </p>
 
       <ArticleHeader as="h2" id="got-questions">
@@ -228,6 +231,11 @@ export default function Home() {
       </ArticleHeader>
       <ul>
         <li>
+          <ExternalLink href="http://www.prophecydepotministries.net/2022/ancient-prophecy-predicts-a-nuclear-disaster-in-iran/">
+            Ancient Prophecy Predicts a Nuclear Disaster in Iran
+          </ExternalLink>
+        </li>
+        <li>
           <ExternalLink href="http://www.prophecydepotministries.net/2023/why-the-destruction-of-damascus-is-a-future-war-prophecy/">
             Why the Destruction of Damascus is a Future War Prophecy
           </ExternalLink>
@@ -236,6 +244,16 @@ export default function Home() {
           <ExternalLink href="http://www.prophecydepotministries.net/2022/are-jeremiah-4934-39-and-ezekiel-38-the-same-event-what-about-psalm-83/">
             Are Jeremiah 49:34-39 and Ezekiel 38 the same event? What about
             Psalm 83?
+          </ExternalLink>
+        </li>
+        <li>
+          <ExternalLink href="http://www.prophecydepotministries.net/2018/exploring-the-timing-of-ezekiel-38-and-39/">
+            Exploring the Timing of Ezekiel 38 and 39
+          </ExternalLink>
+        </li>
+        <li>
+          <ExternalLink href="http://www.prophecydepotministries.net/2008/psalm-83-or-ezekiel-38-which-is-the-next-middle-east-news-headline/">
+            Psalm 83 or Ezekiel 38? Which is the Next Middle East News Headline?
           </ExternalLink>
         </li>
       </ul>
@@ -247,13 +265,21 @@ export default function Home() {
           <>
             An illustration of the modern day equivalents of the Psalm 83
             confederacy [
-            <ExternalLink href="http://www.prophecydepotministries.net/2022/are-jeremiah-4934-39-and-ezekiel-38-the-same-event-what-about-psalm-83/">
+            <ExternalLink
+              href="http://www.prophecydepotministries.net/2022/are-jeremiah-4934-39-and-ezekiel-38-the-same-event-what-about-psalm-83/"
+              muted
+            >
               Prophecy Depot Ministries
             </ExternalLink>
             ].
           </>
         }
       />
+
+      <ArticleHeader as="h1" id="bible-studies">
+        Bible Studies
+      </ArticleHeader>
+      <p>Bible studies coming soon...</p>
     </article>
   );
 }
