@@ -12,6 +12,8 @@ export enum HeaderIds {
   BibleStudies = "bible-studies",
 }
 
+export const STUDY_URL_PARAM = "study";
+
 export enum StudyIds {
   ExtraBiblicalStudies = "extra-biblical-studies",
   BibleStudies = "bible-studies",

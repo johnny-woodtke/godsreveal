@@ -4,7 +4,7 @@ import { useSearchParams } from "next/navigation";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@godsreveal/ui";
 
-import { StudyIds } from "@/components/article/constants";
+import { STUDY_URL_PARAM, StudyIds } from "@/components/article/constants";
 import { usePushUrl } from "@/components/use-push-url";
 
 import BibleStudies from "./bible-studies";
@@ -16,13 +16,13 @@ export default function StudyTabs() {
 
   function handleValueChange(value: string) {
     const newSearchParams = new URLSearchParams(searchParams);
-    newSearchParams.set(URL_PARAM_NAME, value);
+    newSearchParams.set(STUDY_URL_PARAM, value);
     push({
       searchParams: newSearchParams,
     });
   }
 
-  const currentOption = searchParams.get(URL_PARAM_NAME) || DEFAULT_OPTION;
+  const currentOption = searchParams.get(STUDY_URL_PARAM) || DEFAULT_OPTION;
 
   return (
     <Tabs
@@ -47,8 +47,6 @@ export default function StudyTabs() {
     </Tabs>
   );
 }
-
-const URL_PARAM_NAME = "study";
 
 const DEFAULT_OPTION = StudyIds.ExtraBiblicalStudies;
 
