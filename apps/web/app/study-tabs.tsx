@@ -2,12 +2,7 @@
 
 import { useSearchParams } from "next/navigation";
 
-import {
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-  Tabs as _Tabs,
-} from "@godsreveal/ui";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@godsreveal/ui";
 
 import { usePushUrl } from "@/components/use-push-url";
 
@@ -29,7 +24,7 @@ export default function StudyTabs() {
   const currentOption = searchParams.get(URL_PARAM_NAME) || DEFAULT_OPTION;
 
   return (
-    <_Tabs
+    <Tabs
       value={currentOption}
       onValueChange={handleValueChange}
       className="my-8"
@@ -48,7 +43,7 @@ export default function StudyTabs() {
           {ELEMENTS[option]}
         </TabsContent>
       ))}
-    </_Tabs>
+    </Tabs>
   );
 }
 
