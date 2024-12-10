@@ -8,8 +8,10 @@ import { Button } from "@godsreveal/ui";
 
 import { usePushUrl } from "@/components/use-push-url";
 
+import { HeaderIds } from "./constants";
+
 interface ArticleHeaderProps {
-  id: string;
+  id: HeaderIds;
   children: React.ReactNode;
   className?: string;
   as: "h1" | "h2" | "h3" | "h4" | "h5" | "h6";

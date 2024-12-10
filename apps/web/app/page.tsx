@@ -3,10 +3,9 @@ import Link from "next/link";
 import Article from "@/components/article";
 import ArticleHeader from "@/components/article/article-header";
 import ArticleImage from "@/components/article/article-image";
+import { HeaderIds } from "@/components/article/constants";
 import ExternalLink from "@/components/article/external-link";
 
-import BibleStudies from "./bible-studies";
-import ExtraBiblicalStudies from "./extra-biblical-studies";
 import StudyTabs from "./study-tabs";
 
 export const dynamic = "force-dynamic";
@@ -15,7 +14,7 @@ export default function Home() {
   return (
     <div className="flex flex-col gap-4">
       <Article>
-        <ArticleHeader id="" as="h1" className="invisible">
+        <ArticleHeader id={HeaderIds.Empty} as="h1" className="invisible">
           God's Reveal
         </ArticleHeader>
 
@@ -38,7 +37,7 @@ export default function Home() {
           }
         />
 
-        <ArticleHeader id="welcome" as="h1">
+        <ArticleHeader id={HeaderIds.Welcome} as="h1">
           Welcome
         </ArticleHeader>
         <p>

@@ -1,12 +1,13 @@
 import Article from "@/components/article";
 import ArticleHeader from "@/components/article/article-header";
 import ArticleImage from "@/components/article/article-image";
+import { HeaderIds } from "@/components/article/constants";
 import ExternalLink from "@/components/article/external-link";
 
 export default function ExtraBiblicalStudies() {
   return (
     <Article>
-      <ArticleHeader as="h1" id="extra-biblical-studies">
+      <ArticleHeader as="h1" id={HeaderIds.ExtraBiblicalStudies}>
         Extra-Biblical Studies
       </ArticleHeader>
       <p>
@@ -26,7 +27,7 @@ export default function ExtraBiblicalStudies() {
         these resources.
       </p>
 
-      <ArticleHeader as="h2" id="got-questions">
+      <ArticleHeader as="h2" id={HeaderIds.GotQuestions}>
         Got Questions
       </ArticleHeader>
       <ul>
@@ -72,7 +73,7 @@ export default function ExtraBiblicalStudies() {
         }
       />
 
-      <ArticleHeader as="h2" id="tipping-point">
+      <ArticleHeader as="h2" id={HeaderIds.TippingPoint}>
         Tipping Point with Jimmy Evans
       </ArticleHeader>
       <ul>
@@ -98,7 +99,7 @@ export default function ExtraBiblicalStudies() {
         </li>
       </ul>
 
-      <ArticleHeader as="h2" id="generation2434">
+      <ArticleHeader as="h2" id={HeaderIds.Generation2434}>
         Generation2434
       </ArticleHeader>
       <ul>
@@ -133,7 +134,7 @@ export default function ExtraBiblicalStudies() {
         }
       />
 
-      <ArticleHeader as="h2" id="fai">
+      <ArticleHeader as="h2" id={HeaderIds.FrontierAllianceInternational}>
         Frontier Alliance International
       </ArticleHeader>
       <ul>
@@ -159,7 +160,7 @@ export default function ExtraBiblicalStudies() {
         </li>
       </ul>
 
-      <ArticleHeader as="h2" id="prophecy-depot">
+      <ArticleHeader as="h2" id={HeaderIds.ProphecyDepot}>
         Prophecy Depot Ministries
       </ArticleHeader>
       <ul>
