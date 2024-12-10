@@ -22,7 +22,7 @@ export default function Remix() {
       alt="God's Reveal"
       width={100}
       height={100}
-      className="size-9 cursor-pointer rounded-lg sm:size-9"
+      className="size-9 cursor-pointer rounded-lg"
       onClick={handleClick}
     />
   );
