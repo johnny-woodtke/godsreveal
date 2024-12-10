@@ -30,7 +30,7 @@ export default function ArticleHeader({
     // if header is in view, update the url to include the id as a fragment
     if (inView) {
       const url = getUrl({
-        urlFragment: id,
+        urlFragment: id || null,
         includeHost: true,
       });
       window.history.replaceState({}, "", url);
@@ -39,7 +39,7 @@ export default function ArticleHeader({
 
   function copyUrl() {
     const url = getUrl({
-      urlFragment: id,
+      urlFragment: id || null,
       includeHost: true,
     });
     navigator.clipboard.writeText(url);
