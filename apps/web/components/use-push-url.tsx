@@ -2,7 +2,7 @@
 
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
-import { useUrlFragment } from "@/components/useUrlFragment";
+import { useUrlFragment } from "@/components/use-url-fragment";
 
 type PushProps = {
   pathname?: string;
