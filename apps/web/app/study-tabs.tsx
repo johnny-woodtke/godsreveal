@@ -16,7 +16,7 @@ export default function StudyTabs() {
   function handleValueChange(value: string) {
     const newSearchParams = new URLSearchParams(searchParams);
     newSearchParams.set(URL_PARAM_NAME, value);
-    const url = push({
+    push({
       searchParams: newSearchParams,
     });
   }
