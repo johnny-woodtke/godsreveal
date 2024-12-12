@@ -4,8 +4,8 @@ import { useSearchParams } from "next/navigation";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@godsreveal/ui";
 
-import { STUDY_URL_PARAM, StudyIds } from "@/components/article/constants";
 import { usePushUrl } from "@/components/use-push-url";
+import { STUDY_URL_PARAM, Study } from "@/lib/constants/url-params";
 
 import BibleStudies from "./bible-studies";
 import ExtraBiblicalStudies from "./extra-biblical-studies";
@@ -48,16 +48,16 @@ export default function StudyTabs() {
   );
 }
 
-const DEFAULT_OPTION = StudyIds.ExtraBiblicalStudies;
+const DEFAULT_OPTION = Study.ExtraBiblicalStudies;
 
-const OPTIONS = [StudyIds.ExtraBiblicalStudies, StudyIds.BibleStudies] as const;
+const OPTIONS = [Study.ExtraBiblicalStudies, Study.BibleStudies] as const;
 
-const LABELS: Record<StudyIds, string> = {
-  [StudyIds.ExtraBiblicalStudies]: "Extra-Biblical Studies",
-  [StudyIds.BibleStudies]: "Bible Studies",
+const LABELS: Record<Study, string> = {
+  [Study.ExtraBiblicalStudies]: "Extra-Biblical Studies",
+  [Study.BibleStudies]: "Bible Studies",
 };
 
-const ELEMENTS: Record<StudyIds, React.ReactNode> = {
-  [StudyIds.ExtraBiblicalStudies]: <ExtraBiblicalStudies />,
-  [StudyIds.BibleStudies]: <BibleStudies />,
+const ELEMENTS: Record<Study, React.ReactNode> = {
+  [Study.ExtraBiblicalStudies]: <ExtraBiblicalStudies />,
+  [Study.BibleStudies]: <BibleStudies />,
 };

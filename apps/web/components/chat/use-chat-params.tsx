@@ -3,6 +3,8 @@
 import { useSearchParams } from "next/navigation";
 
 import { usePushUrl } from "@/components/use-push-url";
+import { CHAT_MODAL_OPEN_PARAM } from "@/lib/constants/url-params";
+import { THREAD_ID_PARAM } from "@/lib/constants/url-params";
 import { getClient } from "@/lib/eden";
 
 export function useChatParams() {
@@ -54,7 +56,3 @@ export function useChatParams() {
 
   return { threadId, setThreadId, chatModalOpen, setChatModalOpen };
 }
-
-const THREAD_ID_PARAM = "thread";
-
-const CHAT_MODAL_OPEN_PARAM = "chat";

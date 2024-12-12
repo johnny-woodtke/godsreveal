@@ -7,30 +7,31 @@ import { cn } from "@godsreveal/lib";
 import { useChat } from "./chat-provider";
 
 export default function ChatMessages() {
-  const { messages, isThreadLoading, isUserSubmitting, isAssistantSubmitting } =
-    useChat();
+  const {
+    messages,
+    threadId,
+    isThreadLoading,
+    isUserSubmitting,
+    isAssistantSubmitting,
+  } = useChat();
 
-  const messagesEndRef = useRef<HTMLDivElement>(null);
-
-  function scrollToBottom() {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }
+  const lastMessageRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    scrollToBottom();
+    lastMessageRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, isUserSubmitting, isAssistantSubmitting]);
 
   return (
     <div className="flex flex-col space-y-4 p-4">
       {/* Loading state for thread messages */}
-      {isThreadLoading && (
+      {(isThreadLoading || !threadId) && (
         <div className="flex justify-center p-4">
           <Loader2 className="size-6 animate-spin text-muted-foreground" />
         </div>
       )}
 
       {/* Messages */}
-      {messages.map((message) => (
+      {messages.map((message, i) => (
         <div
           key={message.id}
           className={cn(
@@ -38,6 +39,7 @@ export default function ChatMessages() {
             message.role === "assistant" && "justify-start",
             message.role === "user" && "justify-end",
           )}
+          ref={i === messages.length - 1 ? lastMessageRef : undefined}
         >
           <div
             className={cn(
@@ -48,7 +50,7 @@ export default function ChatMessages() {
               "sm:max-w-[80%]",
               // assistant message classes
               message.role === "assistant" &&
-                "prose dark:prose-invert max-sm:prose-sm bg-muted",
+                "prose bg-muted dark:prose-invert max-sm:prose-sm",
               // user message classes
               message.role === "user" && "bg-primary text-primary-foreground",
             )}
@@ -70,9 +72,6 @@ export default function ChatMessages() {
           </div>
         </div>
       )}
-
-      {/* Invisible div for scrolling to bottom */}
-      <div ref={messagesEndRef} />
     </div>
   );
 }

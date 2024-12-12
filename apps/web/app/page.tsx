@@ -3,8 +3,8 @@ import Link from "next/link";
 import Article from "@/components/article";
 import ArticleHeader from "@/components/article/article-header";
 import ArticleImage from "@/components/article/article-image";
-import { HeaderIds } from "@/components/article/constants";
 import ExternalLink from "@/components/article/external-link";
+import { Header } from "@/lib/constants/url-params";
 
 import StudyTabs from "./study-tabs";
 
@@ -14,7 +14,7 @@ export default function Home() {
   return (
     <div className="flex flex-col gap-4">
       <Article>
-        <ArticleHeader id={HeaderIds.Empty} as="h1" className="invisible">
+        <ArticleHeader id={Header.Empty} as="h1" className="invisible">
           God's Reveal
         </ArticleHeader>
 
@@ -37,7 +37,7 @@ export default function Home() {
           }
         />
 
-        <ArticleHeader id={HeaderIds.Welcome} as="h1">
+        <ArticleHeader id={Header.Welcome} as="h1">
           Welcome
         </ArticleHeader>
         <p>

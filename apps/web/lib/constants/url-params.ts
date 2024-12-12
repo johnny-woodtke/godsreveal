@@ -1,4 +1,4 @@
-export enum HeaderIds {
+export enum Header {
   Empty = "",
   Welcome = "welcome",
 
@@ -14,7 +14,11 @@ export enum HeaderIds {
 
 export const STUDY_URL_PARAM = "study";
 
-export enum StudyIds {
+export enum Study {
   ExtraBiblicalStudies = "extra-biblical-studies",
   BibleStudies = "bible-studies",
 }
+
+export const THREAD_ID_PARAM = "thread";
+
+export const CHAT_MODAL_OPEN_PARAM = "chat";

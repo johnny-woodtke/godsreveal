@@ -7,15 +7,14 @@ import { useInView } from "react-intersection-observer";
 import { Button } from "@godsreveal/ui";
 
 import { usePushUrl } from "@/components/use-push-url";
+import { Header } from "@/lib/constants/url-params";
 
-import { HeaderIds } from "./constants";
-
-interface ArticleHeaderProps {
-  id: HeaderIds;
+type ArticleHeaderProps = {
+  id: Header;
   children: React.ReactNode;
   className?: string;
   as: "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
-}
+};
 
 export default function ArticleHeader({
   id,
@@ -23,7 +22,7 @@ export default function ArticleHeader({
   className,
   as = "h2",
 }: ArticleHeaderProps) {
-  const { getUrl } = usePushUrl();
+  const { getUrl, push } = usePushUrl();
   const { ref, inView } = useInView({
     rootMargin: "0% 0% -92% 0%",
   });
@@ -31,11 +30,9 @@ export default function ArticleHeader({
   useEffect(() => {
     // if header is in view, update the url to include the id as a fragment
     if (inView) {
-      const url = getUrl({
+      push({
         urlFragment: id || null,
-        includeHost: true,
       });
-      window.history.replaceState({}, "", url);
     }
   }, [inView]);
 

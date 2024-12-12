@@ -1,6 +1,6 @@
 "use client";
 
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 
 import { useUrlFragment } from "@/components/use-url-fragment";
 
@@ -11,8 +11,6 @@ type PushProps = {
 };
 
 export function usePushUrl() {
-  const router = useRouter();
-
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const urlFragment = useUrlFragment();
@@ -25,10 +23,6 @@ export function usePushUrl() {
   }: PushProps & {
     includeHost: boolean;
   }) {
-    if (typeof window === "undefined" && includeHost) {
-      throw new Error("Window is not defined");
-    }
-
     let pathnameString = pathname;
     if (inputtedPathname) {
       pathnameString = inputtedPathname;
@@ -54,8 +48,10 @@ export function usePushUrl() {
   }
 
   function push({ pathname, searchParams, urlFragment }: PushProps) {
-    router.push(
-      getUrl({ pathname, searchParams, urlFragment, includeHost: false }),
+    window.history.replaceState(
+      null,
+      "",
+      getUrl({ pathname, searchParams, urlFragment, includeHost: true }),
     );
   }
 

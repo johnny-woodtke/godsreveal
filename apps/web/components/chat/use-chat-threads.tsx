@@ -4,11 +4,7 @@ import { setCookie as _setCookie, getCookie } from "cookies-next/client";
 import { addYears } from "date-fns";
 import { useEffect, useState } from "react";
 
-export type ChatThread = {
-  id: string;
-  updatedAt: Date;
-  title: string;
-};
+import { THREADS_COOKIE_NAME } from "@/lib/constants/cookies";
 
 /**
  * Stores and serves thread IDs and names using browser cookies.
@@ -108,8 +104,6 @@ export function useChatThreads() {
   };
 }
 
-const THREADS_COOKIE_NAME = "godsreveal-threads";
-
 function parseThreads(threads?: string): ChatThread[] {
   // return empty array if no threads
   if (!threads) {
@@ -133,6 +127,12 @@ function parseThreads(threads?: string): ChatThread[] {
     );
 }
 
+export type ChatThread = {
+  id: string;
+  updatedAt: Date;
+  title: string;
+};
+
 function isThread(item: unknown): item is ChatThread {
   return (
     // check if item is defined object
@@ -145,6 +145,10 @@ function isThread(item: unknown): item is ChatThread {
     // check if item.title is defined string
     "title" in item &&
     typeof item.title === "string" &&
-    !!item.title
+    !!item.title &&
+    // check if item.updatedAt is defined
+    "updatedAt" in item &&
+    typeof item.updatedAt === "string" &&
+    !!item.updatedAt
   );
 }
