@@ -19,6 +19,20 @@ export enum Study {
   BibleStudies = "bible-studies",
 }
 
+export const HEADER_STUDY_MAP: Record<Header, Study | null> = {
+  [Header.Empty]: null,
+  [Header.Welcome]: null,
+
+  [Header.ExtraBiblicalStudies]: Study.ExtraBiblicalStudies,
+  [Header.GotQuestions]: Study.ExtraBiblicalStudies,
+  [Header.TippingPoint]: Study.ExtraBiblicalStudies,
+  [Header.Generation2434]: Study.ExtraBiblicalStudies,
+  [Header.FrontierAllianceInternational]: Study.ExtraBiblicalStudies,
+  [Header.ProphecyDepot]: Study.ExtraBiblicalStudies,
+
+  [Header.BibleStudies]: Study.BibleStudies,
+};
+
 export const THREAD_ID_PARAM = "thread";
 
 export const CHAT_MODAL_OPEN_PARAM = "chat";
