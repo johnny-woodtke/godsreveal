@@ -1,9 +1,9 @@
 "use client";
 
 import { ShuffleIcon } from "lucide-react";
-import Image from "next/image";
+import Image, { ImageProps } from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { cn } from "@godsreveal/lib";
 import {
@@ -40,8 +40,13 @@ export default function Remix() {
       newSearchParams.set(STUDY_URL_PARAM, study);
 
       await new Promise((resolve) =>
-        setTimeout(resolve, getRandomTimeout(2000, 5000)),
+        setTimeout(
+          resolve,
+          getRandomTimeout(TIME_PER_MESSAGE, TIME_PER_MESSAGE * 3),
+        ),
       );
+
+      setOpen(false);
 
       router.push(
         getUrl({
@@ -50,61 +55,104 @@ export default function Remix() {
           urlFragment: header,
         }),
       );
-      setOpen(false);
     } catch {
     } finally {
       setLoading(false);
     }
   }
 
+  const [previousIndexes, setPreviousIndexes] = useState<Set<number> | null>(
+    null,
+  );
+  const [loadingMessage, setLoadingMessage] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!loading) {
+      return;
+    }
+
+    function getNewLoadingMessage(previousIndexes: Set<number>) {
+      // get initial message and new previous indexes
+      const { message: initialMessage, previousIndexes: newPreviousIndexes } =
+        getRandomLoadingText(previousIndexes);
+
+      // set initial message and previous indexes
+      setLoadingMessage(initialMessage);
+      setPreviousIndexes(newPreviousIndexes);
+    }
+
+    getNewLoadingMessage(new Set());
+
+    const interval = setInterval(() => {
+      getNewLoadingMessage(previousIndexes ?? new Set());
+    }, TIME_PER_MESSAGE);
+
+    return () => clearInterval(interval);
+  }, [loading]);
+
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger>
-        <Image
-          src="/favicon-192x192.png"
-          alt="God's Reveal"
-          width={100}
-          height={100}
-          className={cn(
-            "size-9 cursor-pointer rounded-md",
-            "transition-all duration-300 hover:animate-pulse",
-            "shadow-[0_0_15px_rgba(59,130,246,0.5)]",
-            "dark:shadow-[0_0_15px_rgba(96,165,250,0.5)]",
-            "hover:shadow-[0_0_25px_rgba(59,130,246,0.6)]",
-            "dark:hover:shadow-[0_0_25px_rgba(96,165,250,0.6)]",
-          )}
-        />
+        <RemixImage width={50} height={50} className="size-9 rounded-md" />
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Reveal</DialogTitle>
-          <div className="relative my-6 flex min-h-[120px] items-center justify-center overflow-hidden rounded-lg border bg-muted/50 p-6">
-            <div className="flex flex-col items-center gap-4 text-center">
-              {!loading ? (
-                <>
-                  <Button
-                    className="size-14 rounded-full border-2 border-primary/50 bg-primary/10 p-3"
-                    onClick={handleClick}
-                  >
-                    <ShuffleIcon className="text-primary" />
-                  </Button>
+          <DialogTitle className="text-center text-xl sm:text-2xl">
+            Reveal
+          </DialogTitle>
+          <div className="relative my-6 flex min-h-[200px] items-center justify-center overflow-hidden rounded-lg border bg-muted/50 p-6">
+            <div className="mt-6 flex h-full flex-col items-center gap-6 text-center">
+              <Button
+                className="relative size-14 rounded-full"
+                onClick={handleClick}
+                disabled={loading}
+              >
+                <RemixImage
+                  className={cn(
+                    "rounded-full object-contain",
+                    loading && "animate-slow-pulse",
+                  )}
+                  fill
+                />
+              </Button>
 
-                  <p className="text-sm text-muted-foreground">
-                    Click the shuffle button to reveal a random study that God
-                    has prepared for you.
-                  </p>
-                </>
-              ) : (
-                <div className="relative mb-14 p-1">
-                  <div className="absolute inset-0 animate-ping rounded-full bg-primary/20" />
-                  <div className="relative size-12 animate-pulse rounded-full border-4 border-primary bg-background" />
-                </div>
-              )}
+              <p className="flex-1 text-sm text-muted-foreground">
+                {loading
+                  ? loadingMessage
+                  : "Click the reveal button to reveal a random study that God has prepared for you."}
+              </p>
             </div>
           </div>
         </DialogHeader>
       </DialogContent>
     </Dialog>
+  );
+}
+
+type RemixImageProps = {
+  width?: number;
+  height?: number;
+  fill?: boolean;
+  className?: string;
+};
+
+function RemixImage({ width, height, fill, className }: RemixImageProps) {
+  return (
+    <Image
+      src="/favicon-192x192.png"
+      alt="God's Reveal"
+      width={width}
+      height={height}
+      className={cn(
+        "transition-all duration-300 hover:animate-pulse",
+        "shadow-[0_0_15px_rgba(59,130,246,0.5)]",
+        "dark:shadow-[0_0_15px_rgba(96,165,250,0.5)]",
+        "hover:shadow-[0_0_25px_rgba(59,130,246,0.6)]",
+        "dark:hover:shadow-[0_0_25px_rgba(96,165,250,0.6)]",
+        className,
+      )}
+      fill={fill}
+    />
   );
 }
 
@@ -124,4 +172,29 @@ function getRandomStudy(): {
 
 function getRandomTimeout(min: number, max: number) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+const TIME_PER_MESSAGE = 2500;
+
+const LOADING_TEXT_OPTIONS = [
+  "There is no chance. There is no luck. God is in control.",
+  "Luck is a demonic word to describe good things that happen to us outside of our control. It fails to properly attribute God's sovereignty.",
+  'God knows the result of every "random" thing that will ever happen to you. He knows the end from the beginning.',
+  "Every revelation is a carefully chosen message from above.",
+  "God's timing is perfect - this study was chosen specifically for you today.",
+];
+
+function getRandomLoadingText(previousIndexes: Set<number>) {
+  const randomIndex = Math.floor(Math.random() * LOADING_TEXT_OPTIONS.length);
+  if (previousIndexes.has(randomIndex)) {
+    return getRandomLoadingText(previousIndexes);
+  }
+
+  const newPreviousIndexes = new Set(previousIndexes);
+  newPreviousIndexes.add(randomIndex);
+
+  return {
+    message: LOADING_TEXT_OPTIONS[randomIndex]!,
+    previousIndexes: newPreviousIndexes,
+  };
 }
