@@ -22,8 +22,9 @@ export default function ExtraBiblicalStudies() {
         know more.
       </p>
       <p>
-        As always, please remember you can ask the Holy Spirit and/or come back
-        to this website to ask EschatoloGPT any questions you may have about
+        Please remember you can ask the Holy Spirit, consult God's Word, talk to
+        a trusted individual, and/or come back to this website to ask
+        EschatoloGPT any questions or clear up any concerns you may have about
         these resources.
       </p>
 

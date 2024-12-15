@@ -49,7 +49,11 @@ export default function Home() {
           The content here is not exhaustive but represents a growing collection
           of thoughts, ideas, questions, and resources that have been on my mind
           since I began exploring this topic in 2020. It acts as more of a
-          testimony than a scholarly work.
+          testimony than a scholarly work [
+          <ExternalLink href="https://www.biblegateway.com/passage/?search=Revelation%2019%3A10&version=NKJV">
+            Revelation 19:10
+          </ExternalLink>
+          ].
         </p>
         <p>
           Understanding Biblical prophecy can be complex, involving interwoven

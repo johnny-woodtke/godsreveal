@@ -10,6 +10,8 @@ export enum Header {
   ProphecyDepot = "prophecy-depot",
 
   BibleStudies = "bible-studies",
+  IsraelRegathered = "israel-regathered",
+  WorldWar = "world-war",
 }
 
 export const STUDY_URL_PARAM = "study";
@@ -31,6 +33,8 @@ export const HEADER_STUDY_MAP: Record<Header, Study | null> = {
   [Header.ProphecyDepot]: Study.ExtraBiblicalStudies,
 
   [Header.BibleStudies]: Study.BibleStudies,
+  [Header.IsraelRegathered]: Study.BibleStudies,
+  [Header.WorldWar]: Study.BibleStudies,
 };
 
 export const THREAD_ID_PARAM = "thread";
