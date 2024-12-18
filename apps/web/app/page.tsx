@@ -4,6 +4,7 @@ import Article from "@/components/article";
 import ArticleHeader from "@/components/article/article-header";
 import ArticleImage from "@/components/article/article-image";
 import ExternalLink from "@/components/article/external-link";
+import Scripture from "@/components/article/scripture";
 import { Header } from "@/lib/constants/url-params";
 
 import StudyTabs from "./study-tabs";
@@ -74,13 +75,15 @@ export default function Home() {
           approaching second coming of our Lord and Savior, Jesus Christ.
         </p>
 
-        <blockquote>
-          <p>
-            And when these things begin to come to pass, then look up, and lift
-            up your heads; for your redemption draweth nigh.
-          </p>
-          <cite>Luke 21:28</cite>
-        </blockquote>
+        <Scripture
+          text={
+            <>
+              And when these things begin to come to pass, then look up, and
+              lift up your heads; for your redemption draweth nigh.
+            </>
+          }
+          cite="Luke 21:28"
+        />
       </Article>
 
       <StudyTabs />

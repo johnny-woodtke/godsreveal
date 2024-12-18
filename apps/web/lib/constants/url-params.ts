@@ -11,6 +11,7 @@ export enum Header {
 
   BibleStudies = "bible-studies",
   IsraelRegathered = "israel-regathered",
+  DividingTheLand = "dividing-the-land",
   WorldWar = "world-war",
 }
 
@@ -34,6 +35,7 @@ export const HEADER_STUDY_MAP: Record<Header, Study | null> = {
 
   [Header.BibleStudies]: Study.BibleStudies,
   [Header.IsraelRegathered]: Study.BibleStudies,
+  [Header.DividingTheLand]: Study.BibleStudies,
   [Header.WorldWar]: Study.BibleStudies,
 };
 
