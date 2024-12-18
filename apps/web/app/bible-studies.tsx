@@ -244,6 +244,95 @@ export default function BibleStudies() {
           </>
         }
       />
+
+      <BibleStudy
+        title={{
+          id: Header.InstantCommunication,
+          text: "Instant Worldwide Communication",
+        }}
+        scriptures={[
+          {
+            text: (
+              <>
+                And I will give power to my two witnesses, and they will
+                prophesy one thousand two hundred and sixty days, clothed in
+                sackcloth. These are the two olive trees and the two lampstands
+                standing before the God of the earth. And if anyone wants to
+                harm them, fire proceeds from their mouth and devours their
+                enemies. And if anyone wants to harm them, he must be killed in
+                this manner. These have power to shut heaven, so that no rain
+                falls in the days of their prophecy; and they have power over
+                waters to turn them to blood, and to strike the earth with all
+                plagues, as that no rain falls in the days of their prophecy;
+                and they have power over waters to turn them to blood, and to
+                strike the earth with all plagues, as often as they desire. When
+                they finish their testimony, the beast that ascends out of the
+                bottomless pit will make war against them, overcome them, and
+                kill them. And their dead bodies will lie in the street of the
+                great city which spiritually is called Sodom and Egypt, where
+                also our Lord was crucified. Then those from the peoples,
+                tribes, tongues, and nations will see their dead bodies
+                three-and-a-half days, and not allow their dead bodies to be put
+                into graves. And those who dwell on the earth will rejoice over
+                them, make merry, and send gifts to one another, because these
+                two prophets tormented those who dwell on the earth.
+              </>
+            ),
+            cite: "Revelation 11:1-10",
+          },
+        ]}
+        summary={
+          <p>
+            Two powerful evangelists will be killed by the antichrist in
+            Jerusalem (where Jesus was crucified) and, within 3.5 days, all the
+            inhabitants of the earth will give gifts to one another in
+            celebration of their death.
+          </p>
+        }
+        interpretation={
+          <p>
+            The only feasible way everyone on earth could learn about 2 people
+            dying within 3.5 days is through instant worldwide communication
+            like the internet, phones, etc., which have only existed for the
+            last 50 years or so.
+          </p>
+        }
+        furtherStudy={[
+          {
+            href: "https://www.biblegateway.com/passage/?search=Zechariah%204&version=NKJV",
+            text: "Zechariah 4",
+          },
+        ]}
+      />
+
+      <Callout
+        text={
+          <>
+            In{" "}
+            <ExternalLink href="https://www.biblegateway.com/passage/?search=Revelation%2011&version=NKJV">
+              Revelation 11
+            </ExternalLink>
+            , we see that the two witnesses have great authority for 3.5 years.
+            Then, in the book of Daniel, we see the antichrist invade Jerusalem,
+            set up the abomination of desolation, and become overwhelmingly
+            powerful at the 3.5 year mark of the final seven year tribulation [
+            <ExternalLink href="https://www.biblegateway.com/passage/?search=Daniel%207%3A23-27&version=NKJV">
+              Daniel 7:23-27
+            </ExternalLink>
+            ,{" "}
+            <ExternalLink href="https://www.biblegateway.com/passage/?search=Daniel%209%3A24-27&version=NKJV">
+              Daniel 9:24-27
+            </ExternalLink>
+            ,{" "}
+            <ExternalLink href="https://www.biblegateway.com/passage/?search=Daniel%2011%3A29-39&version=NKJV">
+              Daniel 11:29-39
+            </ExternalLink>
+            ]. Therefore, it is reasonable to believe that the two witnesses'
+            ministry takes place during the first half of the tribulation until
+            they're killed during the antichrist's invasion.
+          </>
+        }
+      />
     </Article>
   );
 }
