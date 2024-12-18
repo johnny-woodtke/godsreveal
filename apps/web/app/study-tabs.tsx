@@ -30,7 +30,7 @@ export default function StudyTabs() {
       onValueChange={handleValueChange}
       className="my-8"
     >
-      <TabsList className="w-full">
+      <TabsList className="w-full p-1 sm:h-auto">
         {OPTIONS.map((option) => (
           <TabsTrigger key={option} value={option} className="flex-1">
             <span className="font-bold tracking-tight sm:text-lg">

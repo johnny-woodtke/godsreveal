@@ -1,6 +1,7 @@
 import Article from "@/components/article";
 import ArticleHeader from "@/components/article/article-header";
 import ArticleImage from "@/components/article/article-image";
+import Callout from "@/components/article/callout";
 import ExternalLink from "@/components/article/external-link";
 import { Header } from "@/lib/constants/url-params";
 
@@ -160,6 +161,21 @@ export default function ExtraBiblicalStudies() {
           </ExternalLink>
         </li>
       </ul>
+
+      <Callout
+        text={
+          <>
+            The{" "}
+            <ExternalLink href="https://subsplash.com/frontierallianceinternat/fai/li/+ppk2w6g">
+              Prophecies of Daniel
+            </ExternalLink>{" "}
+            series was an absolute game changer in my understanding of end times
+            Bible prophecy. I started this series with nothing but an interest
+            in the end times, and I ended able to keep up with 90% of scholarly
+            discussions.
+          </>
+        }
+      />
 
       <ArticleHeader as="h2" id={Header.ProphecyDepot}>
         Prophecy Depot Ministries

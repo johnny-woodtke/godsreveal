@@ -39,7 +39,8 @@ export default function ArticleImage({
       {!!caption && (
         <p
           className={cn(
-            "-mt-4 text-center text-sm text-muted-foreground",
+            "text-center text-sm text-muted-foreground",
+            "-translate-y-3 sm:-translate-y-4",
             captionClassName,
           )}
         >
