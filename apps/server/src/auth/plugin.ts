@@ -1,4 +1,4 @@
-import Elysia, { error, t } from "elysia";
+import Elysia, { t } from "elysia";
 
 import { Tag } from "@/constants";
 
@@ -38,7 +38,7 @@ export default new Elysia()
   })
   .guard({
     as: "global",
-    afterHandle: ({ cookie }) => {
+    afterHandle: ({ cookie, error }) => {
       // get auth cookie name
       let authCookieName: string;
       try {
