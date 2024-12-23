@@ -32,13 +32,14 @@ const app = new Elysia()
   .use(openai)
   .get("/", () => "Server is running", {
     detail: {
-      summary: "Server Status",
-      description: "This is a simple server status endpoint",
+      summary: "Server status",
+      description: "Checks if the server is running",
+      tags: [Tag.DEFAULT],
     },
+    params: t.Undefined(),
     response: {
       200: t.String(),
     },
-    tags: [Tag.DEFAULT],
   })
   .listen({
     port,

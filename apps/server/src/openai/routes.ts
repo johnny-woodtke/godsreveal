@@ -61,6 +61,7 @@ export default new Elysia()
         summary: "Send message",
         description:
           "Creates or gets a thread and adds a user-role message to it",
+        tags: [Tag.MESSAGE, Tag.THREAD],
       },
       response: {
         200: t.Object({
@@ -68,13 +69,13 @@ export default new Elysia()
           threadId: t.String(),
         }),
       },
-      tags: [Tag.MESSAGE, Tag.THREAD],
     },
   )
   .get("/thread/:threadId", ({ params }) => getMessagesFromThread(params), {
     detail: {
       summary: "Get messages",
       description: "Gets all messages from a thread",
+      tags: [Tag.MESSAGE, Tag.THREAD],
     },
     params: t.Object({
       threadId: t.String(),
@@ -82,7 +83,6 @@ export default new Elysia()
     response: {
       200: getMessagesFromThreadSchema,
     },
-    tags: [Tag.MESSAGE, Tag.THREAD],
   })
   .post(
     "/thread/:threadId/run",
@@ -92,6 +92,7 @@ export default new Elysia()
         summary: "Run a thread",
         description:
           "Runs a thread by sending it to the EschatoloGPT assistant for a response",
+        tags: [Tag.THREAD],
       },
       params: t.Object({
         threadId: t.String(),
@@ -99,13 +100,13 @@ export default new Elysia()
       response: {
         200: getMessagesFromThreadSchema,
       },
-      tags: [Tag.THREAD],
     },
   )
   .get("/thread/:threadId/name", ({ params }) => getThreadName(params), {
     detail: {
       summary: "Get the thread name",
       description: "Gets the name of a thread by analyzing the messages",
+      tags: [Tag.THREAD],
     },
     params: t.Object({
       threadId: t.String(),
@@ -113,5 +114,4 @@ export default new Elysia()
     response: {
       200: t.String(),
     },
-    tags: [Tag.THREAD],
   });
