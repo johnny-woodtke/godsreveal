@@ -5,6 +5,8 @@ import { Elysia, t } from "elysia";
 import { Tag } from "@/constants";
 import openai from "@/openai/routes";
 
+import { getAuthCookieNameOrThrow } from "./auth/utils";
+
 const port = Bun.env.PORT;
 if (!port) {
   throw new Error("PORT is not set");
