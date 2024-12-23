@@ -14,7 +14,7 @@ export function getClient() {
       });
     },
     onResponse: () => {
-      // deleteCookie(getAuthCookieNameOrThrow());
+      deleteCookie(getAuthCookieNameOrThrow());
     },
   });
 }
