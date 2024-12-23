@@ -4,15 +4,19 @@ import { deleteCookie, setCookie } from "cookies-next/client";
 import type { App } from "@godsreveal/server";
 
 export function getClient() {
-  return treaty<App>(getServerUrlOrThrow(), {
+  const serverUrl = new URL(getServerUrlOrThrow());
+  return treaty<App>(serverUrl.toString(), {
     fetch: {
       credentials: "include",
     },
     onRequest: () => {
-      setCookie(getAuthCookieNameOrThrow(), getAuthCookieSecretOrThrow());
+      setCookie(getAuthCookieNameOrThrow(), getAuthCookieSecretOrThrow(), {
+        path: "/",
+        domain: serverUrl.hostname,
+      });
     },
     onResponse: () => {
-      deleteCookie(getAuthCookieNameOrThrow());
+      // deleteCookie(getAuthCookieNameOrThrow());
     },
   });
 }

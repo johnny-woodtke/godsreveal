@@ -8,6 +8,9 @@ export default new Elysia()
   .guard({
     as: "scoped",
     beforeHandle: ({ cookie, error }) => {
+      // log cookie
+      console.log("cookie", cookie);
+
       // get auth cookie name
       let authCookieName: string;
       try {
