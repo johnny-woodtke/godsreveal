@@ -11,8 +11,8 @@ export function getClient() {
     },
     onRequest: () => {
       setCookie(getAuthCookieNameOrThrow(), getAuthCookieSecretOrThrow(), {
+        sameSite: "lax",
         path: "/",
-        domain: serverUrl.hostname,
       });
     },
     onResponse: () => {
