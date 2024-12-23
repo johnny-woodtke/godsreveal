@@ -4,8 +4,7 @@ import { deleteCookie, setCookie } from "cookies-next/client";
 import type { App } from "@godsreveal/server";
 
 export function getClient() {
-  const serverUrl = new URL(getServerUrlOrThrow());
-  return treaty<App>(serverUrl.toString(), {
+  return treaty<App>(getServerUrlOrThrow(), {
     fetch: {
       credentials: "include",
     },
