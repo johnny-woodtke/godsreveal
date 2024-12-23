@@ -14,22 +14,18 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint . --max-warnings 0",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
-    "deploy": "cd ../.. && fly deploy --config=apps/server/fly.toml --dockerfile=apps/server/.dockerfile",
-    "generate:jwt": "bun src/auth/generateJwt.ts"
+    "deploy": "cd ../.. && fly deploy --config=apps/server/fly.toml --dockerfile=apps/server/.dockerfile"
   },
   "dependencies": {
     "@elysiajs/cors": "^1.1.1",
     "@elysiajs/swagger": "^1.1.6",
-    "elysia": "latest",
-    "jsonwebtoken": "^9.0.2",
-    "zod": "^3.23.8"
+    "elysia": "latest"
   },
   "prettier": "@godsreveal/prettier-config",
   "devDependencies": {
     "@godsreveal/prettier-config": "*",
     "@godsreveal/typescript-config": "*",
     "@types/bun": "latest",
-    "@types/jsonwebtoken": "^9.0.7",
     "typescript": "5.5.4"
   }
 }
