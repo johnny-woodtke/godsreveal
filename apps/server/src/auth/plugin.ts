@@ -33,6 +33,24 @@ export default new Elysia()
       }
     },
   })
+  .guard({
+    as: "global",
+    afterHandle: ({ cookie }) => {
+      // get auth cookie name
+      let authCookieName: string;
+      try {
+        authCookieName = getAuthCookieNameOrThrow();
+      } catch (e) {
+        console.error("Error getting auth cookie name:", e);
+        return;
+      }
+
+      // unset auth cookie
+      cookie[authCookieName]?.set({
+        value: "",
+      });
+    },
+  })
   .get("/auth", () => "OK", {
     params: t.Undefined(),
     response: t.String(),
