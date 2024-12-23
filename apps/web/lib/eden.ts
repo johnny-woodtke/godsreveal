@@ -4,15 +4,13 @@ import { deleteCookie, setCookie } from "cookies-next/client";
 import type { App } from "@godsreveal/server";
 
 export function getClient() {
-  const serverUrl = new URL(getServerUrlOrThrow());
-  return treaty<App>(serverUrl.toString(), {
+  return treaty<App>(getServerUrlOrThrow(), {
     fetch: {
       credentials: "include",
     },
     onRequest: () => {
       setCookie(getAuthCookieNameOrThrow(), getAuthCookieSecretOrThrow(), {
-        sameSite: "lax",
-        path: "/",
+        domain: getDomainOrThrow(),
       });
     },
     onResponse: () => {
@@ -27,6 +25,14 @@ function getServerUrlOrThrow() {
     throw new Error("NEXT_PUBLIC_SERVER_URL is not set");
   }
   return serverUrl;
+}
+
+function getDomainOrThrow() {
+  const domain = process.env.NEXT_PUBLIC_DOMAIN;
+  if (!domain) {
+    throw new Error("NEXT_PUBLIC_DOMAIN is not set");
+  }
+  return domain;
 }
 
 function getAuthCookieNameOrThrow() {
