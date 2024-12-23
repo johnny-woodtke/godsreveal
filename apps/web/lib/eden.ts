@@ -1,5 +1,5 @@
 import { treaty } from "@elysiajs/eden";
-import { deleteCookie, setCookie } from "cookies-next/client";
+import { setCookie } from "cookies-next/client";
 
 import type { App } from "@godsreveal/server";
 
@@ -14,7 +14,9 @@ export function getClient() {
       });
     },
     onResponse: () => {
-      deleteCookie(getAuthCookieNameOrThrow());
+      setCookie(getAuthCookieNameOrThrow(), "", {
+        domain: getDomainOrThrow(),
+      });
     },
   });
 }

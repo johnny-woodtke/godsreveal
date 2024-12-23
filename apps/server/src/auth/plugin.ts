@@ -8,8 +8,8 @@ export default new Elysia()
   .guard({
     as: "scoped",
     beforeHandle: ({ cookie, error }) => {
-      // log cookie
-      console.log("pre cookie", cookie);
+      // log cookies
+      console.log("Incoming cookies", cookie);
 
       // get auth cookie name
       let authCookieName: string;
@@ -34,23 +34,6 @@ export default new Elysia()
       if (clientAuthCookie !== authCookieSecret) {
         return error(401, "Unauthorized");
       }
-    },
-  })
-  .guard({
-    as: "global",
-    afterHandle: ({ cookie, error }) => {
-      // get auth cookie name
-      let authCookieName: string;
-      try {
-        authCookieName = getAuthCookieNameOrThrow();
-      } catch (e) {
-        console.error("Error getting auth cookie name:", e);
-        return error(500, "Internal server error");
-      }
-
-      // delete auth cookie
-      delete cookie[authCookieName];
-      console.log("post cookie", cookie);
     },
   })
   .get("/auth", () => "OK", {
