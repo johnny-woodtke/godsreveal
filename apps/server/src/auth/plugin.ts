@@ -42,7 +42,7 @@ export default new Elysia()
   })
   .guard({
     as: "global",
-    afterHandle: ({ headers, error }) => {
+    afterHandle: ({ headers }) => {
       // remove referer header
       headers.referer = undefined;
       // remove auth header

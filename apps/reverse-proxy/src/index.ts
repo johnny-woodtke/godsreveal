@@ -13,7 +13,7 @@
 
 export default {
 	async fetch(request, env, ctx) {
-		const headers = new Headers(request.headers);
+		const headers = new Headers();
 		headers.set("x-godsreveal-auth", env.AUTH_HEADER_SECRET);
 		headers.set("referer", env.REFERER);
 
