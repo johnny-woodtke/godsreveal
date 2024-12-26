@@ -2,55 +2,51 @@ import Elysia, { t } from "elysia";
 
 import { Tag } from "@/constants";
 
-import { getAuthCookieNameOrThrow, getAuthCookieSecretOrThrow } from "./utils";
+import { getAuthHeaderSecretOrThrow, getValidReferersOrThrow } from "./utils";
 
 export default new Elysia()
   .guard({
     as: "scoped",
-    beforeHandle: ({ cookie, error, headers }) => {
-      // log cookies
-      console.log("Incoming cookies", cookie);
-      console.log("Incoming headers", headers);
+    beforeHandle: ({ error, headers }) => {
+      // log headers
+      console.log("headers", headers);
 
-      // get auth cookie name
-      let authCookieName: string;
+      // get valid referers
+      let validReferers: string[];
       try {
-        authCookieName = getAuthCookieNameOrThrow();
+        validReferers = getValidReferersOrThrow();
       } catch (e) {
-        console.error("Error getting auth cookie name:", e);
+        console.error("Error getting valid referers:", e);
         return error(500, "Internal server error");
       }
 
-      // get auth cookie secret
-      let authCookieSecret: string;
+      // check if referer is valid
+      if (!headers.referer || !validReferers.includes(headers.referer)) {
+        return error(401, "Unauthorized");
+      }
+
+      // get auth header secret
+      let authHeaderSecret: string;
       try {
-        authCookieSecret = getAuthCookieSecretOrThrow();
+        authHeaderSecret = getAuthHeaderSecretOrThrow();
       } catch (e) {
-        console.error("Error getting auth cookie secret:", e);
+        console.error("Error getting auth header secret:", e);
         return error(500, "Internal server error");
       }
 
-      // get client auth cookie value and compare with secret
-      const clientAuthCookie = cookie[authCookieName]?.value;
-      if (clientAuthCookie !== authCookieSecret) {
+      // compare auth header secret with secret
+      if (headers["x-godsreveal-auth"] !== authHeaderSecret) {
         return error(401, "Unauthorized");
       }
     },
   })
   .guard({
     as: "global",
-    afterHandle: ({ cookie, error }) => {
-      // get auth cookie name
-      let authCookieName: string;
-      try {
-        authCookieName = getAuthCookieNameOrThrow();
-      } catch (e) {
-        console.error("Error getting auth cookie name:", e);
-        return error(500, "Internal server error");
-      }
-
-      // remove auth cookie
-      cookie[authCookieName]?.remove();
+    afterHandle: ({ headers, error }) => {
+      // remove referer header
+      headers.referer = undefined;
+      // remove auth header
+      headers["x-godsreveal-auth"] = undefined;
     },
   })
   .get("/auth", () => "OK", {
