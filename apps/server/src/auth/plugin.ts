@@ -7,9 +7,10 @@ import { getAuthCookieNameOrThrow, getAuthCookieSecretOrThrow } from "./utils";
 export default new Elysia()
   .guard({
     as: "scoped",
-    beforeHandle: ({ cookie, error }) => {
+    beforeHandle: ({ cookie, error, headers }) => {
       // log cookies
       console.log("Incoming cookies", cookie);
+      console.log("Incoming headers", headers);
 
       // get auth cookie name
       let authCookieName: string;
