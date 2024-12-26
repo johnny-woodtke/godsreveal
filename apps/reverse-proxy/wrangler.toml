@@ -3,6 +3,7 @@ name = "reverse-proxy"
 main = "src/index.ts"
 compatibility_date = "2024-12-24"
 compatibility_flags = ["nodejs_compat"]
+routes = [{ pattern = "proxy.godsreveal.com", custom_domain = true }]
 
 # Workers Logs
 # Docs: https://developers.cloudflare.com/workers/observability/logs/workers-logs/
@@ -23,9 +24,7 @@ enabled = true
 # Note: Use secrets to store sensitive data.
 # - https://developers.cloudflare.com/workers/configuration/secrets/
 # [vars]
-# AUTH_HEADER_SECRET = "DEVELOPMENT_SECRET"
-# REFERER = "http://localhost:3000/"
-# SERVER_URL = "http://localhost:8080"
+# KEY = "value"
 
 # Bind the Workers AI model catalog. Run machine learning models, powered by serverless GPUs, on Cloudflare’s global network
 # Docs: https://developers.cloudflare.com/workers/wrangler/configuration/#workers-ai
