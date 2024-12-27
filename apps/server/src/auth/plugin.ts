@@ -8,9 +8,6 @@ export default new Elysia()
   .guard({
     as: "scoped",
     beforeHandle: ({ error, headers }) => {
-      // log headers
-      console.log("headers", headers);
-
       // get valid referers
       let validReferers: string[];
       try {
@@ -38,15 +35,6 @@ export default new Elysia()
       if (headers["x-godsreveal-auth"] !== authHeaderSecret) {
         return error(401, "Unauthorized");
       }
-    },
-  })
-  .guard({
-    as: "global",
-    afterHandle: ({ headers }) => {
-      // remove referer header
-      headers.referer = undefined;
-      // remove auth header
-      headers["x-godsreveal-auth"] = undefined;
     },
   })
   .get("/auth", () => "OK", {
