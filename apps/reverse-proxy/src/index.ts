@@ -12,6 +12,15 @@
  */
 export default {
 	async fetch(request, env, ctx) {
+		// log if development
+		if (env.NODE_ENV === "development") {
+			console.log("REQUEST\n", {
+				url: request.url,
+				method: request.method,
+				headers: request.headers,
+			});
+		}
+
 		// ensure origin is valid
 		const validOrigin = validateOrigin(request, env);
 		if (!validOrigin) {
@@ -40,9 +49,20 @@ export default {
 } satisfies ExportedHandler<Env>;
 
 function validateOrigin(request: Request, env: Env): boolean {
-	const origin = request.headers.get("x-forwarded-host");
+	// get origin headers
+	const forwardedHost = request.headers.get("x-forwarded-host");
+	const referer = request.headers.get("referer");
+
+	// get valid origins
 	const validOrigins = env.VALID_ORIGINS.split(",");
-	return !!origin && validOrigins.includes(origin);
+
+	// validate origin headers
+	return (
+		!!forwardedHost &&
+		validOrigins.includes(forwardedHost) &&
+		!!referer &&
+		validOrigins.some((origin) => referer.includes(origin))
+	);
 }
 
 function getServerUrl(url: URL, env: Env): URL {
