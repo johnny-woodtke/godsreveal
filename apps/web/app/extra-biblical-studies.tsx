@@ -101,6 +101,20 @@ export default function ExtraBiblicalStudies() {
         </li>
       </ul>
 
+      <Callout
+        text={
+          <>
+            Many of the earliest Christians believed in a 7,000 year time
+            period which follows the pattern of seven days of creation in the
+            book of Genesis [
+            <ExternalLink href="https://www.prophecy-workshop.com/the-7-000-year-cycle">
+              Prophecy Workshop
+            </ExternalLink>
+            ].
+          </>
+        }
+      />
+
       <ArticleHeader as="h2" id={Header.Generation2434}>
         Generation2434
       </ArticleHeader>
