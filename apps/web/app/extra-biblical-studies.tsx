@@ -226,6 +226,33 @@ export default function ExtraBiblicalStudies() {
           </>
         }
       />
+
+      <ArticleHeader as="h2" id={Header.JonathanCahn}>
+        Jonathan Cahn
+      </ArticleHeader>
+      <ul>
+        <li>
+          <ExternalLink href="https://youtu.be/YagPnxYD09s?si=oG9t3LC0O7Vapa6B">
+            Signs of the Coming Apocalypse
+          </ExternalLink>
+        </li>
+        <li>
+          <ExternalLink href="https://youtu.be/yDaECVmd2gk?si=IshicYfZUro-tXR4">
+            A Mystery for Joe Biden
+          </ExternalLink>
+        </li>
+        <li>
+          <ExternalLink href="https://youtu.be/QYJO8oZuEa8?si=3tq-sBxiCqECqAnX">
+            The Israel-Hamas End-Time Mystery
+          </ExternalLink>
+        </li>
+      </ul>
+
+      <ArticleImage
+        src="/dragons-prophecy.jpg"
+        alt="Dragons prophecy"
+        caption="Johnathan Cahn is most well known for his prophetic writings. His latest book, the Dragon's Prophecy, is a great place to start."
+      />
     </Article>
   );
 }

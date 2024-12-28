@@ -40,15 +40,18 @@ export default function RootLayout({
       <body className={cn(geistSans.variable, geistMono.variable)}>
         <Providers>
           <Header />
+
           <div className="mx-auto max-w-screen-lg p-4">{children}</div>
-          <Suspense>
-            <div className="fixed bottom-0 w-full">
-              <div className="mx-auto flex max-w-screen-lg justify-end p-4">
+
+          <div className="fixed bottom-0 w-full">
+            <div className="mx-auto flex max-w-screen-lg justify-end p-4">
+              <Suspense>
                 <ChatModal />
-              </div>
+              </Suspense>
             </div>
-          </Suspense>
+          </div>
         </Providers>
+
         <Analytics />
         <SpeedInsights />
       </body>
