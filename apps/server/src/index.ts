@@ -29,9 +29,7 @@ const app = new Elysia()
   )
   .guard({
     as: "global",
-    beforeHandle: ({ request }) => {
-      console.log("INCOMING REQUEST\n", request);
-    },
+    
   })
   .use(openai)
   .get("/", () => "Server is running", {

@@ -26,6 +26,11 @@ export const metadata: Metadata = {
   title: "God's Reveal",
   description:
     '"And when these things begin to come to pass, then look up, and lift up your heads; for your redemption draweth nigh."\n    Luke 21:28',
+  manifest: "/manifest.ts",
+  icons: [
+    { rel: "apple-touch-icon", url: "/favicon-192x192.png" },
+    { rel: "icon", url: "/favicon-192x192.png" },
+  ],
 };
 
 export const fetchCache = "force-no-store";
