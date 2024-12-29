@@ -8,6 +8,10 @@ const nextConfig = {
         source: "/api/:path*",
         destination: `${process.env.NEXT_PUBLIC_REVERSE_PROXY_URL}/:path*`,
       },
+      {
+        source: "/",
+        destination: "/extra-biblical-studies",
+      },
     ];
   },
 };

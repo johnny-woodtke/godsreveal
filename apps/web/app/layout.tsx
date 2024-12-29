@@ -35,11 +35,11 @@ export const metadata: Metadata = {
 
 export const fetchCache = "force-no-store";
 
-export default function RootLayout({
-  children,
-}: Readonly<{
+type RootLayoutProps = {
   children: React.ReactNode;
-}>) {
+};
+
+export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang="en">
       <body className={cn(geistSans.variable, geistMono.variable)}>

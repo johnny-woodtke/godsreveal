@@ -1,7 +1,6 @@
 "use client";
 
-import { ShuffleIcon } from "lucide-react";
-import Image, { ImageProps } from "next/image";
+import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -16,7 +15,7 @@ import {
 } from "@godsreveal/ui";
 
 import { usePushUrl } from "@/components/use-push-url";
-import { STUDY_URL_PARAM, Study } from "@/lib/constants/url-params";
+import { Study } from "@/lib/constants/url-params";
 import { HEADER_STUDY_MAP, Header } from "@/lib/constants/url-params";
 
 /**
@@ -27,7 +26,6 @@ export default function Remix() {
   const [loading, setLoading] = useState(false);
 
   const router = useRouter();
-  const searchParams = useSearchParams();
 
   const { getUrl } = usePushUrl();
 
@@ -35,9 +33,6 @@ export default function Remix() {
     try {
       setLoading(true);
       const { header, study } = getRandomStudy();
-
-      const newSearchParams = new URLSearchParams(searchParams);
-      newSearchParams.set(STUDY_URL_PARAM, study);
 
       await new Promise((resolve) =>
         setTimeout(
@@ -51,7 +46,7 @@ export default function Remix() {
       router.push(
         getUrl({
           includeHost: false,
-          searchParams: newSearchParams,
+          pathname: `/${study}`,
           urlFragment: header,
         }),
       );

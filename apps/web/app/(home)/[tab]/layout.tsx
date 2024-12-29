@@ -1,17 +1,28 @@
 import Link from "next/link";
+import { redirect } from "next/navigation";
 
 import Article from "@/components/article";
 import ArticleHeader from "@/components/article/article-header";
 import ArticleImage from "@/components/article/article-image";
 import ExternalLink from "@/components/article/external-link";
 import Scripture from "@/components/article/scripture";
-import { Header } from "@/lib/constants/url-params";
+import { Header, Study } from "@/lib/constants/url-params";
 
 import StudyTabs from "./study-tabs";
 
-export const dynamic = "force-dynamic";
+type HomeLayoutProps = {
+  children: React.ReactNode;
+  params: {
+    tab: Study;
+  };
+};
 
-export default function Home() {
+export default function HomeLayout({ children, params }: HomeLayoutProps) {
+  const { tab } = params;
+  if (!Object.values(Study).includes(tab)) {
+    return redirect(`/${Study.ExtraBiblicalStudies}`);
+  }
+
   return (
     <div className="flex flex-col gap-4">
       <Article>
@@ -86,7 +97,7 @@ export default function Home() {
         />
       </Article>
 
-      <StudyTabs />
+      <StudyTabs tab={params.tab}>{children}</StudyTabs>
     </div>
   );
 }

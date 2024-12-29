@@ -104,9 +104,9 @@ export default function ExtraBiblicalStudies() {
       <Callout
         text={
           <>
-            Many of the earliest Christians believed in a 7,000 year time
-            period which follows the pattern of seven days of creation in the
-            book of Genesis [
+            Many of the earliest Christians believed in a 7,000 year time period
+            which follows the pattern of seven days of creation in the book of
+            Genesis [
             <ExternalLink href="https://www.prophecy-workshop.com/the-7-000-year-cycle">
               Prophecy Workshop
             </ExternalLink>
@@ -266,6 +266,49 @@ export default function ExtraBiblicalStudies() {
         src="/dragons-prophecy.jpg"
         alt="Dragons prophecy"
         caption="Johnathan Cahn is most well known for his prophetic writings. His latest book, the Dragon's Prophecy, is a great place to start."
+      />
+
+      <ArticleHeader as="h2" id={Header.RobertBreaker}>
+        Robert Breaker
+      </ArticleHeader>
+      <ul>
+        <li>
+          <ExternalLink href="https://youtu.be/N4su0rYu1h8?si=8H3b5-Lhu8hVsVda">
+            The Mark of the Beast
+          </ExternalLink>
+        </li>
+        <li>
+          <ExternalLink href="https://youtu.be/gxbtCQT58xM?si=SQlMbrmqNOFVruC6">
+            Jesus MUST Be Coming Soon
+          </ExternalLink>
+        </li>
+        <li>
+          <ExternalLink href="https://youtu.be/DaQv3FmnxWE?si=deabm2uYsyYWdBaX">
+            The End of the Church Age: The Great Reset
+          </ExternalLink>
+        </li>
+        <li>
+          <ExternalLink href="https://youtu.be/lZZ7ZFTFmR8?si=HZ2sC54fSRBvzvvz">
+            Who are the 144,000?
+          </ExternalLink>
+        </li>
+      </ul>
+
+      <ArticleImage
+        src="/the-144000.jpeg"
+        alt="The 144,000"
+        caption={
+          <>
+            An illustration of the 144,000 witnesses from{" "}
+            <ExternalLink
+              href="https://www.biblegateway.com/passage/?search=Revelation%207&version=NKJV"
+              muted
+            >
+              Revelation 7
+            </ExternalLink>
+            .
+          </>
+        }
       />
     </Article>
   );

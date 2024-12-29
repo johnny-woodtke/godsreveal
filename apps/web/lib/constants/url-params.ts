@@ -9,6 +9,7 @@ export enum Header {
   FrontierAllianceInternational = "fai",
   ProphecyDepot = "prophecy-depot",
   JonathanCahn = "jonathan-cahn",
+  RobertBreaker = "robert-breaker",
 
   BibleStudies = "bible-studies",
   IsraelRegathered = "israel-regathered",
@@ -16,8 +17,6 @@ export enum Header {
   InstantCommunication = "instant-communication",
   WorldWar = "world-war",
 }
-
-export const STUDY_URL_PARAM = "study";
 
 export enum Study {
   ExtraBiblicalStudies = "extra-biblical-studies",
@@ -35,6 +34,7 @@ export const HEADER_STUDY_MAP: Record<Header, Study | null> = {
   [Header.FrontierAllianceInternational]: Study.ExtraBiblicalStudies,
   [Header.ProphecyDepot]: Study.ExtraBiblicalStudies,
   [Header.JonathanCahn]: Study.ExtraBiblicalStudies,
+  [Header.RobertBreaker]: Study.ExtraBiblicalStudies,
 
   [Header.BibleStudies]: Study.BibleStudies,
   [Header.IsraelRegathered]: Study.BibleStudies,
