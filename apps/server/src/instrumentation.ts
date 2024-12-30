@@ -1,8 +1,13 @@
 import * as Sentry from "@sentry/bun";
 
+const dsn = Bun.env.SENTRY_DSN;
+if (!dsn) {
+  throw new Error("SENTRY_DSN is not set");
+}
+
 // Ensure to call this before importing any other modules!
 Sentry.init({
-  dsn: "https://226e2f58c868a0d86fbc7b054d371867@o4508558913372160.ingest.us.sentry.io/4508558933950464",
+  dsn,
 
   // Add Performance Monitoring by setting tracesSampleRate
   // Set tracesSampleRate to 1.0 to capture 100% of transactions
