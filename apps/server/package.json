@@ -19,6 +19,7 @@
   "dependencies": {
     "@elysiajs/cors": "^1.1.1",
     "@elysiajs/swagger": "^1.1.6",
+    "@sentry/bun": "^8.47.0",
     "elysia": "1.1.27"
   },
   "prettier": "@godsreveal/prettier-config",

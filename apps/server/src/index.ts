@@ -1,3 +1,6 @@
+// sort-imports-ignore
+import Sentry from "./instrumentation";
+
 import { cors } from "@elysiajs/cors";
 import { swagger } from "@elysiajs/swagger";
 import { Elysia, t } from "elysia";
@@ -27,9 +30,8 @@ const app = new Elysia()
       },
     }),
   )
-  .guard({
-    as: "global",
-    
+  .onError(({ error }) => {
+    Sentry.captureException(error);
   })
   .use(openai)
   .get("/", () => "Server is running", {
@@ -45,8 +47,7 @@ const app = new Elysia()
   })
   .listen({
     port,
-    // 60 seconds
-    idleTimeout: 60,
+    idleTimeout: 60, // 60 seconds
   });
 
 console.log(
