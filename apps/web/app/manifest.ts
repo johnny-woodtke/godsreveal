@@ -7,7 +7,7 @@ export default function manifest(): MetadataRoute.Manifest {
     description:
       '"And when these things begin to come to pass, then look up, and lift up your heads; for your redemption draweth nigh."\n    Luke 21:28',
     start_url: "/",
-    display: "standalone",
+    display: "minimal-ui",
     background_color: "#0c0a09",
     theme_color: "#0c0a09",
     icons: [
