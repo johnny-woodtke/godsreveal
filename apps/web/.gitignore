@@ -12,8 +12,8 @@
 # next.js
 /.next/
 /out/
-/public/sw.js
-/public/workbox-*.js
+/public/sw.js*
+/public/workbox-*.js*
 
 # production
 /build
@@ -38,3 +38,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Sentry Config File
+.env.sentry-build-plugin

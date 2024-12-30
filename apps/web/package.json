@@ -16,6 +16,7 @@
     "@godsreveal/lib": "*",
     "@godsreveal/server": "*",
     "@godsreveal/ui": "*",
+    "@sentry/nextjs": "^8",
     "@tanstack/react-query": "^5.60.5",
     "@vercel/analytics": "^1.4.1",
     "@vercel/speed-insights": "^1.1.0",
