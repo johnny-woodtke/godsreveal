@@ -15,7 +15,7 @@ import { getUrlOrThrow } from "@/lib/eden";
 
 const url = getUrlOrThrow();
 
-const title = "God's Reveal | Bible Prophecy & End Times Studies";
+const title = "God's Reveal";
 const description =
   "Explore Bible prophecy, end-times studies, and Biblical revelations.";
 
