@@ -20,13 +20,16 @@ export function getClient() {
         method = options?.method ?? "GET";
       }
 
+      const pathname = scrubPathname(url.pathname);
+
       return Sentry.startNewTrace(() =>
         Sentry.startSpan(
           {
-            name: `${method} ${url.pathname}`,
+            name: `${method} ${pathname}`,
             attributes: {
               "http.request.method": method,
               "http.request.url": url.toString(),
+              "http.request.pathname": pathname,
             },
           },
           async (span) => {
@@ -49,4 +52,9 @@ function getUrlOrThrow() {
     throw new Error("NEXT_PUBLIC_URL and NEXT_PUBLIC_VERCEL_URL are not set");
   }
   return url;
+}
+
+function scrubPathname(pathname: string): string {
+  // replace thread_xxx until the next '/' with :threadId
+  return pathname.replace(/thread_\w+/g, ":threadId");
 }
