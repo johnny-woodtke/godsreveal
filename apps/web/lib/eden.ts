@@ -46,8 +46,12 @@ export function getClient() {
   });
 }
 
-function getUrlOrThrow() {
-  const url = process.env.NEXT_PUBLIC_URL || process.env.NEXT_PUBLIC_VERCEL_URL;
+export function getUrlOrThrow() {
+  const url =
+    process.env.NEXT_PUBLIC_URL ||
+    (process.env.NEXT_PUBLIC_VERCEL_URL
+      ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`
+      : undefined);
   if (!url) {
     throw new Error("NEXT_PUBLIC_URL and NEXT_PUBLIC_VERCEL_URL are not set");
   }
