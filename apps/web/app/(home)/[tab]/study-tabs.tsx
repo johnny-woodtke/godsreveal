@@ -27,15 +27,17 @@ export default function StudyTabs({ tab, children }: StudyTabsProps) {
 
   return (
     <Tabs value={tab} onValueChange={handleValueChange} className="my-8">
-      <TabsList className="w-full p-1 sm:h-auto">
-        {OPTIONS.map((option) => (
-          <TabsTrigger key={option} value={option} className="flex-1">
-            <span className="font-bold tracking-tight sm:text-lg">
-              {LABELS[option]}
-            </span>
-          </TabsTrigger>
-        ))}
-      </TabsList>
+      <div className="sticky top-16 z-10 bg-transparent py-2">
+        <TabsList className="w-full p-1 sm:h-auto">
+          {OPTIONS.map((option) => (
+            <TabsTrigger key={option} value={option} className="flex-1">
+              <span className="font-bold tracking-tight sm:text-lg">
+                {LABELS[option]}
+              </span>
+            </TabsTrigger>
+          ))}
+        </TabsList>
+      </div>
       <TabsContent value={tab} className="mt-6">
         {children}
       </TabsContent>
