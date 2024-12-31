@@ -14,43 +14,6 @@ if (!port) {
 }
 
 const app = new Elysia()
-  .trace(
-    ({
-      id,
-      context: {
-        path,
-        request: { method },
-      },
-      onRequest,
-      onAfterResponse,
-    }) =>
-      Sentry.startNewTrace(() =>
-        Sentry.startSpan(
-          {
-            name: `${method} ${path}`,
-            attributes: {
-              id,
-              method,
-              path,
-            },
-          },
-          async (span) => {
-            onRequest(({ begin }) => {
-              span.setAttributes({
-                begin,
-              });
-            });
-            await onAfterResponse(({ onStop }) =>
-              onStop(({ end }) => {
-                span.setAttributes({
-                  end,
-                });
-              }),
-            );
-          },
-        ),
-      ),
-  )
   .use(cors())
   .use(
     swagger({
