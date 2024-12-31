@@ -397,6 +397,91 @@ export default function BibleStudies() {
           </>
         }
       />
+
+      <BibleStudy
+        title={{
+          id: Header.IronAndClay,
+          text: "Iron and Clay",
+        }}
+        scriptures={[
+          {
+            text: (
+              <>
+                But as the days of Noah were, so also will the coming of the Son
+                of Man be. For as in the days before the flood, they were eating
+                and drinking, marrying and giving in marriage, until the day
+                that Noah entered the ark, and did not know until the flood came
+                and took them all away, so also will the coming of the Son of
+                Man be.
+              </>
+            ),
+            cite: "Matthew 24:37-39",
+          },
+          {
+            text: (
+              <>
+                Whereas you saw the feet and toes, partly of potter's clay and
+                partly of iron, the kingdom shall be divided; yet the strength
+                of the iron shall be in it, just as you saw the iron mixed with
+                ceramic clay. And as the toes of the feet were partly of iron
+                and partly of clay, so the kingdom shall be partly strong and
+                partly fragile. As you saw iron mixed with ceramic clay, they
+                will mingle with the seed of men; but they will not adhere to
+                one another, just as iron does not mix with clay. And in the
+                days of these kings the God of heaven will set up a kingdom
+                which shall never be destroyed; and the kingdom shall not be
+                left to other people; it shall break in pieces and consume all
+                these kingdoms, and it shall stand forever.
+              </>
+            ),
+            cite: "Daniel 2:41-44",
+          },
+        ]}
+        summary={
+          <p>
+            Jesus said the end times will be like the days of Noah. In the days
+            of Noah, fallen angels (sons of God) corrupted the seed of men by
+            having children with human women (daughters of men). Likewise,
+            according to Daniel's vision, the final kingdom of iron and clay
+            will tamper with the seed of men.
+          </p>
+        }
+        interpretation={
+          <p>
+            Like the days of Noah, demonic forces (fallen angels) in the last
+            days will again try to corrupt humanity's seed. But instead of
+            having children with women, will they corrupt us by attempting to
+            implant technology (iron) into humans (clay)?
+          </p>
+        }
+        furtherStudy={[
+          {
+            href: "https://www.biblegateway.com/passage/?search=Genesis%206%3A1-4&version=NKJV",
+            text: "Genesis 6:1-4",
+          },
+          {
+            href: "https://www.biblegateway.com/passage/?search=Genesis%202%3A7&version=NKJV",
+            text: "Genesis 2:7",
+          },
+        ]}
+      />
+
+      <ArticleImage
+        src="/neuralink.webp"
+        alt="Elon Musk's Neuralink"
+        caption={
+          <>
+            <ExternalLink href="https://neuralink.com/" muted>
+              Neuralink
+            </ExternalLink>{" "}
+            is a brain implant that allows the human brain to directly interface
+            with a computer. When this (or a more advanced version) is implanted
+            into a human, does God consider him or her be made in His image
+            anymore? If not, can Jesus' sacrifice on the cross atone for that
+            person's sins?
+          </>
+        }
+      />
     </Article>
   );
 }
