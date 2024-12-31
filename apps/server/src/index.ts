@@ -67,7 +67,10 @@ const app = new Elysia()
       },
     }),
   )
-  .onError(({ error }) => {
+  .onError(({ error, code }) => {
+    if (code === "NOT_FOUND") {
+      return;
+    }
     Sentry.captureException(error);
   })
   .use(openai)

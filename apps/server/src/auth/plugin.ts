@@ -9,13 +9,7 @@ export default new Elysia()
     as: "scoped",
     beforeHandle: ({ error, headers }) => {
       // get valid referers
-      let validReferers: string[];
-      try {
-        validReferers = getValidReferersOrThrow();
-      } catch (e) {
-        console.error("Error getting valid referers:", e);
-        return error(500, "Internal server error");
-      }
+      const validReferers = getValidReferersOrThrow();
 
       // check if referer is valid
       if (!headers.referer || !validReferers.includes(headers.referer)) {
@@ -23,13 +17,7 @@ export default new Elysia()
       }
 
       // get auth header secret
-      let authHeaderSecret: string;
-      try {
-        authHeaderSecret = getAuthHeaderSecretOrThrow();
-      } catch (e) {
-        console.error("Error getting auth header secret:", e);
-        return error(500, "Internal server error");
-      }
+      const authHeaderSecret = getAuthHeaderSecretOrThrow();
 
       // compare auth header secret with secret
       if (headers["x-godsreveal-auth"] !== authHeaderSecret) {

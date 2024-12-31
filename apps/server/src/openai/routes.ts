@@ -20,6 +20,7 @@ export default new Elysia()
       description: "Creates a new thread and returns the threadId",
       tags: [Tag.THREAD],
     },
+    body: t.Undefined(),
     response: {
       200: t.String(),
     },
@@ -53,16 +54,16 @@ export default new Elysia()
       };
     },
     {
-      body: t.Object({
-        message: t.String(),
-        threadId: t.Optional(t.String()),
-      }),
       detail: {
         summary: "Send message",
         description:
           "Creates or gets a thread and adds a user-role message to it",
         tags: [Tag.MESSAGE, Tag.THREAD],
       },
+      body: t.Object({
+        message: t.String(),
+        threadId: t.Optional(t.String()),
+      }),
       response: {
         200: t.Object({
           messages: getMessagesFromThreadSchema,
