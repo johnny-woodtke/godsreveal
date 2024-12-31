@@ -15,40 +15,41 @@ if (!port) {
 
 const app = new Elysia()
   .trace(
-    Sentry.startNewTrace(() => async (params) => {
-      const {
-        id,
-        context: {
-          path,
-          request: { method },
-        },
-      } = params;
-      await Sentry.startSpan(
-        {
-          name: `${method} ${path}`,
-          attributes: {
-            id,
-            method,
-            path,
+    ({
+      id,
+      context: {
+        path,
+        request: { method },
+      },
+      onRequest,
+      onAfterResponse,
+    }) =>
+      Sentry.startNewTrace(() =>
+        Sentry.startSpan(
+          {
+            name: `${method} ${path}`,
+            attributes: {
+              id,
+              method,
+              path,
+            },
           },
-        },
-        async (span) => {
-          params.onBeforeHandle((process) => {
-            span.setAttributes({
-              begin: process.begin,
-            });
-          });
-
-          await params.onAfterResponse((process) => {
-            process.onStop((detail) => {
+          async (span) => {
+            onRequest(({ begin }) => {
               span.setAttributes({
-                end: detail.end,
+                begin,
               });
             });
-          });
-        },
-      );
-    }),
+            await onAfterResponse(({ onStop }) => {
+              onStop(({ end }) => {
+                span.setAttributes({
+                  end,
+                });
+              });
+            });
+          },
+        ),
+      ),
   )
   .use(cors())
   .use(
