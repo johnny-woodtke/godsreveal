@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 
@@ -16,6 +17,17 @@ type HomeLayoutProps = {
     tab: Study;
   };
 };
+
+const tabToTitleMap: Record<Study, string> = {
+  [Study.ExtraBiblicalStudies]: "Extra-Biblical Studies",
+  [Study.BibleStudies]: "Bible Studies",
+};
+
+export function generateMetadata({ params }: HomeLayoutProps): Metadata {
+  return {
+    title: tabToTitleMap[params.tab],
+  };
+}
 
 export default function HomeLayout({ children, params }: HomeLayoutProps) {
   const { tab } = params;
