@@ -27,7 +27,7 @@ export default function StudyTabs({ tab, children }: StudyTabsProps) {
 
   return (
     <Tabs value={tab} onValueChange={handleValueChange} className="my-8">
-      <div className="sticky top-16 z-10 bg-transparent py-2">
+      <div className="sticky top-[60px] z-10 bg-transparent py-2 sm:top-[68px]">
         <TabsList className="w-full p-1 sm:h-auto">
           {OPTIONS.map((option) => (
             <TabsTrigger key={option} value={option} className="flex-1">
