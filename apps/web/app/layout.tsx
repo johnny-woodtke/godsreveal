@@ -15,16 +15,16 @@ import { getUrlOrThrow } from "@/lib/eden";
 
 const url = getUrlOrThrow();
 
-const title = "God's Reveal";
+const title = {
+  default: "God's Reveal",
+  template: "%s | God's Reveal",
+};
 const description =
   "Explore Bible prophecy, end-times studies, and Biblical revelations.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(url),
-  title: {
-    default: title,
-    template: "%s | God's Reveal",
-  },
+  title,
   description,
   keywords: [
     "Bible prophecy",
@@ -54,7 +54,7 @@ export const metadata: Metadata = {
         url: "/second-coming.jpg",
         width: 1200,
         height: 630,
-        alt: title,
+        alt: title.default,
       },
     ],
   },
