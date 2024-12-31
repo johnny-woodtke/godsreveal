@@ -333,6 +333,70 @@ export default function BibleStudies() {
           </>
         }
       />
+
+      <BibleStudy
+        title={{
+          id: Header.SurveillanceAndBiotechnology,
+          text: "Surveillance and Biotechnology",
+        }}
+        scriptures={[
+          {
+            text: (
+              <>
+                He causes all, both small and great, rich and poor, free and
+                slave, to receive a mark on their right hand or on their
+                foreheads, and that no one may buy or sell except one who has
+                the mark or the name of the beast, or the number of his name.
+              </>
+            ),
+            cite: "Revelation 13:16-17",
+          },
+        ]}
+        summary={
+          <p>
+            No one can have a job or buy things without a mandatory
+            hand/forehead procedure known as the mark of the beast.
+          </p>
+        }
+        interpretation={
+          <p>
+            In the not-so-distant past, Christians believed there would be
+            people standing outside every bank and business checking hands and
+            foreheads to enforce this mark. Today, it's not so hard to imagine
+            how a technocratic, megalomaniacal world leader could use the modern
+            advances in medicine and surveillance technologies to almost
+            single-handedly enforce these economic limitations.
+          </p>
+        }
+        furtherStudy={[
+          {
+            href: "https://www.biblegateway.com/passage/?search=Revelation%2014%3A9-11&version=NKJV",
+            text: "Revelation 14:9-11",
+          },
+          {
+            href: "https://www.biblegateway.com/passage/?search=Revelation%2016%3A1-2&version=NKJV",
+            text: "Revelation 16:1-2",
+          },
+          {
+            href: "https://www.biblegateway.com/passage/?search=Revelation%203%3A7-13&version=NKJV",
+            text: "Revelation 3:7-13",
+          },
+          {
+            href: "https://www.biblegateway.com/passage/?search=Revelation%2022%3A1-4&version=NKJV",
+            text: "Revelation 22:1-4",
+          },
+        ]}
+      />
+
+      <Callout
+        text={
+          <>
+            The Covid-19 vaccines are NOT the mark of the beast. However, the
+            nearly-worldwide vaccine mandates represented a dangerous precedent
+            for the future enforcement of the mark of the beast.
+          </>
+        }
+      />
     </Article>
   );
 }
