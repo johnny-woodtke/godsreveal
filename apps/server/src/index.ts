@@ -40,13 +40,13 @@ const app = new Elysia()
                 begin,
               });
             });
-            await onAfterResponse(({ onStop }) => {
+            await onAfterResponse(({ onStop }) =>
               onStop(({ end }) => {
                 span.setAttributes({
                   end,
                 });
-              });
-            });
+              }),
+            );
           },
         ),
       ),
