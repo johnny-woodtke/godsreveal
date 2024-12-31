@@ -29,7 +29,7 @@ export default withSentryConfig(withPWA(nextConfig), {
   // https://github.com/getsentry/sentry-webpack-plugin#options
 
   org: "gods-reveal",
-  project: "godreveal-web",
+  project: "godsreveal-web",
 
   // Only print logs for uploading source maps in CI
   silent: !process.env.CI,
