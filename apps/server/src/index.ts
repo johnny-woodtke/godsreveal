@@ -1,5 +1,5 @@
 // sort-imports-ignore
-import Sentry from "./instrumentation";
+import Sentry from "@/instrumentation";
 
 import { cors } from "@elysiajs/cors";
 import { swagger } from "@elysiajs/swagger";

@@ -14,6 +14,7 @@ if (!environment) {
 Sentry.init({
   dsn,
   environment,
+  integrations: [Sentry.bunServerIntegration()],
   // Add Performance Monitoring by setting tracesSampleRate
   // Set tracesSampleRate to 1.0 to capture 100% of transactions
   // We recommend adjusting this value in production
