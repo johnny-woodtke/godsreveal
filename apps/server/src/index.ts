@@ -2,6 +2,7 @@
 import Sentry from "@/instrumentation";
 
 import { cors } from "@elysiajs/cors";
+import { staticPlugin } from "@elysiajs/static";
 import { swagger } from "@elysiajs/swagger";
 import { Elysia, t } from "elysia";
 
@@ -17,6 +18,7 @@ const app = new Elysia()
   .use(cors())
   .use(
     swagger({
+      path: "/docs",
       documentation: {
         info: {
           title: "EschatoloGPT API",
@@ -28,6 +30,11 @@ const app = new Elysia()
           { name: Tag.MESSAGE, description: "Message routes" },
         ],
       },
+    }),
+  )
+  .use(
+    staticPlugin({
+      prefix: "/",
     }),
   )
   .onError(({ error, code }) => {
