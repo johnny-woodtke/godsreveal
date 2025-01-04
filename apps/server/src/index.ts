@@ -1,5 +1,5 @@
 // sort-imports-ignore
-import Sentry from "@/instrumentation";
+import Sentry from "@/instrumentation/sentry";
 
 import { cors } from "@elysiajs/cors";
 import { staticPlugin } from "@elysiajs/static";
@@ -8,6 +8,7 @@ import { Elysia, t } from "elysia";
 
 import { Tag } from "@/constants";
 import openai from "@/openai/routes";
+import { opentelemetry } from "@elysiajs/opentelemetry";
 
 const port = Bun.env.PORT;
 if (!port) {
@@ -37,6 +38,7 @@ const app = new Elysia()
       prefix: "/",
     }),
   )
+  .use(opentelemetry())
   .onError(({ error, code }) => {
     if (code === "NOT_FOUND") {
       return;
@@ -44,17 +46,23 @@ const app = new Elysia()
     Sentry.captureException(error);
   })
   .use(openai)
-  .get("/", () => "Server is running", {
-    detail: {
-      summary: "Server status",
-      description: "Checks if the server is running",
-      tags: [Tag.DEFAULT],
+  .get(
+    "/",
+    () => {
+      return "Server is running";
     },
-    params: t.Undefined(),
-    response: {
-      200: t.String(),
+    {
+      detail: {
+        summary: "Server status",
+        description: "Checks if the server is running",
+        tags: [Tag.DEFAULT],
+      },
+      params: t.Undefined(),
+      response: {
+        200: t.String(),
+      },
     },
-  })
+  )
   .listen({
     port,
     idleTimeout: 60, // 60 seconds
