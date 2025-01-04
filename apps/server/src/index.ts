@@ -1,5 +1,5 @@
 // sort-imports-ignore
-import Sentry from "@/instrumentation/sentry";
+import sentry from "@/sentry/plugin";
 
 import { cors } from "@elysiajs/cors";
 import { staticPlugin } from "@elysiajs/static";
@@ -8,7 +8,6 @@ import { Elysia, t } from "elysia";
 
 import { Tag } from "@/constants";
 import openai from "@/openai/routes";
-import { opentelemetry } from "@elysiajs/opentelemetry";
 
 const port = Bun.env.PORT;
 if (!port) {
@@ -38,13 +37,7 @@ const app = new Elysia()
       prefix: "/",
     }),
   )
-  .use(opentelemetry())
-  .onError(({ error, code }) => {
-    if (code === "NOT_FOUND") {
-      return;
-    }
-    Sentry.captureException(error);
-  })
+  .use(sentry())
   .use(openai)
   .get(
     "/",
