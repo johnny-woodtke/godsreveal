@@ -18,10 +18,10 @@
   },
   "dependencies": {
     "@elysiajs/cors": "^1.1.1",
-    "@elysiajs/opentelemetry": "^1.2.0",
     "@elysiajs/static": "^1.2.0",
     "@elysiajs/swagger": "^1.1.6",
     "@sentry/bun": "^8.47.0",
+    "elysiajs-sentry": "1.0.0",
     "elysia": "1.1.27"
   },
   "prettier": "@godsreveal/prettier-config",

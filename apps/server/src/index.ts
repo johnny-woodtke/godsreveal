@@ -1,10 +1,8 @@
-// sort-imports-ignore
-import sentry from "@/sentry/plugin";
-
 import { cors } from "@elysiajs/cors";
 import { staticPlugin } from "@elysiajs/static";
 import { swagger } from "@elysiajs/swagger";
 import { Elysia, t } from "elysia";
+import { sentry } from "elysiajs-sentry";
 
 import { Tag } from "@/constants";
 import openai from "@/openai/routes";
