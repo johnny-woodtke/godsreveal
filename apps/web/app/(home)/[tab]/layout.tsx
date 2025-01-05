@@ -102,7 +102,7 @@ export default function HomeLayout({ children, params }: HomeLayoutProps) {
 
         <StudyTabs tab={params.tab}>{children}</StudyTabs>
       </div>
-      <div className="relative top-[1050px] w-0 flex-1 max-2xl:hidden">
+      <div className="mt-[1050px] w-0 flex-1 max-2xl:hidden">
         <TableOfContents />
       </div>
     </div>
