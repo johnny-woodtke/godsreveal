@@ -1,14 +1,15 @@
 import cron from "@elysiajs/cron";
 import Elysia from "elysia";
 
-import { Cron, Patterns } from "./constants";
+import { Cron } from "./constants";
 
 export default new Elysia().use(
   cron({
     name: Cron.GodsRevealKeepAlive,
-    pattern: Patterns[Cron.GodsRevealKeepAlive],
+    pattern: "* */2 * * *", // every 2 minutes
     run: async () => {
       // get host from env
+      console.log(new Date().toISOString());
       const url = Bun.env.GODSREVEAL_HOST;
       if (!url) {
         throw new Error("GODSREVEAL_HOST is not set");
