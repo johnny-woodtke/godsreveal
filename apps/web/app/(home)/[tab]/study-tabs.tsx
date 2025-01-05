@@ -17,12 +17,13 @@ export default function StudyTabs({ tab, children }: StudyTabsProps) {
   const router = useRouter();
 
   function handleValueChange(tab: string) {
-    const url = getUrl({
-      pathname: `/${tab}`,
-      urlFragment: null,
-      includeHost: false,
-    });
-    router.push(url);
+    router.push(
+      getUrl({
+        pathname: `/${tab}`,
+        urlFragment: null,
+        includeHost: false,
+      }),
+    );
   }
 
   return (

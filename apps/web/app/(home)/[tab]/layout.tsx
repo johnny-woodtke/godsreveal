@@ -26,7 +26,7 @@ export default function HomeLayout({ children, params }: HomeLayoutProps) {
 
   return (
     <div className="flex w-full">
-      <div className="w-0 flex-1 max-2xl:hidden"></div>
+      <div className="w-0 flex-1 max-2xl:invisible"></div>
       <div className="flex w-full max-w-screen-lg flex-shrink-0 flex-col gap-4">
         <Article>
           <ArticleHeader id={Header.Empty} as="h1" className="invisible">
@@ -102,7 +102,7 @@ export default function HomeLayout({ children, params }: HomeLayoutProps) {
 
         <StudyTabs tab={params.tab}>{children}</StudyTabs>
       </div>
-      <div className="mt-[1050px] w-0 flex-1 max-2xl:hidden">
+      <div className="w-0 flex-1 max-2xl:invisible 2xl:mt-[1050px] 2xl:pr-4">
         <TableOfContents />
       </div>
     </div>

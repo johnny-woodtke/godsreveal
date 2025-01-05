@@ -14,8 +14,8 @@ export default function TableOfContents() {
   }, []);
 
   return (
-    <nav className="sticky top-[125px] ml-4 w-full pr-2">
-      <ul className="space-y-2">
+    <nav className="sticky top-[125px] ml-4 w-full">
+      <ul className="space-y-3">
         {headers.map((header) => (
           <li key={header.id} className="max-w-[500px]">
             <Link

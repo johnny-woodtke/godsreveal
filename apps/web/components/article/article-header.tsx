@@ -1,10 +1,11 @@
 "use client";
 
 import { LinkIcon } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { useInView } from "react-intersection-observer";
 
-import { Button } from "@godsreveal/ui";
+import { cn } from "@godsreveal/lib";
 
 import { usePushUrl } from "@/components/use-push-url";
 import { Header } from "@/lib/constants/url-params";
@@ -22,6 +23,7 @@ export default function ArticleHeader({
   className,
   as = "h2",
 }: ArticleHeaderProps) {
+  const router = useRouter();
   const { getUrl, push } = usePushUrl();
   const { ref, inView } = useInView({
     rootMargin: "0% 0% -92% 0%",
@@ -36,29 +38,31 @@ export default function ArticleHeader({
     }
   }, [inView]);
 
-  function copyUrl() {
-    const url = getUrl({
-      urlFragment: id || null,
-      includeHost: true,
-    });
-    navigator.clipboard.writeText(url);
+  async function copyUrl() {
+    await navigator.clipboard.writeText(
+      getUrl({
+        urlFragment: id || null,
+        includeHost: true,
+      }),
+    );
+    router.push(getUrl({ urlFragment: id || null, includeHost: false }));
   }
 
   const HeaderTag = as;
 
   return (
-    <HeaderTag id={id} ref={ref} className={className}>
-      <div className="group flex items-center gap-2">
-        {children}
-        <Button
-          className="opacity-0 transition-opacity group-hover:opacity-100"
-          onClick={copyUrl}
-          variant="ghost"
-          size="icon"
-        >
-          <LinkIcon />
-        </Button>
-      </div>
+    <HeaderTag
+      id={id}
+      ref={ref}
+      className={cn(
+        "group flex items-center gap-3",
+        "cursor-pointer scroll-mt-[110px] sm:scroll-mt-[130px]",
+        className,
+      )}
+      onClick={copyUrl}
+    >
+      {children}
+      <LinkIcon className="size-5 opacity-0 transition-opacity group-hover:opacity-100" />
     </HeaderTag>
   );
 }
