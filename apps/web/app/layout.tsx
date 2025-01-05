@@ -100,7 +100,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
         <Providers>
           <Header />
 
-          <div className="mx-auto max-w-screen-lg p-4">{children}</div>
+          <div className="mx-auto p-4">{children}</div>
 
           <div className="fixed bottom-0 w-full">
             <div className="mx-auto flex max-w-screen-lg justify-end p-4">
