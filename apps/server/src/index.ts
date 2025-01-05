@@ -1,11 +1,11 @@
 import { cors } from "@elysiajs/cors";
-import cron from "@elysiajs/cron";
 import { staticPlugin } from "@elysiajs/static";
 import { swagger } from "@elysiajs/swagger";
 import { Elysia, t } from "elysia";
 import { sentry } from "elysiajs-sentry";
 
 import { Tag } from "@/constants";
+import crons from "@/cron/plugin";
 import openai from "@/openai/routes";
 
 const port = Bun.env.PORT;
@@ -36,34 +36,8 @@ const app = new Elysia()
       prefix: "/",
     }),
   )
-  .use(
-    cron({
-      name: "God's Reveal Keep Alive",
-      pattern: "* */1 * * *", // every 1 minute
-      run: async () => {
-        // get host from env
-        const url = Bun.env.GODSREVEAL_HOST;
-        if (!url) {
-          throw new Error("GODSREVEAL_HOST is not set");
-        }
-
-        // if dev, just log
-        if (Bun.env.NODE_ENV === "development") {
-          console.log("God's Reveal Keep Alive:", url);
-          return;
-        }
-
-        // get and log response
-        const response = await fetch(url);
-        console.log(
-          "God's Reveal Keep Alive:",
-          response.status,
-          response.statusText,
-        );
-      },
-    }),
-  )
   .use(sentry())
+  .use(crons)
   .use(openai)
   .get(
     "/",
