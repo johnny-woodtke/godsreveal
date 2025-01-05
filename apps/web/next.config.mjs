@@ -30,6 +30,7 @@ export default withSentryConfig(withPWA(nextConfig), {
 
   org: "gods-reveal",
   project: "godsreveal-web",
+  authToken: process.env.SENTRY_AUTH_TOKEN,
 
   // Only print logs for uploading source maps in CI
   silent: !process.env.CI,
