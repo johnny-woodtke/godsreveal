@@ -9,7 +9,7 @@
   "scripts": {
     "dev": "bun run --watch src/index.ts",
     "build": "tsc",
-    "start": "NODE_ENV=production bun src/index.ts",
+    "start": "bun src/index.ts",
     "clean": "rm -rf .turbo dist node_modules",
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint . --max-warnings 0",
@@ -18,11 +18,12 @@
   },
   "dependencies": {
     "@elysiajs/cors": "^1.1.1",
+    "@elysiajs/cron": "^1.2.0",
     "@elysiajs/static": "^1.2.0",
     "@elysiajs/swagger": "^1.1.6",
     "@sentry/bun": "^8.47.0",
-    "elysiajs-sentry": "1.0.0",
-    "elysia": "1.1.27"
+    "elysia": "1.1.27",
+    "elysiajs-sentry": "1.0.0"
   },
   "prettier": "@godsreveal/prettier-config",
   "devDependencies": {
