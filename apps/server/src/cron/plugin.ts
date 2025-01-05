@@ -21,11 +21,7 @@ export default new Elysia().use(
       }
 
       // get and log response
-      const response = await fetch(`${url}/api/`, {
-        headers: {
-          referer: url,
-        },
-      });
+      const response = await fetch(url);
       console.log(
         `${Cron.GodsRevealKeepAlive}:`,
         response.status,

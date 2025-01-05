@@ -3,5 +3,5 @@ export enum Cron {
 }
 
 export const Patterns: Record<Cron, string> = {
-  [Cron.GodsRevealKeepAlive]: "* */1 * * *", // every 1 minute
+  [Cron.GodsRevealKeepAlive]: "* */2 * * *", // every 2 minutes
 };
