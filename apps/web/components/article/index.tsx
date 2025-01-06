@@ -9,7 +9,7 @@ export default function Article({ className, children }: ArticleProps) {
   return (
     <article
       className={cn(
-        "prose w-full min-w-full overflow-y-scroll dark:prose-invert max-sm:prose-sm",
+        "prose w-full min-w-full dark:prose-invert max-sm:prose-sm",
         className,
       )}
     >
