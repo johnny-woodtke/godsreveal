@@ -19,17 +19,18 @@
   "dependencies": {
     "@elysiajs/cors": "^1.1.1",
     "@elysiajs/cron": "^1.2.0",
+    "@elysiajs/eden": "1.2.0",
     "@elysiajs/static": "^1.2.0",
     "@elysiajs/swagger": "^1.1.6",
     "@sentry/bun": "^8.47.0",
-    "elysia": "1.1.27",
+    "elysia": "1.2.10",
     "elysiajs-sentry": "1.0.0"
   },
   "prettier": "@godsreveal/prettier-config",
   "devDependencies": {
     "@godsreveal/prettier-config": "*",
     "@godsreveal/typescript-config": "*",
-    "@types/bun": "latest",
+    "@types/bun": "1.1.16",
     "typescript": "5.5.4"
   }
 }

@@ -54,6 +54,10 @@ export default withSentryConfig(withPWA(nextConfig), {
 
   // Hides source maps from generated client bundles
   hideSourceMaps: true,
+  sourcemaps: {
+    enabled: true,
+    deleteSourcemapsAfterUpload: true,
+  },
 
   // Automatically tree-shake Sentry logger statements to reduce bundle size
   disableLogger: true,
