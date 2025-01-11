@@ -569,6 +569,77 @@ export default function BibleStudies() {
           </>
         }
       />
+
+      <BibleStudy
+        title={{
+          id: Header.ImageOfTheBeast,
+          text: "The Image of the Beast",
+        }}
+        scriptures={[
+          {
+            text: (
+              <>
+                And he deceives those who dwell on the earth by those signs
+                which he was granted to do in the sight of the beast, telling
+                those who dwell on the earth to make an image to the beast who
+                was wounded by the sword and lived. He was granted power to give
+                breath to the image of the beast, that the image of the beast
+                should both speak and cause as many as would not worship the
+                image of the beast to be killed.
+              </>
+            ),
+            cite: "Revelation 13:14-15",
+          },
+        ]}
+        summary={
+          <p>
+            The false prophet will create an image of the antichrist that
+            appears to be alive and demands worship, compelling those without
+            the mark of the beast to face persecution or death.
+          </p>
+        }
+        interpretation={
+          <>
+            <p>
+              Even without overt supernatural power, modern technologies like
+              AI, robotics, holograms, and mass global communication makes this
+              image of the antichrist disturbingly plausible. Through
+              interactive displays, humanoid robots, and/or advanced artificial
+              intelligence, a lifelike "image" could demand loyalty, reinforced
+              by surveillance and economic consequences. This scenario
+              highlights how an authoritative system might coerce today's world
+              into idolatry, fulfilling Revelation's prophecy in a way that
+              merges spiritual deception with tangible, technological means.
+            </p>
+          </>
+        }
+        furtherStudy={[
+          {
+            href: "https://www.biblegateway.com/passage/?search=Revelation%2013%3A11-18&version=NKJV",
+            text: "Revelation 13:11-18",
+          },
+          {
+            href: "https://www.biblegateway.com/passage/?search=Matthew%2024%3A23-25&version=NKJV",
+            text: "Matthew 24:23-25",
+          },
+          {
+            href: "https://www.biblegateway.com/passage/?search=2%20Thessalonians%202%3A9-10&version=NKJV",
+            text: "2 Thessalonians 2:9-10",
+          },
+        ]}
+      />
+
+      <ArticleImage
+        src="/image-of-the-beast.jpg"
+        alt="The Image of the Beast"
+        caption={
+          <>
+            According to its Biblical description, the image of the beast could
+            very well be an AI-powered hologram that demands worship from the
+            entire world.
+          </>
+        }
+      />
     </Article>
   );
 }

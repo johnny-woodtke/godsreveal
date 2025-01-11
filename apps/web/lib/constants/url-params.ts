@@ -19,6 +19,7 @@ export enum Header {
   SurveillanceAndBiotechnology = "surveillance-and-biotechnology",
   IronAndClay = "iron-and-clay",
   NewWorldOrder = "new-world-order",
+  ImageOfTheBeast = "image-of-the-beast",
 }
 
 export enum Study {
@@ -47,6 +48,7 @@ export const HEADER_STUDY_MAP: Record<Header, Study | null> = {
   [Header.SurveillanceAndBiotechnology]: Study.BibleStudies,
   [Header.IronAndClay]: Study.BibleStudies,
   [Header.NewWorldOrder]: Study.BibleStudies,
+  [Header.ImageOfTheBeast]: Study.BibleStudies,
 };
 
 export const THREAD_ID_PARAM = "thread";
