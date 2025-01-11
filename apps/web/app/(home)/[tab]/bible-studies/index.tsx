@@ -482,6 +482,93 @@ export default function BibleStudies() {
           </>
         }
       />
+
+      <BibleStudy
+        title={{
+          id: Header.NewWorldOrder,
+          text: "New World Order",
+        }}
+        scriptures={[
+          {
+            text: (
+              <>
+                And I stood upon the sand of the sea, and saw a beast rise up
+                out of the sea, having seven heads and ten horns, and upon his
+                horns ten crowns, and upon his heads the name of blasphemy. And
+                the beast which I saw was like unto a leopard, and his feet were
+                as the feet of a bear, and his mouth as the mouth of a lion: and
+                the dragon gave him his power, and his seat, and great
+                authority. And I saw one of his heads as it were wounded to
+                death; and his deadly wound was healed: and all the world
+                wondered after the beast. And they worshipped the dragon which
+                gave power unto the beast: and they worshipped the beast,
+                saying, Who is like unto the beast? who is able to make war with
+                him? And there was given unto him a mouth speaking great things
+                and blasphemies; and power was given unto him to continue forty
+                and two months. And he opened his mouth in blasphemy against
+                God, to blaspheme his name, and his tabernacle, and them that
+                dwell in heaven. And it was given unto him to make war with the
+                saints, and to overcome them: and power was given him over all
+                kindreds, over all kindreds, and tongues, and nations. And all
+                that dwell upon the earth shall worship him, whose names are not
+                written in the book of life of the Lamb slain from the
+                foundation of the world.
+              </>
+            ),
+            cite: "Revelation 13:1-8",
+          },
+        ]}
+        summary={
+          <p>
+            The antichrist will be given power over all nations and be
+            worshipped by the whole world (except for Christians) for 42 months
+            (3.5 years).
+          </p>
+        }
+        interpretation={
+          <p>
+            Today, as we witness the world advancing towards globalism,
+            sophisticated surveillance, and nearly instant communication, while
+            simultaneously facing increasingly severe conflicts, natural
+            disasters, and economic crises, it is easy to envision how a single
+            leader could wield unprecedented authority and be revered by the
+            entire world as its savior just as the Bible describes will happen
+            3.5 years before Jesus returns.
+          </p>
+        }
+        furtherStudy={[
+          {
+            href: "https://www.biblegateway.com/passage/?search=Daniel%207%3A7-8&version=NKJV",
+            text: "Daniel 7:7-8",
+          },
+          {
+            href: "https://www.biblegateway.com/passage/?search=2%20Thessalonians%202%3A3-4&version=NKJV",
+            text: "2 Thessalonians 2:3-4",
+          },
+          {
+            href: "https://www.biblegateway.com/passage/?search=Revelation%2013%3A11-18&version=NKJV",
+            text: "Revelation 13:11-18",
+          },
+          {
+            href: "https://www.biblegateway.com/passage/?search=Revelation%2017%3A12-14&version=NKJV",
+            text: "Revelation 17:12-14",
+          },
+        ]}
+      />
+
+      <Callout
+        text={
+          <>
+            As global powers and shifting alliances catch our attention, the
+            Bible reminds us that a future leader will unite the world
+            politically, spiritually, and economically. While the phrase "New
+            World Order" captures our modern imagination, the core message
+            remains that every worldly kingdom, however powerful, stands under
+            God's sovereignty. Ultimately, the true and everlasting kingdom is
+            the one Jesus will establish at His return.
+          </>
+        }
+      />
     </Article>
   );
 }
