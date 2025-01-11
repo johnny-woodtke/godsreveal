@@ -49,7 +49,8 @@ export default function ArticleHeader({
     await navigator.clipboard.writeText(urlWithHost);
     toast({
       title: "Link copied",
-      description: "The chat link has been copied to your clipboard",
+      description:
+        "The link to this section has been copied to your clipboard.",
     });
     router.push(getUrl({ urlFragment: id || null, includeHost: false }));
   }

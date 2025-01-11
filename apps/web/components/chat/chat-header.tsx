@@ -20,7 +20,7 @@ export default function ChatHeader({ setIsThreadListOpen }: ChatHeaderProps) {
     navigator.clipboard.writeText(window.location.href);
     toast({
       title: "Link copied",
-      description: "The chat link has been copied to your clipboard",
+      description: "The chat link has been copied to your clipboard.",
     });
   }
 
