@@ -59,6 +59,6 @@ export function getUrlOrThrow() {
 }
 
 function scrubPathname(pathname: string): string {
-  // replace thread_xxx until the next '/' with :threadId
-  return pathname.replace(/thread_\w+/g, ":threadId");
+  // replace thread_xxx until the next '/' with *
+  return pathname.replace(/thread_\w+/g, "*");
 }
