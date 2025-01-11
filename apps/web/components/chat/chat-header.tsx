@@ -1,9 +1,10 @@
-import { BotIcon, SquarePenIcon } from "lucide-react";
-import { MenuIcon } from "lucide-react";
+"use client";
+
+import { BotIcon, MenuIcon, ShareIcon, SquarePenIcon } from "lucide-react";
 import { Dispatch, SetStateAction } from "react";
 
 import { cn } from "@godsreveal/lib";
-import { Button, DialogHeader, DialogTitle } from "@godsreveal/ui";
+import { Button, DialogHeader, DialogTitle, useToast } from "@godsreveal/ui";
 
 import { useChat } from "./chat-provider";
 
@@ -13,6 +14,15 @@ type ChatHeaderProps = {
 
 export default function ChatHeader({ setIsThreadListOpen }: ChatHeaderProps) {
   const { onSelectThread } = useChat();
+  const { toast } = useToast();
+
+  function handleShare() {
+    navigator.clipboard.writeText(window.location.href);
+    toast({
+      title: "Link copied",
+      description: "The chat link has been copied to your clipboard",
+    });
+  }
 
   return (
     <DialogHeader>
@@ -37,17 +47,28 @@ export default function ChatHeader({ setIsThreadListOpen }: ChatHeaderProps) {
           EschatoloGPT
         </span>
 
-        <Button
-          className="size-9"
-          variant="ghost"
-          size="icon"
-          onClick={() => {
-            onSelectThread(null);
-            setIsThreadListOpen(false);
-          }}
-        >
-          <SquarePenIcon className="!size-5" />
-        </Button>
+        <div className="flex gap-1">
+          <Button
+            className="size-9"
+            variant="ghost"
+            size="icon"
+            onClick={handleShare}
+          >
+            <ShareIcon className="!size-5" />
+          </Button>
+
+          <Button
+            className="size-9"
+            variant="ghost"
+            size="icon"
+            onClick={() => {
+              onSelectThread(null);
+              setIsThreadListOpen(false);
+            }}
+          >
+            <SquarePenIcon className="!size-5" />
+          </Button>
+        </div>
       </DialogTitle>
     </DialogHeader>
   );

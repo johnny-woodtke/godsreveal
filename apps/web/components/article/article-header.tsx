@@ -6,6 +6,7 @@ import { useEffect } from "react";
 import { useInView } from "react-intersection-observer";
 
 import { cn } from "@godsreveal/lib";
+import { useToast } from "@godsreveal/ui";
 
 import { usePushUrl } from "@/components/use-push-url";
 import { Header } from "@/lib/constants/url-params";
@@ -38,13 +39,18 @@ export default function ArticleHeader({
     }
   }, [inView]);
 
+  const { toast } = useToast();
+
   async function copyUrl() {
-    await navigator.clipboard.writeText(
-      getUrl({
-        urlFragment: id || null,
-        includeHost: true,
-      }),
-    );
+    const urlWithHost = getUrl({
+      urlFragment: id || null,
+      includeHost: true,
+    });
+    await navigator.clipboard.writeText(urlWithHost);
+    toast({
+      title: "Link copied",
+      description: "The chat link has been copied to your clipboard",
+    });
     router.push(getUrl({ urlFragment: id || null, includeHost: false }));
   }
 

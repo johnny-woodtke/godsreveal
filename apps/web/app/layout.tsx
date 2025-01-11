@@ -6,6 +6,7 @@ import localFont from "next/font/local";
 import { Suspense } from "react";
 
 import { cn } from "@godsreveal/lib";
+import { Toaster } from "@godsreveal/ui";
 import "@godsreveal/ui/globals.css";
 
 import ChatModal from "@/components/chat/chat-modal";
@@ -102,13 +103,14 @@ export default function RootLayout({ children }: RootLayoutProps) {
 
           <div className="mx-auto p-4">{children}</div>
 
-          <div className="fixed bottom-0 w-full z-20">
+          <div className="fixed bottom-0 z-20 w-full">
             <div className="mx-auto flex max-w-screen-lg justify-end p-4">
               <Suspense>
                 <ChatModal />
               </Suspense>
             </div>
           </div>
+          <Toaster />
         </Providers>
 
         <Analytics />
