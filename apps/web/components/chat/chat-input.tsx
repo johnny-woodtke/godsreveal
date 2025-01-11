@@ -1,7 +1,7 @@
 import { SendIcon } from "lucide-react";
 
 import { cn } from "@godsreveal/lib";
-import { Button, Input } from "@godsreveal/ui";
+import { Button, Textarea } from "@godsreveal/ui";
 
 import { useChat } from "./chat-provider";
 
@@ -33,11 +33,36 @@ export default function ChatInput({ isThreadListOpen }: ChatInputProps) {
         "sm:p-4",
       )}
     >
-      <div className="flex w-full flex-col gap-2">
-        <div className="flex w-full items-center gap-2">
-          <Input
-            className="w-full"
+      <div className="mb-2 flex w-full flex-col gap-2">
+        <div className="flex w-full items-start gap-2">
+          <Textarea
+            className="min-h-0 w-full resize-none"
             placeholder="Your message..."
+            rows={1}
+            onInput={(e) => {
+              const target = e.target as HTMLTextAreaElement;
+              // Reset to minimum rows
+              target.rows = 1;
+              // Increase rows while scrollHeight is larger than offsetHeight
+              while (target.scrollHeight > target.offsetHeight) {
+                target.rows += 1;
+              }
+            }}
+            onKeyDown={(e) => {
+              // Submit on Enter if Shift is not pressed
+              if (e.key === "Enter" && !e.shiftKey) {
+                e.preventDefault();
+                // Only submit if not disabled
+                if (
+                  form.formState.isValid &&
+                  !isLoading &&
+                  !isThreadListOpen &&
+                  threadId
+                ) {
+                  form.handleSubmit(onSubmit)();
+                }
+              }
+            }}
             {...form.register("message", {
               required: true,
               disabled: isLoading || isThreadListOpen || !threadId,
