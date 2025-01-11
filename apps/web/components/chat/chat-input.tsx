@@ -24,7 +24,19 @@ export default function ChatInput({ isThreadListOpen }: ChatInputProps) {
 
   return (
     <form
-      onSubmit={form.handleSubmit(onSubmit)}
+      onSubmit={(e) => {
+        // Prevent default form submission
+        e.preventDefault();
+
+        // Reset the textarea rows back to 1 on form submission
+        const textArea = e.currentTarget.querySelector("textarea");
+        if (textArea) {
+          textArea.rows = 1;
+        }
+
+        // Submit the form
+        return form.handleSubmit(onSubmit)(e);
+      }}
       className={cn(
         "flex w-full items-center gap-2 border-t",
         // small screen classes
@@ -34,7 +46,7 @@ export default function ChatInput({ isThreadListOpen }: ChatInputProps) {
       )}
     >
       <div className="mb-2 flex w-full flex-col gap-2">
-        <div className="flex w-full items-start gap-2">
+        <div className="flex w-full items-end gap-2">
           <Textarea
             className="min-h-0 w-full resize-none"
             placeholder="Your message..."
@@ -71,6 +83,7 @@ export default function ChatInput({ isThreadListOpen }: ChatInputProps) {
           <Button
             type="submit"
             size="icon"
+            className="size-10"
             variant="secondary"
             disabled={
               !form.formState.isValid ||
