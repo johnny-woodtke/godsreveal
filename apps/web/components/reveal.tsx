@@ -21,7 +21,7 @@ import { HEADER_STUDY_MAP, Header } from "@/lib/constants/url-params";
 /**
  * Clicking this button will randomly select a study and redirect to it.
  */
-export default function Remix() {
+export default function Reveal() {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -90,7 +90,7 @@ export default function Remix() {
       <DialogTrigger>
         <RemixImage width={50} height={50} className="size-9 rounded-md" />
       </DialogTrigger>
-      <DialogContent>
+      <DialogContent className="max-sm:h-full max-sm:w-full max-sm:min-w-full">
         <DialogHeader>
           <DialogTitle className="text-center text-xl sm:text-2xl">
             Reveal
@@ -114,7 +114,7 @@ export default function Remix() {
               <p className="flex-1 text-sm text-muted-foreground">
                 {loading
                   ? loadingMessage
-                  : "Click the reveal button to reveal a random study that God has prepared for you."}
+                  : "Click the button to reveal a random study that God has prepared for you."}
               </p>
             </div>
           </div>
