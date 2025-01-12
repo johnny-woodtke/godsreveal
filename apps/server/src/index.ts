@@ -37,29 +37,25 @@ const app = new Elysia()
   )
 
   .use(
-    Bun.env.NODE_ENV === "development"
-      ? swagger({
-          path: "/docs",
-          documentation: {
-            info: {
-              title: "EschatoloGPT API",
-              version: "1.0.0",
-            },
-            tags: [
-              { name: Tag.DEFAULT, description: "Default routes" },
-              { name: Tag.THREAD, description: "Thread routes" },
-              { name: Tag.MESSAGE, description: "Message routes" },
-            ],
-          },
-        })
-      : new Elysia(),
+    swagger({
+      path: "/docs",
+      documentation: {
+        info: {
+          title: "EschatoloGPT API",
+          version: "1.0.0",
+        },
+        tags: [
+          { name: Tag.DEFAULT, description: "Default routes" },
+          { name: Tag.THREAD, description: "Thread routes" },
+          { name: Tag.MESSAGE, description: "Message routes" },
+        ],
+      },
+    }),
   )
   .use(
-    Bun.env.NODE_ENV === "development"
-      ? staticPlugin({
-          prefix: "/",
-        })
-      : new Elysia(),
+    staticPlugin({
+      prefix: "/",
+    }),
   )
   .listen({
     port,
