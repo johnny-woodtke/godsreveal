@@ -28,9 +28,9 @@ export default function ChatHeader({ setIsThreadListOpen }: ChatHeaderProps) {
     <DialogHeader>
       <DialogTitle
         className={cn(
-          "flex items-center justify-between border-b px-1 pb-1",
+          "relative flex items-center justify-between border-b px-1 pb-1",
           // large screen classes
-          "sm:px-3",
+          "sm:justify-end sm:px-3",
         )}
       >
         <Button
@@ -42,7 +42,7 @@ export default function ChatHeader({ setIsThreadListOpen }: ChatHeaderProps) {
           <MenuIcon className="!size-5" />
         </Button>
 
-        <span className="flex flex-1 items-center justify-center gap-2">
+        <span className="absolute flex w-full items-center justify-center gap-2">
           <BotIcon className="size-5" />
           EschatoloGPT
         </span>

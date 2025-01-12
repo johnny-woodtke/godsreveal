@@ -36,7 +36,7 @@ export default function ChatInput({ isThreadListOpen }: ChatInputProps) {
       )}
     >
       <div className="mb-2 flex w-full flex-col gap-2">
-        <div className="flex w-full items-end gap-2">
+        <div className="flex w-full items-start gap-2">
           <Textarea
             className="resize-none overflow-hidden"
             placeholder="Your message..."
