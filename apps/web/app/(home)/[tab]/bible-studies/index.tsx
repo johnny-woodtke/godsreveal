@@ -529,7 +529,7 @@ export default function BibleStudies() {
             Today, as we witness the world advancing towards globalism,
             sophisticated surveillance, and nearly instant communication, while
             simultaneously facing increasingly severe conflicts, natural
-            disasters, and economic crises, it is easy to envision how a single
+            disasters, and economic crises, one can easily envision how a single
             leader could wield unprecedented authority and be revered by the
             entire world as its savior just as the Bible describes will happen
             3.5 years before Jesus returns.
@@ -543,10 +543,6 @@ export default function BibleStudies() {
           {
             href: "https://www.biblegateway.com/passage/?search=2%20Thessalonians%202%3A3-4&version=NKJV",
             text: "2 Thessalonians 2:3-4",
-          },
-          {
-            href: "https://www.biblegateway.com/passage/?search=Revelation%2013%3A11-18&version=NKJV",
-            text: "Revelation 13:11-18",
           },
           {
             href: "https://www.biblegateway.com/passage/?search=Revelation%2017%3A12-14&version=NKJV",
@@ -592,38 +588,31 @@ export default function BibleStudies() {
         ]}
         summary={
           <p>
-            The false prophet will create an image of the antichrist that
-            appears to be alive and demands worship, compelling those without
-            the mark of the beast to face persecution or death.
+            The false prophet, having gained influence by performing
+            supernatural wonders, will command the world to create an image of
+            the antichrist (beast) that appears to be alive and demands worship.
           </p>
         }
         interpretation={
           <>
             <p>
-              Even without overt supernatural power, modern technologies like
-              AI, robotics, holograms, and mass global communication makes this
-              image of the antichrist disturbingly plausible. Through
-              interactive displays, humanoid robots, and/or advanced artificial
-              intelligence, a lifelike "image" could demand loyalty, reinforced
-              by surveillance and economic consequences. This scenario
-              highlights how an authoritative system might coerce today's world
-              into idolatry, fulfilling Revelation's prophecy in a way that
-              merges spiritual deception with tangible, technological means.
+              Like humans are made in the image of God, and the golden statue of
+              Nebuchadnezzar was made in his image, this image of the antichrist
+              could refer to many things. Would John the Revelator, a person
+              living 2,000 years ago, perceive an advanced AI-powered hologram
+              or humanoid robot, designed to look and behave as the antichrist,
+              as having the breath of life?
             </p>
           </>
         }
         furtherStudy={[
           {
-            href: "https://www.biblegateway.com/passage/?search=Revelation%2013%3A11-18&version=NKJV",
-            text: "Revelation 13:11-18",
+            href: "https://www.biblegateway.com/passage/?search=Genesis%201%3A26-28&version=NKJV",
+            text: "Genesis 1:26-28",
           },
           {
-            href: "https://www.biblegateway.com/passage/?search=Matthew%2024%3A23-25&version=NKJV",
-            text: "Matthew 24:23-25",
-          },
-          {
-            href: "https://www.biblegateway.com/passage/?search=2%20Thessalonians%202%3A9-10&version=NKJV",
-            text: "2 Thessalonians 2:9-10",
+            href: "https://www.biblegateway.com/passage/?search=Daniel%203&version=NKJV",
+            text: "Daniel 3",
           },
         ]}
       />
@@ -633,9 +622,9 @@ export default function BibleStudies() {
         alt="The Image of the Beast"
         caption={
           <>
-            According to its Biblical description, the image of the beast could
-            very well be an AI-powered hologram that demands worship from the
-            entire world.
+            An artist's depiction of the image of the beast, an AI-powered
+            hologram demanding worship from all the world, just like the
+            antichrist.
           </>
         }
       />
