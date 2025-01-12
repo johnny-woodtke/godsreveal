@@ -22,57 +22,28 @@ export default function ChatInput({ isThreadListOpen }: ChatInputProps) {
   const isLoading =
     isUserSubmitting || isAssistantSubmitting || isThreadLoading;
 
+  function submitForm() {
+    form.handleSubmit(onSubmit)();
+  }
+
   return (
     <form
-      onSubmit={(e) => {
-        // Prevent default form submission
-        e.preventDefault();
-
-        // Reset the textarea rows back to 1 on form submission
-        const textArea = e.currentTarget.querySelector("textarea");
-        if (textArea) {
-          textArea.rows = 1;
-        }
-
-        // Submit the form
-        return form.handleSubmit(onSubmit)(e);
-      }}
+      onSubmit={submitForm}
       className={cn(
         "flex w-full items-center gap-2 border-t",
-        // small screen classes
         "max-sm:px-1 max-sm:pt-4",
-        // large screen classes
         "sm:p-4",
       )}
     >
       <div className="mb-2 flex w-full flex-col gap-2">
         <div className="flex w-full items-end gap-2">
           <Textarea
-            className="min-h-0 w-full resize-none"
+            className="resize-none overflow-hidden"
             placeholder="Your message..."
-            rows={1}
-            onInput={(e) => {
-              const target = e.target as HTMLTextAreaElement;
-              // Reset to minimum rows
-              target.rows = 1;
-              // Increase rows while scrollHeight is larger than offsetHeight
-              while (target.scrollHeight > target.offsetHeight) {
-                target.rows += 1;
-              }
-            }}
             onKeyDown={(e) => {
-              // Submit on Enter if Shift is not pressed
               if (e.key === "Enter" && !e.shiftKey) {
                 e.preventDefault();
-                // Only submit if not disabled
-                if (
-                  form.formState.isValid &&
-                  !isLoading &&
-                  !isThreadListOpen &&
-                  threadId
-                ) {
-                  form.handleSubmit(onSubmit)();
-                }
+                submitForm();
               }
             }}
             {...form.register("message", {
