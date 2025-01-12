@@ -6,10 +6,9 @@ import ArticleHeader from "@/components/article/article-header";
 import ArticleImage from "@/components/article/article-image";
 import ExternalLink from "@/components/article/external-link";
 import Scripture from "@/components/article/scripture";
+import TableOfContents from "@/components/article/table-of-contents";
+import StudyTabs from "@/components/study-tabs";
 import { Header, Study } from "@/lib/constants/url-params";
-
-import StudyTabs from "./study-tabs";
-import TableOfContents from "./table-of-contents";
 
 type HomeLayoutProps = {
   children: React.ReactNode;

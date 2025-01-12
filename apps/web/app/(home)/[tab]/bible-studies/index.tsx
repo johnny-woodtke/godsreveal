@@ -1,11 +1,10 @@
 import Article from "@/components/article";
 import ArticleHeader from "@/components/article/article-header";
 import ArticleImage from "@/components/article/article-image";
+import BibleStudy from "@/components/article/bible-study";
 import Callout from "@/components/article/callout";
 import ExternalLink from "@/components/article/external-link";
 import { Header } from "@/lib/constants/url-params";
-
-import BibleStudy from "./bible-study";
 
 export default function BibleStudies() {
   return (

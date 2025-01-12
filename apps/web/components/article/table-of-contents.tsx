@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
-import { cn } from "@godsreveal/lib/src/utils";
+import { cn } from "@godsreveal/lib";
 
 export default function TableOfContents() {
   const [headers, setHeaders] = useState<Element[]>([]);
