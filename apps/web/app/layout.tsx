@@ -43,6 +43,11 @@ export const metadata: Metadata = {
     { rel: "apple-touch-icon", url: "/favicon-192x192.png" },
     { rel: "icon", url: "/favicon-192x192.png" },
   ],
+  viewport: {
+    width: "device-width",
+    height: "device-height",
+    initialScale: 1,
+  },
   openGraph: {
     type: "website",
     locale: "en_US",
