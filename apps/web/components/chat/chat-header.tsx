@@ -28,7 +28,9 @@ export default function ChatHeader({ setIsThreadListOpen }: ChatHeaderProps) {
     <DialogHeader>
       <DialogTitle
         className={cn(
-          "relative flex items-center justify-between border-b px-1 pb-1",
+          "relative flex items-center border-b px-1 pb-1",
+          // small screen classes
+          "max-sm:justify-between",
           // large screen classes
           "sm:justify-end sm:px-3",
         )}

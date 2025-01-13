@@ -1,5 +1,5 @@
 export * from "./hooks/use-toast";
-
+export * from "./hooks/use-autosize-textarea";
 export * from "./components/button";
 export * from "./components/dropdown-menu";
 export * from "./components/dialog";

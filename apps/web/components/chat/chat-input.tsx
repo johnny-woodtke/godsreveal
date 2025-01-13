@@ -1,7 +1,10 @@
+"use client";
+
 import { SendIcon } from "lucide-react";
+import { useRef } from "react";
 
 import { cn } from "@godsreveal/lib";
-import { Button, Textarea } from "@godsreveal/ui";
+import { Button, Textarea, useAutosizeTextArea } from "@godsreveal/ui";
 
 import { useChat } from "./chat-provider";
 
@@ -22,9 +25,25 @@ export default function ChatInput({ isThreadListOpen }: ChatInputProps) {
   const isLoading =
     isUserSubmitting || isAssistantSubmitting || isThreadLoading;
 
+  const submitDisabled =
+    !form.formState.isValid || isLoading || isThreadListOpen || !threadId;
+
   function submitForm() {
     form.handleSubmit(onSubmit)();
   }
+
+  const textAreaRef = useRef<HTMLTextAreaElement>(null);
+  const { ref, ...textAreaRegister } = form.register("message", {
+    required: true,
+    disabled: isLoading || isThreadListOpen || !threadId,
+  });
+
+  const textAreaValue = form.watch("message");
+  useAutosizeTextArea({
+    textAreaRef: textAreaRef.current,
+    value: textAreaValue,
+    maxHeightPx: 100,
+  });
 
   return (
     <form
@@ -35,33 +54,34 @@ export default function ChatInput({ isThreadListOpen }: ChatInputProps) {
         "sm:p-4",
       )}
     >
-      <div className="mb-2 flex w-full flex-col gap-2">
-        <div className="flex w-full items-start gap-2">
+      <div className="flex w-full flex-col gap-2 max-sm:mb-[1px]">
+        <div className="flex w-full items-end gap-2">
           <Textarea
-            className="resize-none overflow-hidden"
+            className="resize-none overflow-y-scroll py-2"
             placeholder="Your message..."
             onKeyDown={(e) => {
               if (e.key === "Enter" && !e.shiftKey) {
                 e.preventDefault();
-                submitForm();
+                if (!submitDisabled) {
+                  submitForm();
+                }
               }
             }}
-            {...form.register("message", {
-              required: true,
-              disabled: isLoading || isThreadListOpen || !threadId,
-            })}
+            rows={1}
+            {...textAreaRegister}
+            ref={(el) => {
+              ref(el);
+              // @ts-expect-error - current is readonly
+              // https://www.react-hook-form.com/faqs/#Howtosharerefusage
+              textAreaRef.current = el;
+            }}
           />
           <Button
             type="submit"
             size="icon"
-            className="size-10"
+            className="size-9"
             variant="secondary"
-            disabled={
-              !form.formState.isValid ||
-              isLoading ||
-              isThreadListOpen ||
-              !threadId
-            }
+            disabled={submitDisabled}
           >
             <SendIcon className="size-4" />
           </Button>
