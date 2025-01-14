@@ -46,8 +46,9 @@ export default function ChatModal() {
       </DialogTrigger>
       <DialogContent
         className={cn(
-          "h-full max-h-full w-full max-w-full overflow-hidden sm:max-h-[90vh] sm:max-w-screen-xl",
-          "focus:outline-none focus-visible:ring-0",
+          "h-full max-h-[100dvh] sm:max-h-[90dvh]",
+          "w-full max-w-full sm:max-w-screen-xl",
+          "overflow-hidden focus:outline-none focus-visible:ring-0",
         )}
       >
         <ChatProvider>
