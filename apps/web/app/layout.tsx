@@ -1,7 +1,7 @@
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import "globals.css";
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
 import { Suspense } from "react";
 
@@ -23,6 +23,14 @@ const title = {
 const description =
   "Explore Bible prophecy, end-times studies, and Biblical revelations.";
 
+export const viewport: Viewport = {
+  width: "device-width",
+  height: "device-height",
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
+};
+
 export const metadata: Metadata = {
   metadataBase: new URL(url),
   title,
@@ -43,11 +51,6 @@ export const metadata: Metadata = {
     { rel: "apple-touch-icon", url: "/favicon-192x192.png" },
     { rel: "icon", url: "/favicon-192x192.png" },
   ],
-  viewport: {
-    width: "device-width",
-    height: "device-height",
-    initialScale: 1,
-  },
   openGraph: {
     type: "website",
     locale: "en_US",

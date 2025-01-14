@@ -17,7 +17,9 @@ export default function ChatHeader({ setIsThreadListOpen }: ChatHeaderProps) {
   const { toast } = useToast();
 
   function handleShare() {
-    navigator.clipboard.writeText(window.location.href);
+    navigator?.clipboard?.writeText(window.location.href).catch(() => {
+      console.error("Error copying link to clipboard");
+    });
     toast({
       title: "Link copied",
       description: "The chat link has been copied to your clipboard.",

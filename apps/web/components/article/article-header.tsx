@@ -46,7 +46,9 @@ export default function ArticleHeader({
       urlFragment: id || null,
       includeHost: true,
     });
-    await navigator.clipboard.writeText(urlWithHost);
+    navigator?.clipboard?.writeText(urlWithHost).catch(() => {
+      console.error("Error copying link to clipboard");
+    });
     toast({
       title: "Link copied",
       description:
