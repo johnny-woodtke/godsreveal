@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { Suspense } from "react";
 
+import { cn } from "@godsreveal/lib";
+
 import { ModeToggle } from "@/components/theme-provider";
 
 import Reveal from "./reveal";
@@ -8,7 +10,12 @@ import Reveal from "./reveal";
 export default function Header() {
   return (
     <header className="sticky top-0 z-50 w-screen border-b backdrop-blur-md">
-      <div className="mx-auto flex h-full max-w-screen-lg items-center justify-between p-4 py-3 sm:py-4">
+      <div
+        className={cn(
+          "mx-auto flex h-full max-w-screen-lg items-center justify-between",
+          "border-b border-border p-4 py-3 sm:py-4",
+        )}
+      >
         <Suspense>
           <Reveal />
         </Suspense>
