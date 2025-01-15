@@ -291,6 +291,16 @@ export default function ExtraBiblicalStudies() {
         src="https://www.youtube.com/embed/FjA4UTlU66w?si=ps0sfLGABTKPPK9G"
         title="What May Be Coming in 2025"
       />
+      <h3>Could This Be Why America is Missing in a Major Prophetic War?</h3>
+      <YoutubePlayer
+        src="https://www.youtube.com/embed/y7ZUwZENj80?si=xiA_yziUmpHeeJkm"
+        title="Could This Be Why America is Missing in a Major Prophetic War?"
+      />
+      <h3>I Saw This Happen 11 Years Ago in a Dream</h3>
+      <YoutubePlayer
+        src="https://www.youtube.com/embed/oqheH2051lQ?si=F1RNONiv4horr3hA"
+        title="I Saw This Happen 11 Years Ago in a Dream"
+      />
     </Article>
   );
 }

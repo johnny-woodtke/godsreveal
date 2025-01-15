@@ -623,8 +623,7 @@ export default function BibleStudies() {
         caption={
           <>
             An artist's depiction of the image of the beast, an AI-powered
-            hologram demanding worship from all the world, just like the
-            antichrist.
+            hologram demanding worship from all the world.
           </>
         }
       />
