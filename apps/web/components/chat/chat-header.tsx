@@ -46,7 +46,7 @@ export default function ChatHeader({ setIsThreadListOpen }: ChatHeaderProps) {
           <MenuIcon className="!size-5" />
         </Button>
 
-        <DialogTitle className="absolute flex w-full items-center justify-center gap-2">
+        <DialogTitle className="absolute z-[-10] flex w-full items-center justify-center gap-2">
           <BotIcon className="size-5" />
           EschatoloGPT
         </DialogTitle>
