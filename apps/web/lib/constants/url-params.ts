@@ -10,6 +10,7 @@ export enum Header {
   ProphecyDepot = "prophecy-depot",
   JonathanCahn = "jonathan-cahn",
   RobertBreaker = "robert-breaker",
+  EndTimeHeadlines = "end-time-headlines",
 
   BibleStudies = "bible-studies",
   IsraelRegathered = "israel-regathered",
@@ -39,6 +40,7 @@ export const HEADER_STUDY_MAP: Record<Header, Study | null> = {
   [Header.ProphecyDepot]: Study.ExtraBiblicalStudies,
   [Header.JonathanCahn]: Study.ExtraBiblicalStudies,
   [Header.RobertBreaker]: Study.ExtraBiblicalStudies,
+  [Header.EndTimeHeadlines]: Study.ExtraBiblicalStudies,
 
   [Header.BibleStudies]: Study.BibleStudies,
   [Header.IsraelRegathered]: Study.BibleStudies,
