@@ -49,7 +49,7 @@ export default function YoutubePlayer({
             className,
           )}
         >
-          <CardHeader>b
+          <CardHeader>
             <CardTitle>{title}</CardTitle>
             {description && <CardDescription>{description}</CardDescription>}
           </CardHeader>
