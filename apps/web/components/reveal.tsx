@@ -93,7 +93,7 @@ export default function Reveal() {
       <DialogContent className="max-sm:h-full max-sm:w-full max-sm:min-w-full">
         <DialogHeader>
           <DialogTitle className="text-center text-xl sm:text-2xl">
-            Reveal
+            God's Reveal
           </DialogTitle>
           <div className="relative my-6 flex min-h-[200px] items-center justify-center overflow-hidden rounded-lg border bg-muted/50 p-6">
             <div className="mt-6 flex h-full flex-col items-center gap-6 text-center">
