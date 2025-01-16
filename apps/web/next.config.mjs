@@ -3,6 +3,9 @@ import pwa from "next-pwa";
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  images: {
+    domains: ["img.youtube.com"],
+  },
   rewrites: async () => {
     return [
       {

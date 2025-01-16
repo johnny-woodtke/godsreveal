@@ -3,7 +3,7 @@ import ArticleHeader from "@/components/article/article-header";
 import ArticleImage from "@/components/article/article-image";
 import Callout from "@/components/article/callout";
 import ExternalLink from "@/components/article/external-link";
-import YoutubePlayer from "@/components/article/youtube-player";
+import YoutubePlayer, { YoutubePlayerGrid } from "@/components/youtube-player";
 import { Header } from "@/lib/constants/url-params";
 
 export default function ExtraBiblicalStudies() {
@@ -86,21 +86,20 @@ export default function ExtraBiblicalStudies() {
           </ExternalLink>
         </li>
       </ul>
-      <h3>Seven Major End Times Signs</h3>
-      <YoutubePlayer
-        src="https://www.youtube.com/embed/WlwzRhDpDFU?si=F5rFZm7KNRiIQmRz"
-        title="Seven Major End Times Signs"
-      />
-      <h3>The Mark of the Beast Revealed</h3>
-      <YoutubePlayer
-        src="https://www.youtube.com/embed/hsITd6NoDH8?si=UBlHfLo3ip08Exga"
-        title="The Mark of the Beast Revealed"
-      />
-      <h3>Revelation 12 Sign on September 23rd, 2017</h3>
-      <YoutubePlayer
-        src="https://www.youtube.com/embed/wQW4D9YMqzk"
-        title="Revelation 12 Sign on September 23rd, 2017"
-      />
+      <YoutubePlayerGrid>
+        <YoutubePlayer
+          src="https://www.youtube.com/embed/WlwzRhDpDFU?si=F5rFZm7KNRiIQmRz"
+          title="Seven Major End Times Signs"
+        />
+        <YoutubePlayer
+          src="https://www.youtube.com/embed/hsITd6NoDH8?si=UBlHfLo3ip08Exga"
+          title="The Mark of the Beast Revealed"
+        />
+        <YoutubePlayer
+          src="https://www.youtube.com/embed/wQW4D9YMqzk"
+          title="Revelation 12 Sign on September 23rd, 2017"
+        />
+      </YoutubePlayerGrid>
 
       <Callout
         text={
@@ -119,16 +118,16 @@ export default function ExtraBiblicalStudies() {
       <ArticleHeader as="h2" id={Header.Generation2434}>
         Generation2434
       </ArticleHeader>
-      <h3>Rapture: The Final Four?</h3>
-      <YoutubePlayer
-        src="https://www.youtube.com/embed/UMuhAY_Etvg?si=ny9vTXvkfQ7oy7Sa"
-        title="Rapture: The Final Four?"
-      />
-      <h3>The Final Two - A Prophecy Perspective</h3>
-      <YoutubePlayer
-        src="https://www.youtube.com/embed/_inUGuQ8BwM?si=9UiIAemOImonCfZ5r"
-        title="The Final Two - A Prophecy Perspective"
-      />
+      <YoutubePlayerGrid>
+        <YoutubePlayer
+          src="https://www.youtube.com/embed/UMuhAY_Etvg?si=ny9vTXvkfQ7oy7Sa"
+          title="Rapture: The Final Four?"
+        />
+        <YoutubePlayer
+          src="https://www.youtube.com/embed/_inUGuQ8BwM?si=9UiIAemOImonCfZ5r"
+          title="The Final Two - A Prophecy Perspective"
+        />
+      </YoutubePlayerGrid>
 
       <ArticleImage
         large
@@ -243,64 +242,60 @@ export default function ExtraBiblicalStudies() {
       <ArticleHeader as="h2" id={Header.JonathanCahn}>
         Jonathan Cahn
       </ArticleHeader>
-      <h3>Signs of the Coming Apocalypse</h3>
-      <YoutubePlayer
-        src="https://www.youtube.com/embed/YagPnxYD09s?si=oG9t3LC0O7Vapa6B"
-        title="Signs of the Coming Apocalypse"
-      />
-      <h3>A Mystery for Joe Biden</h3>
-      <YoutubePlayer
-        src="https://www.youtube.com/embed/yDaECVmd2gk?si=IshicYfZUro-tXR4"
-        title="A Mystery for Joe Biden"
-      />
-      <h3>The Israel-Hamas End-Time Mystery</h3>
-      <YoutubePlayer
-        src="https://www.youtube.com/embed/QYJO8oZuEa8?si=3tq-sBxiCqECqAnX"
-        title="The Israel-Hamas End-Time Mystery"
-      />
+      <YoutubePlayerGrid>
+        <YoutubePlayer
+          src="https://www.youtube.com/embed/YagPnxYD09s?si=oG9t3LC0O7Vapa6B"
+          title="Signs of the Coming Apocalypse"
+        />
+        <YoutubePlayer
+          src="https://www.youtube.com/embed/yDaECVmd2gk?si=IshicYfZUro-tXR4"
+          title="A Mystery for Joe Biden"
+        />
+        <YoutubePlayer
+          src="https://www.youtube.com/embed/QYJO8oZuEa8?si=3tq-sBxiCqECqAnX"
+          title="The Israel-Hamas End-Time Mystery"
+        />
+      </YoutubePlayerGrid>
 
       <ArticleHeader as="h2" id={Header.RobertBreaker}>
         Robert Breaker
       </ArticleHeader>
-      <h3>The Mark of the Beast</h3>
-      <YoutubePlayer
-        src="https://www.youtube.com/embed/N4su0rYu1h8?si=8H3b5-Lhu8hVsVda"
-        title="The Mark of the Beast"
-      />
-      <h3>Jesus MUST Be Coming Soon</h3>
-      <YoutubePlayer
-        src="https://www.youtube.com/embed/gxbtCQT58xM?si=SQlMbrmqNOFVruC6"
-        title="Jesus MUST Be Coming Soon"
-      />
-      <h3>The End of the Church Age: The Great Reset</h3>
-      <YoutubePlayer
-        src="https://www.youtube.com/embed/DaQv3FmnxWE?si=deabm2uYsyYWdBaX"
-        title="The End of the Church Age: The Great Reset"
-      />
-      <h3>Who are the 144,000?</h3>
-      <YoutubePlayer
-        src="https://www.youtube.com/embed/lZZ7ZFTFmR8?si=HZ2sC54fSRBvzvvz"
-        title="Who are the 144,000?"
-      />
+      <YoutubePlayerGrid>
+        <YoutubePlayer
+          src="https://www.youtube.com/embed/N4su0rYu1h8?si=8H3b5-Lhu8hVsVda"
+          title="The Mark of the Beast"
+        />
+        <YoutubePlayer
+          src="https://www.youtube.com/embed/gxbtCQT58xM?si=SQlMbrmqNOFVruC6"
+          title="Jesus MUST Be Coming Soon"
+        />
+        <YoutubePlayer
+          src="https://www.youtube.com/embed/DaQv3FmnxWE?si=deabm2uYsyYWdBaX"
+          title="The End of the Church Age: The Great Reset"
+        />
+        <YoutubePlayer
+          src="https://www.youtube.com/embed/lZZ7ZFTFmR8?si=HZ2sC54fSRBvzvvz"
+          title="Who are the 144,000?"
+        />
+      </YoutubePlayerGrid>
 
       <ArticleHeader as="h2" id={Header.EndTimeHeadlines}>
         End Time Headlines
       </ArticleHeader>
-      <h3>What May Be Coming in 2025</h3>
-      <YoutubePlayer
-        src="https://www.youtube.com/embed/FjA4UTlU66w?si=ps0sfLGABTKPPK9G"
-        title="What May Be Coming in 2025"
-      />
-      <h3>Could This Be Why America is Missing in a Major Prophetic War?</h3>
-      <YoutubePlayer
-        src="https://www.youtube.com/embed/y7ZUwZENj80?si=xiA_yziUmpHeeJkm"
-        title="Could This Be Why America is Missing in a Major Prophetic War?"
-      />
-      <h3>I Saw This Happen 11 Years Ago in a Dream</h3>
-      <YoutubePlayer
-        src="https://www.youtube.com/embed/oqheH2051lQ?si=F1RNONiv4horr3hA"
-        title="I Saw This Happen 11 Years Ago in a Dream"
-      />
+      <YoutubePlayerGrid>
+        <YoutubePlayer
+          src="https://www.youtube.com/embed/FjA4UTlU66w?si=ps0sfLGABTKPPK9G"
+          title="What May Be Coming in 2025"
+        />
+        <YoutubePlayer
+          src="https://www.youtube.com/embed/y7ZUwZENj80?si=xiA_yziUmpHeeJkm"
+          title="Could This Be Why America is Missing in a Major Prophetic War?"
+        />
+        <YoutubePlayer
+          src="https://www.youtube.com/embed/oqheH2051lQ?si=F1RNONiv4horr3hA"
+          title="I Saw This Happen 11 Years Ago in a Dream"
+        />
+      </YoutubePlayerGrid>
     </Article>
   );
 }

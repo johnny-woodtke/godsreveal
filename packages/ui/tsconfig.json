@@ -2,6 +2,9 @@
   "extends": "@godsreveal/typescript-config/react-library.json",
   "compilerOptions": {
     "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"]
+    }
   },
   "include": ["src"]
 }
