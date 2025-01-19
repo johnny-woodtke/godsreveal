@@ -10,11 +10,11 @@ import {
 import { Loader2Icon, MessageCircleIcon, Trash2Icon } from "lucide-react";
 import { Dispatch, SetStateAction } from "react";
 
-import { cn } from "@godsreveal/lib";
+import { RequiredKeys, cn } from "@godsreveal/lib";
 import { Button } from "@godsreveal/ui";
+import type { Thread } from "@godsreveal/web-idb";
 
 import { useChat } from "./chat-provider";
-import { ChatThread } from "./use-chat-threads";
 
 type ChatThreadsProps = {
   setIsThreadListOpen: Dispatch<SetStateAction<boolean>>;
@@ -87,14 +87,17 @@ function isLastWeek(date: Date): boolean {
 
 type ThreadGroup = {
   label: "Today" | "Yesterday" | "This Week" | "Last Week" | string;
-  threads: ChatThread[];
+  threads: RequiredKeys<Thread, "name">[];
 };
 
-function groupThreadsByDate(threads: ChatThread[]) {
+function groupThreadsByDate(threads: RequiredKeys<Thread, "name">[]) {
   const groups: ThreadGroup[] = [];
 
   // Helper function to add threads to a group
-  const addToGroup = (label: string, threadsToAdd: ChatThread[]) => {
+  const addToGroup = (
+    label: string,
+    threadsToAdd: RequiredKeys<Thread, "name">[],
+  ) => {
     if (threadsToAdd.length > 0) {
       groups.push({ label, threads: threadsToAdd });
     }
@@ -143,15 +146,15 @@ function groupThreadsByDate(threads: ChatThread[]) {
   );
 
   // Add month groups
-  Object.entries(monthGroups).forEach(([label, threads]) => {
+  for (const [label, threads] of Object.entries(monthGroups)) {
     addToGroup(label, threads);
-  });
+  }
 
   return groups;
 }
 
 type ThreadItemProps = {
-  thread: ChatThread;
+  thread: RequiredKeys<Thread, "name">;
   threadId: string | null;
   onSelectThread: (threadId: string | null) => void;
   setIsThreadListOpen: Dispatch<SetStateAction<boolean>>;
@@ -181,7 +184,7 @@ function ThreadItem({
           setIsThreadListOpen(false);
         }}
       >
-        {thread.title}
+        {thread.name}
       </button>
       <Button
         asChild

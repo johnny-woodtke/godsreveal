@@ -24,7 +24,7 @@
     "@elysiajs/swagger": "^1.2.0",
     "elysia": "1.2.10",
     "elysiajs-sentry": "^1.1.1",
-    "elysiajs-sync": "^0.0.5",
+    "elysiajs-sync": "^0.0.6",
     "@godsreveal/web-idb": "*"
   },
   "prettier": "@godsreveal/prettier-config",

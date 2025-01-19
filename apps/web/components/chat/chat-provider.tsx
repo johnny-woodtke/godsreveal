@@ -1,5 +1,6 @@
 "use client";
 
+import { useLiveQuery } from "dexie-react-hooks";
 import {
   Dispatch,
   SetStateAction,
@@ -10,17 +11,13 @@ import {
 } from "react";
 import { UseFormReturn, useForm } from "react-hook-form";
 
+import type { RequiredKeys } from "@godsreveal/lib";
+import type { Message, Thread } from "@godsreveal/web-idb";
+
 import { useSync } from "@/components/use-sync";
 import { getClient } from "@/lib/eden";
 
 import { useChatParams } from "./use-chat-params";
-import { ChatThread, useChatThreads } from "./use-chat-threads";
-
-type Message = {
-  id: string;
-  role: "user" | "assistant";
-  content: string;
-};
 
 type ChatProps = {
   message: string;
@@ -30,7 +27,7 @@ type ChatContextType = {
   threadId: string | null;
   setThreadId: (threadId: string | null) => Promise<void>;
 
-  threads: ChatThread[];
+  threads: RequiredKeys<Thread, "name">[];
   removeThread: (threadId: string) => void;
 
   isThreadLoading: boolean;
@@ -40,7 +37,6 @@ type ChatContextType = {
   setIsThreadNaming: Dispatch<SetStateAction<boolean>>;
 
   messages: Message[];
-  setMessages: Dispatch<SetStateAction<Message[]>>;
 
   form: UseFormReturn<ChatProps>;
 
@@ -57,30 +53,31 @@ type ChatContextType = {
 const ChatContext = createContext<ChatContextType | null>(null);
 
 type ChatProviderProps = {
+  threads: RequiredKeys<Thread, "name">[];
   children: React.ReactNode;
 };
 
-export default function ChatProvider({ children }: ChatProviderProps) {
+export default function ChatProvider({ threads, children }: ChatProviderProps) {
   // sync
   const sync = useSync();
 
   // current thread
   const { threadId, setThreadId, chatModalOpen } = useChatParams();
 
-  // other threads
-  const {
-    upsertThread,
-    hasThread,
-    getThread,
-    threads,
-    removeThread: _removeThread,
-  } = useChatThreads();
-
   // fetching thread messages loading state
   const [isThreadLoading, setIsThreadLoading] = useState(false);
 
   // messages
-  const [messages, setMessages] = useState<Message[]>([]);
+  const messages =
+    useLiveQuery(() => {
+      if (!threadId) {
+        return [];
+      }
+      return sync.db.message
+        .where("threadId")
+        .equals(threadId)
+        .sortBy("createdAt");
+    }, [threadId]) ?? [];
 
   // message input form state
   const form = useForm<ChatProps>({
@@ -104,13 +101,15 @@ export default function ChatProvider({ children }: ChatProviderProps) {
   /**
    * Removes the inputted thread.
    */
-  function removeThread(inputtedThreadId: string) {
-    // remove thread from cookies/state
-    _removeThread(inputtedThreadId);
+  async function removeThread(inputtedThreadId: string) {
+    // remove thread from state
+    await sync.db.thread.delete(inputtedThreadId);
 
     // if threadId is the current thread, unset it
+    // and select the latest thread
     if (threadId === inputtedThreadId) {
-      onSelectThread(null);
+      const latestThread = threads[0];
+      onSelectThread(latestThread?.id ?? null);
     }
   }
 
@@ -118,37 +117,27 @@ export default function ChatProvider({ children }: ChatProviderProps) {
    * Fetches the messages for the inputted thread and sets the messages state.
    */
   async function fetchThreadMessages(threadId: string) {
-    try {
-      // set loading
-      setIsThreadLoading(true);
+    // set loading
+    setIsThreadLoading(true);
 
-      // fetch messages
-      const res = await sync.fetch(() => client.thread({ threadId }).get());
-
-      // if no data, throw error
-      if (!res.data) {
-        throw new Error("Failed to fetch thread messages");
-      }
-
-      // set messages
-      setMessages(res.data.response);
-    } catch (e) {
-      console.error("Failed to fetch thread messages:", e);
-      form.setError("message", {
-        message: "Failed to fetch thread messages",
+    // fetch messages
+    sync
+      .fetch(() => client.thread({ threadId }).get())
+      .catch((e) => {
+        console.error("Failed to fetch thread messages:", e);
+        form.setError("message", {
+          message: "Failed to fetch latest thread messages",
+        });
       });
-    } finally {
-      setIsThreadLoading(false);
-    }
+
+    // unset loading
+    setIsThreadLoading(false);
   }
 
   /**
    * Sets the current thread. Input `null` to start a new thread.
    */
   function onSelectThread(threadId: string | null) {
-    // unset messages if there were any
-    setMessages([]);
-
     // reset form
     form.reset();
 
@@ -176,13 +165,6 @@ export default function ChatProvider({ children }: ChatProviderProps) {
       if (!res.data) {
         throw new Error("Failed to set thread name");
       }
-
-      // add thread to threads
-      upsertThread({
-        id: threadId,
-        title: res.data.response,
-        updatedAt: new Date(),
-      });
     } catch (e) {
       console.error("Failed to set thread name:", e);
     } finally {
@@ -209,11 +191,9 @@ export default function ChatProvider({ children }: ChatProviderProps) {
         throw new Error("Failed to run thread");
       }
 
-      // set messages
-      setMessages(res.data.response);
-
       // if thread does not exist, set thread name and updatedAt
-      !hasThread(threadId) && setThreadName(threadId);
+      !threads.find((thread) => thread.id === threadId) &&
+        setThreadName(threadId);
     } catch (e) {
       console.error(e);
       form.setError("message", { message: "Failed to run thread" });
@@ -241,15 +221,8 @@ export default function ChatProvider({ children }: ChatProviderProps) {
         throw new Error("Failed to send message");
       }
 
-      // set messages
-      setMessages(res.data.response.messages);
-
       // clear form
       form.reset();
-
-      // update thread updatedAt if thread exists
-      const thread = getThread(res.data.response.threadId);
-      thread && upsertThread({ ...thread, updatedAt: new Date() });
 
       // run post submit
       runThread(res.data.response.threadId);
@@ -272,8 +245,9 @@ export default function ChatProvider({ children }: ChatProviderProps) {
       return;
     }
 
-    // if no threadId, create thread
-    onSelectThread(null);
+    // if no threadId, get latest thread
+    const latestThread = threads[0];
+    onSelectThread(latestThread?.id ?? null);
   }, [chatModalOpen]);
 
   return (
@@ -288,7 +262,6 @@ export default function ChatProvider({ children }: ChatProviderProps) {
         isThreadNaming,
         setIsThreadNaming,
         messages,
-        setMessages,
         form,
         isUserSubmitting,
         isAssistantSubmitting,

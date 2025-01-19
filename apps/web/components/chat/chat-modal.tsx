@@ -1,11 +1,14 @@
 "use client";
 
+import { useLiveQuery } from "dexie-react-hooks";
 import { BotIcon } from "lucide-react";
 import { useState } from "react";
 
-import { cn } from "@godsreveal/lib";
+import { type RequiredKeys, cn } from "@godsreveal/lib";
 import { Button, Dialog, DialogContent, DialogTrigger } from "@godsreveal/ui";
+import type { Thread } from "@godsreveal/web-idb";
 
+import { useSync } from "../use-sync";
 import ChatHeader from "./chat-header";
 import ChatInput from "./chat-input";
 import ChatMessages from "./chat-messages";
@@ -19,6 +22,23 @@ export default function ChatModal() {
 
   // thread list open or closed
   const [isThreadListOpen, setIsThreadListOpen] = useState(false);
+
+  // sync
+  const sync = useSync();
+
+  // input existing threads
+  const threads: RequiredKeys<Thread, "name">[] =
+    useLiveQuery(() =>
+      sync.db.thread
+        .orderBy("updatedAt")
+        .reverse()
+        .toArray()
+        .then((threads) =>
+          threads.filter(
+            (thread): thread is RequiredKeys<Thread, "name"> => !!thread.name,
+          ),
+        ),
+    ) ?? [];
 
   return (
     <Dialog open={chatModalOpen} onOpenChange={setChatModalOpen}>
@@ -51,7 +71,7 @@ export default function ChatModal() {
           "overflow-hidden focus:outline-none focus-visible:ring-0",
         )}
       >
-        <ChatProvider>
+        <ChatProvider threads={threads}>
           <div className="flex h-full w-full flex-col overflow-hidden pt-2">
             {/* header */}
             <ChatHeader setIsThreadListOpen={setIsThreadListOpen} />
