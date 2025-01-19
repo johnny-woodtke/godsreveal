@@ -1,7 +1,7 @@
 "use client";
 
 import { SendIcon } from "lucide-react";
-import { useRef } from "react";
+import { BaseSyntheticEvent, useRef } from "react";
 
 import { cn } from "@godsreveal/lib";
 import { Button, Textarea, useAutosizeTextArea } from "@godsreveal/ui";
@@ -28,8 +28,9 @@ export default function ChatInput({ isThreadListOpen }: ChatInputProps) {
   const submitDisabled =
     !form.formState.isValid || isLoading || isThreadListOpen || !threadId;
 
-  function submitForm() {
-    form.handleSubmit(onSubmit)();
+  function submitForm(e: BaseSyntheticEvent) {
+    e.preventDefault();
+    form.handleSubmit(onSubmit)(e);
   }
 
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
@@ -63,7 +64,7 @@ export default function ChatInput({ isThreadListOpen }: ChatInputProps) {
               if (e.key === "Enter" && !e.shiftKey) {
                 e.preventDefault();
                 if (!submitDisabled) {
-                  submitForm();
+                  submitForm(e);
                 }
               }
             }}
