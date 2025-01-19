@@ -23,13 +23,15 @@
     "@elysiajs/static": "^1.2.0",
     "@elysiajs/swagger": "^1.2.0",
     "elysia": "1.2.10",
-    "elysiajs-sentry": "^1.1.1"
+    "elysiajs-sentry": "^1.1.1",
+    "elysiajs-sync": "^0.0.5",
+    "@godsreveal/web-idb": "*"
   },
   "prettier": "@godsreveal/prettier-config",
   "devDependencies": {
     "@godsreveal/prettier-config": "*",
     "@godsreveal/typescript-config": "*",
-    "@types/bun": "1.1.16",
-    "typescript": "5.5.4"
+    "@types/bun": "^1.1.16",
+    "typescript": "^5.5.4"
   }
 }

@@ -10,6 +10,7 @@ import {
 } from "react";
 import { UseFormReturn, useForm } from "react-hook-form";
 
+import { useSync } from "@/components/use-sync";
 import { getClient } from "@/lib/eden";
 
 import { useChatParams } from "./use-chat-params";
@@ -60,6 +61,9 @@ type ChatProviderProps = {
 };
 
 export default function ChatProvider({ children }: ChatProviderProps) {
+  // sync
+  const sync = useSync();
+
   // current thread
   const { threadId, setThreadId, chatModalOpen } = useChatParams();
 
@@ -119,7 +123,7 @@ export default function ChatProvider({ children }: ChatProviderProps) {
       setIsThreadLoading(true);
 
       // fetch messages
-      const res = await client.thread({ threadId }).get();
+      const res = await sync.fetch(() => client.thread({ threadId }).get());
 
       // if no data, throw error
       if (!res.data) {
@@ -127,7 +131,7 @@ export default function ChatProvider({ children }: ChatProviderProps) {
       }
 
       // set messages
-      setMessages(res.data);
+      setMessages(res.data.response);
     } catch (e) {
       console.error("Failed to fetch thread messages:", e);
       form.setError("message", {
@@ -164,7 +168,9 @@ export default function ChatProvider({ children }: ChatProviderProps) {
       setIsThreadNaming(true);
 
       // get thread name
-      const res = await client.thread({ threadId }).name.get();
+      const res = await sync.fetch(() =>
+        client.thread({ threadId }).name.get(),
+      );
 
       // if no data, throw error
       if (!res.data) {
@@ -174,7 +180,7 @@ export default function ChatProvider({ children }: ChatProviderProps) {
       // add thread to threads
       upsertThread({
         id: threadId,
-        title: res.data,
+        title: res.data.response,
         updatedAt: new Date(),
       });
     } catch (e) {
@@ -194,7 +200,9 @@ export default function ChatProvider({ children }: ChatProviderProps) {
       setIsAssistantSubmitting(true);
 
       // run thread
-      const res = await client.thread({ threadId }).run.post();
+      const res = await sync.fetch(() =>
+        client.thread({ threadId }).run.post(),
+      );
 
       // if no data, throw error
       if (!res.data) {
@@ -202,7 +210,7 @@ export default function ChatProvider({ children }: ChatProviderProps) {
       }
 
       // set messages
-      setMessages(res.data);
+      setMessages(res.data.response);
 
       // if thread does not exist, set thread name and updatedAt
       !hasThread(threadId) && setThreadName(threadId);
@@ -221,10 +229,12 @@ export default function ChatProvider({ children }: ChatProviderProps) {
   async function onSubmit({ message }: ChatProps) {
     try {
       // post message to thread
-      const res = await client.thread.message.post({
-        message,
-        ...(threadId ? { threadId } : {}),
-      });
+      const res = await sync.fetch(() =>
+        client.thread.message.post({
+          message,
+          ...(threadId ? { threadId } : {}),
+        }),
+      );
 
       // if no data, throw error
       if (!res.data) {
@@ -232,17 +242,17 @@ export default function ChatProvider({ children }: ChatProviderProps) {
       }
 
       // set messages
-      setMessages(res.data.messages);
+      setMessages(res.data.response.messages);
 
       // clear form
       form.reset();
 
       // update thread updatedAt if thread exists
-      const thread = getThread(res.data.threadId);
+      const thread = getThread(res.data.response.threadId);
       thread && upsertThread({ ...thread, updatedAt: new Date() });
 
       // run post submit
-      runThread(res.data.threadId);
+      runThread(res.data.response.threadId);
     } catch (e) {
       console.error(e);
       form.setError("message", { message: "Failed to send message" });

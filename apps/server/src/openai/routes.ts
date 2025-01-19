@@ -1,4 +1,7 @@
 import { Elysia, t } from "elysia";
+import { tSync as _tSync, sync } from "elysiajs-sync";
+
+import { keys, message, schema } from "@godsreveal/web-idb";
 
 import auth from "@/auth/plugin";
 import { Tag } from "@/constants";
@@ -7,31 +10,45 @@ import {
   addMessageToThread,
   createThread,
   getMessagesFromThread,
-  getMessagesFromThreadSchema,
   getThreadName,
   runThread,
 } from "./user";
 
+const tSync = _tSync(schema, keys);
+
 export default new Elysia()
   .use(auth)
-  .post("/thread/create", createThread, {
-    detail: {
-      summary: "Create a thread",
-      description: "Creates a new thread and returns the threadId",
-      tags: [Tag.THREAD],
+  .use(sync(schema, keys))
+  .post(
+    "/thread/create",
+    async ({ sync }) => {
+      const thread = await createThread();
+      return sync(thread.id, {
+        thread: {
+          put: [thread, undefined],
+        },
+      });
     },
-    body: t.Undefined(),
-    response: {
-      200: t.String(),
+    {
+      detail: {
+        summary: "Create a thread",
+        description: "Creates a new thread and returns the threadId",
+        tags: [Tag.THREAD],
+      },
+      body: t.Undefined(),
+      response: {
+        200: tSync(t.String()),
+      },
     },
-  })
+  )
   .post(
     "/thread/message",
-    async ({ body }) => {
+    async ({ sync, body }) => {
       // get or create thread
       let threadId: string;
       if (!body.threadId) {
-        threadId = await createThread();
+        const thread = await createThread();
+        threadId = thread.id;
       } else {
         threadId = body.threadId;
       }
@@ -48,10 +65,30 @@ export default new Elysia()
       });
 
       // return response
-      return {
-        messages,
-        threadId,
-      };
+      const updatedAt = new Date();
+      return sync(
+        {
+          messages,
+          threadId,
+        },
+        {
+          message: {
+            bulkPut: [messages, undefined, undefined],
+          },
+          thread: {
+            ...(!body.threadId
+              ? {
+                  put: [
+                    { id: threadId, createdAt: updatedAt, updatedAt },
+                    undefined,
+                  ],
+                }
+              : {
+                  update: [threadId, { updatedAt }],
+                }),
+          },
+        },
+      );
     },
     {
       detail: {
@@ -65,29 +102,49 @@ export default new Elysia()
         threadId: t.Optional(t.String()),
       }),
       response: {
-        200: t.Object({
-          messages: getMessagesFromThreadSchema,
-          threadId: t.String(),
-        }),
+        200: tSync(
+          t.Object({
+            messages: t.Array(message),
+            threadId: t.String(),
+          }),
+        ),
       },
     },
   )
-  .get("/thread/:threadId", ({ params }) => getMessagesFromThread(params), {
-    detail: {
-      summary: "Get messages",
-      description: "Gets all messages from a thread",
-      tags: [Tag.MESSAGE, Tag.THREAD],
+  .get(
+    "/thread/:threadId",
+    async ({ sync, params }) => {
+      const messages = await getMessagesFromThread(params);
+      return sync(messages, {
+        message: {
+          bulkPut: [messages, undefined, undefined],
+        },
+      });
     },
-    params: t.Object({
-      threadId: t.String(),
-    }),
-    response: {
-      200: getMessagesFromThreadSchema,
+    {
+      detail: {
+        summary: "Get messages",
+        description: "Gets all messages from a thread",
+        tags: [Tag.MESSAGE, Tag.THREAD],
+      },
+      params: t.Object({
+        threadId: t.String(),
+      }),
+      response: {
+        200: tSync(t.Array(message)),
+      },
     },
-  })
+  )
   .post(
     "/thread/:threadId/run",
-    ({ params }) => runThread({ ...params, assistantName: "egpt" }),
+    async ({ params, sync }) => {
+      const messages = await runThread({ ...params, assistantName: "egpt" });
+      return sync(messages, {
+        message: {
+          bulkPut: [messages, undefined, undefined],
+        },
+      });
+    },
     {
       detail: {
         summary: "Run a thread",
@@ -99,20 +156,36 @@ export default new Elysia()
         threadId: t.String(),
       }),
       response: {
-        200: getMessagesFromThreadSchema,
+        200: tSync(t.Array(message)),
       },
     },
   )
-  .get("/thread/:threadId/name", ({ params }) => getThreadName(params), {
-    detail: {
-      summary: "Get the thread name",
-      description: "Gets the name of a thread by analyzing the messages",
-      tags: [Tag.THREAD],
+  .get(
+    "/thread/:threadId/name",
+    async ({ sync, params }) => {
+      const name = await getThreadName(params);
+      return sync(name, {
+        thread: {
+          update: [
+            params.threadId,
+            {
+              name,
+            },
+          ],
+        },
+      });
     },
-    params: t.Object({
-      threadId: t.String(),
-    }),
-    response: {
-      200: t.String(),
+    {
+      detail: {
+        summary: "Get the thread name",
+        description: "Gets the name of a thread by analyzing the messages",
+        tags: [Tag.THREAD],
+      },
+      params: t.Object({
+        threadId: t.String(),
+      }),
+      response: {
+        200: tSync(t.String()),
+      },
     },
-  });
+  );

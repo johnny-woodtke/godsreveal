@@ -3,6 +3,7 @@
 import { useSearchParams } from "next/navigation";
 
 import { usePushUrl } from "@/components/use-push-url";
+import { useSync } from "@/components/use-sync";
 import { CHAT_MODAL_OPEN_PARAM } from "@/lib/constants/url-params";
 import { THREAD_ID_PARAM } from "@/lib/constants/url-params";
 import { getClient } from "@/lib/eden";
@@ -16,6 +17,8 @@ export function useChatParams() {
 
   const threadId = searchParams.get(THREAD_ID_PARAM);
 
+  const sync = useSync();
+
   /**
    * Sets the current thread. Input `null` to start a new thread.
    */
@@ -26,11 +29,11 @@ export function useChatParams() {
       params.set(THREAD_ID_PARAM, threadId);
     } else {
       // create thread and set threadId
-      const res = await client.thread.create.post();
+      const res = await sync.fetch(() => client.thread.create.post());
       if (!res.data) {
         throw new Error("Failed to create thread");
       }
-      params.set(THREAD_ID_PARAM, res.data);
+      params.set(THREAD_ID_PARAM, res.data.response);
     }
 
     push({ searchParams: params });

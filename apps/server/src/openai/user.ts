@@ -1,15 +1,20 @@
-import { Static, t } from "elysia";
+import type { Message, Thread } from "@godsreveal/web-idb";
 
 import { getAssistantIdOrThrow, openai } from "@/openai/client";
 
-export async function createThread(): Promise<string> {
+export async function createThread(): Promise<Thread> {
   // create new thread
   const res = await openai("/v1/threads", {
     method: "POST",
   }).then((res) => res.json());
 
   // return threadId
-  return res.id;
+  const createdAt = new Date(res.created_at * 1000);
+  return {
+    id: res.id,
+    createdAt,
+    updatedAt: createdAt,
+  };
 }
 
 type AddMessageToThreadProps = {
@@ -35,19 +40,9 @@ type GetMessagesFromThreadProps = {
   threadId: string;
 };
 
-export const getMessagesFromThreadSchema = t.Array(
-  t.Object({
-    id: t.String(),
-    role: t.Union([t.Literal("user"), t.Literal("assistant")]),
-    content: t.String(),
-  }),
-);
-
 export async function getMessagesFromThread({
   threadId,
-}: GetMessagesFromThreadProps): Promise<
-  Static<typeof getMessagesFromThreadSchema>
-> {
+}: GetMessagesFromThreadProps): Promise<Message[]> {
   // get messages from thread
   const res = await openai(`/v1/threads/${threadId}/messages`).then((res) =>
     res.json(),
@@ -60,6 +55,8 @@ export async function getMessagesFromThread({
       id: message.id,
       role: message.role,
       content: message.content[0].text.value,
+      createdAt: new Date(message.created_at * 1000),
+      threadId,
     }));
 }
 
@@ -71,7 +68,7 @@ type RunThreadProps = {
 export async function runThread({
   threadId,
   assistantName,
-}: RunThreadProps): Promise<Static<typeof getMessagesFromThreadSchema>> {
+}: RunThreadProps): Promise<Message[]> {
   // create an assistant run for the thread
   const res = await openai(`/v1/threads/${threadId}/runs`, {
     method: "POST",

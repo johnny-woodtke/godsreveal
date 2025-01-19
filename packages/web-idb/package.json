@@ -1,6 +1,6 @@
 {
-  "name": "@godsreveal/lib",
-  "version": "1.0.50",
+  "name": "@godsreveal/web-idb",
+  "version": "0.0.1",
   "main": "src/index.ts",
   "types": "src/index.ts",
   "private": true,
@@ -10,8 +10,8 @@
     "format": "prettier --write \"**/*.{ts,tsx,md}\""
   },
   "dependencies": {
-    "clsx": "^2.1.1",
-    "tailwind-merge": "^2.5.4"
+    "elysia": "^1.2.10",
+    "elysiajs-sync": "^0.0.5"
   },
   "prettier": "@godsreveal/prettier-config",
   "devDependencies": {
