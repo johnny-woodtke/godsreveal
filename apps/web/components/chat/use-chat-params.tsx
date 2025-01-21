@@ -17,7 +17,7 @@ export function useChatParams() {
 
   const threadId = searchParams.get(THREAD_ID_PARAM);
 
-  const sync = useSync();
+  const { sync } = useSync();
 
   /**
    * Sets the current thread. Input `null` to start a new thread.

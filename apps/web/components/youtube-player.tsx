@@ -4,7 +4,6 @@ import { PlayCircle } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
 
-import { cn } from "@godsreveal/lib";
 import {
   Card,
   CardContent,
@@ -63,7 +62,7 @@ export default function YoutubePlayer({
           </CardContent>
         </Card>
       </DialogTrigger>
-      <DialogContent className="p-8 max-w-screen-xl sm:p-10">
+      <DialogContent className="max-w-screen-xl p-8 sm:p-10">
         <iframe
           className="aspect-video w-full"
           src={src}

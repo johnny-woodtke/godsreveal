@@ -1,7 +1,7 @@
 import { Elysia, t } from "elysia";
 import { tSync as _tSync, sync } from "elysiajs-sync";
 
-import { keys, message, schema } from "@godsreveal/web-idb";
+import { config, message } from "@godsreveal/web-idb";
 
 import auth from "@/auth/plugin";
 import { Tag } from "@/constants";
@@ -14,11 +14,11 @@ import {
   runThread,
 } from "./user";
 
-const tSync = _tSync(schema, keys);
+const tSync = _tSync(config);
 
 export default new Elysia()
   .use(auth)
-  .use(sync(schema, keys))
+  .use(sync(config))
   .post(
     "/thread/create",
     async ({ sync }) => {

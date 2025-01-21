@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "elysia": "^1.2.10",
-    "elysiajs-sync": "^0.0.6"
+    "elysiajs-sync": "^0.1.0"
   },
   "prettier": "@godsreveal/prettier-config",
   "devDependencies": {

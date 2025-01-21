@@ -59,7 +59,7 @@ type ChatProviderProps = {
 
 export default function ChatProvider({ threads, children }: ChatProviderProps) {
   // sync
-  const sync = useSync();
+  const { sync, db } = useSync();
 
   // current thread
   const { threadId, setThreadId, chatModalOpen } = useChatParams();
@@ -73,10 +73,7 @@ export default function ChatProvider({ threads, children }: ChatProviderProps) {
       if (!threadId) {
         return [];
       }
-      return sync.db.message
-        .where("threadId")
-        .equals(threadId)
-        .sortBy("createdAt");
+      return db.message.where("threadId").equals(threadId).sortBy("createdAt");
     }, [threadId]) ?? [];
 
   // message input form state
@@ -103,7 +100,7 @@ export default function ChatProvider({ threads, children }: ChatProviderProps) {
    */
   async function removeThread(inputtedThreadId: string) {
     // remove thread from state
-    await sync.db.thread.delete(inputtedThreadId);
+    await db.thread.delete(inputtedThreadId);
 
     // if threadId is the current thread, unset it
     // and select the latest thread

@@ -24,12 +24,12 @@ export default function ChatModal() {
   const [isThreadListOpen, setIsThreadListOpen] = useState(false);
 
   // sync
-  const sync = useSync();
+  const { db } = useSync();
 
   // input existing threads
   const threads: RequiredKeys<Thread, "name">[] =
     useLiveQuery(() =>
-      sync.db.thread
+      db.thread
         .orderBy("updatedAt")
         .reverse()
         .toArray()

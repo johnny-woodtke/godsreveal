@@ -1,8 +1,10 @@
 import { Sync } from "elysiajs-sync/client";
 import { useMemo } from "react";
 
-import { keys, schema } from "@godsreveal/web-idb";
+import { config } from "@godsreveal/web-idb";
 
 export function useSync() {
-  return useMemo(() => new Sync(schema, keys), []);
+  const sync = useMemo(() => new Sync(config), []);
+  const db = sync.getDb();
+  return { sync, db };
 }

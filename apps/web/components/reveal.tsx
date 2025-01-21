@@ -50,7 +50,8 @@ export default function Reveal() {
           urlFragment: header,
         }),
       );
-    } catch {
+    } catch (e) {
+      console.error("Error revealing study:", e);
     } finally {
       setLoading(false);
     }

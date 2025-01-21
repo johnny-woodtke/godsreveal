@@ -1,6 +1,6 @@
 import type { Static } from "elysia";
 import { t } from "elysia/type-system";
-import type { SyncDexieKeys, SyncDexieSchema } from "elysiajs-sync/types";
+import { getSyncConfig } from "elysiajs-sync/client";
 
 export const thread = t.Object({
   id: t.String(),
@@ -21,16 +21,18 @@ export const message = t.Object({
 
 export type Message = Static<typeof message>;
 
-export const schema = {
-  thread,
-  message,
-} satisfies SyncDexieSchema;
+export const config = getSyncConfig({
+  name: "godsreveal-sync",
+  schema: {
+    thread,
+    message,
+  },
+  keys: {
+    thread: ["id", "createdAt", "updatedAt"],
+    message: ["id", "createdAt", "role", "threadId"],
+  },
+  latestVerno: 1,
+  previousVersions: [],
+});
 
-export type Schema = typeof schema;
-
-export const keys = {
-  thread: ["id", "createdAt", "updatedAt"],
-  message: ["id", "createdAt", "role", "threadId"],
-} satisfies SyncDexieKeys<Schema>;
-
-export type Keys = typeof keys;
+export type Config = typeof config;
