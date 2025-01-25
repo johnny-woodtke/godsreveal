@@ -7,6 +7,7 @@ import {
   createContext,
   useContext,
   useEffect,
+  useRef,
   useState,
 } from "react";
 import { UseFormReturn, useForm } from "react-hook-form";
@@ -43,6 +44,7 @@ type ChatContextType = {
   isUserSubmitting: boolean;
   isAssistantSubmitting: boolean;
 
+  lastMessageRef: React.RefObject<HTMLDivElement>;
   onSubmit: (data: ChatProps) => Promise<void>;
   runThread: (threadId: string) => Promise<void>;
 
@@ -200,6 +202,18 @@ export default function ChatProvider({ threads, children }: ChatProviderProps) {
     }
   }
 
+  // ref for the last message
+  const lastMessageRef = useRef<HTMLDivElement>(null);
+
+  // scroll to the last message after a timeout
+  // timeout is necessary to allow the message to be added to the DOM
+  const scrollToLastMessage = () => {
+    const timeout = setTimeout(() => {
+      lastMessageRef.current?.scrollIntoView({ behavior: "smooth" });
+    }, 250);
+    return () => clearTimeout(timeout);
+  };
+
   /**
    * Submits a message to the thread.
    */
@@ -220,6 +234,9 @@ export default function ChatProvider({ threads, children }: ChatProviderProps) {
 
       // clear form
       form.reset();
+
+      // scroll to last message
+      scrollToLastMessage();
 
       // run post submit
       runThread(res.data.response.threadId);
@@ -262,6 +279,7 @@ export default function ChatProvider({ threads, children }: ChatProviderProps) {
         form,
         isUserSubmitting,
         isAssistantSubmitting,
+        lastMessageRef,
         onSubmit,
         runThread,
         onSelectThread,

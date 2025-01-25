@@ -7,14 +7,13 @@ import { cn } from "@godsreveal/lib";
 import { useChat } from "./chat-provider";
 
 export default function ChatMessages() {
-  const { messages, threadId, isThreadLoading, isAssistantSubmitting } =
-    useChat();
-
-  const lastMessageRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    lastMessageRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages]);
+  const {
+    messages,
+    threadId,
+    isThreadLoading,
+    isAssistantSubmitting,
+    lastMessageRef,
+  } = useChat();
 
   return (
     <div className="flex flex-col space-y-4 p-4">
