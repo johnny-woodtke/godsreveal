@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 import Article from "@/components/article";
 import ArticleHeader from "@/components/article/article-header";
 import ArticleImage from "@/components/article/article-image";
@@ -13,21 +15,18 @@ export default function ExtraBiblicalStudies() {
         Extra-Biblical Studies
       </ArticleHeader>
       <p>
-        The following section contains resources that have been especially
-        helpful to me in understanding the end times. These resources are
-        extra-Biblical, but they all point to God's Word.
+        The following section contains resources that are especially helpful in
+        understanding the end times. These resources are "extra-Biblical," but
+        they all point to God's true and holy Word.
       </p>
       <p>
-        I've done my best to include links to videos/articles that I think are
-        particularly insightful from each ministry, but I encourage you to
-        explore the ministries' websites/channels on your own if you'd like to
-        know more.
-      </p>
-      <p>
-        Please remember you can ask the Holy Spirit, consult God's Word, talk to
-        a trusted individual, and/or come back to this website to ask
-        EschatoloGPT any questions or clear up any concerns you may have about
-        these resources.
+        Remember, you can seek guidance from the Holy Spirit, consult{" "}
+        <ExternalLink href="https://www.biblegateway.com/">
+          God's Word
+        </ExternalLink>
+        , talk to trusted counsel, or ask{" "}
+        <Link href="/?chat=true">EschatoloGPT</Link> any questions to clarify
+        any concerns you may have while studying these resources.
       </p>
 
       <ArticleHeader as="h2" id={Header.GotQuestions}>

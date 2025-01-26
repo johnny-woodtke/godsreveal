@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 import Article from "@/components/article";
 import ArticleHeader from "@/components/article/article-header";
 import ArticleImage from "@/components/article/article-image";
@@ -15,12 +17,14 @@ export default function BibleStudies() {
       <p>
         The following section contains a series of end-times Bible studies that
         I've put together over the years. I've done my best to make them short
-        and sweet, but I will typically include references for further study if
-        you're interested.
+        and sweet, but I've also included references for further study if you're
+        interested.
       </p>
       <p>
-        If you have any questions or confusion, please consult the Bible, pray
-        to God, talk to someone you trust, and/or ask EschatoloGPT.
+        If you have any questions or confusion, please consult the{" "}
+        <ExternalLink href="https://www.biblegateway.com/">Bible</ExternalLink>,
+        pray to God, talk to someone you trust, or ask{" "}
+        <Link href="/bible-studies?chat=true">EschatoloGPT</Link>.
       </p>
 
       <BibleStudy
