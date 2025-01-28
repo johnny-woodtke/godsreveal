@@ -10,6 +10,7 @@ import { Toaster } from "@godsreveal/ui";
 import "@godsreveal/ui/globals.css";
 
 import ChatModal from "@/components/chat/chat-modal";
+import Footer from "@/components/footer";
 import Header from "@/components/header";
 import Providers from "@/components/providers";
 import { getUrlOrThrow } from "@/lib/eden";
@@ -103,11 +104,21 @@ type RootLayoutProps = {
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang="en">
-      <body className={cn(geistSans.variable, geistMono.variable)}>
+      <body
+        className={cn(
+          geistSans.variable,
+          geistMono.variable,
+          "flex min-h-screen flex-col",
+        )}
+      >
         <Providers>
           <Header />
 
-          <div className="mx-auto p-4">{children}</div>
+          <main className="flex-1">
+            <div className="mx-auto p-4">{children}</div>
+          </main>
+
+          <Footer />
 
           <div className="fixed bottom-0 z-20 w-full">
             <div className="mx-auto flex max-w-screen-lg justify-end p-4">
