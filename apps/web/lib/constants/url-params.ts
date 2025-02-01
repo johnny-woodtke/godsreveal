@@ -1,42 +1,46 @@
-export enum Header {
-  Empty = "",
-  Welcome = "welcome",
+export const Header = {
+  Empty: "",
+  Welcome: "welcome",
 
-  ExtraBiblicalStudies = "extra-biblical-studies",
-  GotQuestions = "got-questions",
-  TippingPoint = "tipping-point",
-  Generation2434 = "generation2434",
-  FrontierAllianceInternational = "fai",
-  ProphecyDepot = "prophecy-depot",
-  JonathanCahn = "jonathan-cahn",
-  RobertBreaker = "robert-breaker",
-  EndTimeHeadlines = "end-time-headlines",
+  ExtraBiblicalStudies: "extra-biblical-studies",
+  GotQuestions: "got-questions",
+  TippingPoint: "tipping-point",
+  Generation2434: "generation2434",
+  FrontierAllianceInternational: "fai",
+  ProphecyDepot: "prophecy-depot",
+  JonathanCahn: "jonathan-cahn",
+  RobertBreaker: "robert-breaker",
+  EndTimeHeadlines: "end-time-headlines",
 
-  BibleStudies = "bible-studies",
-  IsraelRegathered = "israel-regathered",
-  DividingTheLand = "dividing-the-land",
-  InstantCommunication = "instant-communication",
-  WorldWar = "world-war",
-  SurveillanceAndBiotechnology = "surveillance-and-biotechnology",
-  IronAndClay = "iron-and-clay",
-  NewWorldOrder = "new-world-order",
-  ImageOfTheBeast = "image-of-the-beast",
+  BibleStudies: "bible-studies",
+  IsraelRegathered: "israel-regathered",
+  DividingTheLand: "dividing-the-land",
+  InstantCommunication: "instant-communication",
+  WorldWar: "world-war",
+  SurveillanceAndBiotechnology: "surveillance-and-biotechnology",
+  IronAndClay: "iron-and-clay",
+  NewWorldOrder: "new-world-order",
+  ImageOfTheBeast: "image-of-the-beast",
 
-  Salvation = "salvation",
-  SalvationStop1 = "stop-1",
-  SalvationStop2 = "stop-2",
-  SalvationStop3 = "stop-3",
-  SalvationStop4 = "stop-4",
-  SalvationStop5 = "stop-5",
-  NextSteps = "next-steps",
-}
+  Salvation: "salvation",
+  SalvationStop1: "stop-1",
+  SalvationStop2: "stop-2",
+  SalvationStop3: "stop-3",
+  SalvationStop4: "stop-4",
+  SalvationStop5: "stop-5",
+  NextSteps: "next-steps",
+} as const;
 
-export enum Study {
-  ExtraBiblicalStudies = "extra-biblical-studies",
-  BibleStudies = "bible-studies",
-}
+export type HeaderValues = (typeof Header)[keyof typeof Header];
 
-export const HEADER_STUDY_MAP: Record<Header, Study | null> = {
+export const Study = {
+  ExtraBiblicalStudies: "extra-biblical-studies",
+  BibleStudies: "bible-studies",
+} as const;
+
+export type StudyValues = (typeof Study)[keyof typeof Study];
+
+export const HEADER_STUDY_MAP: Record<HeaderValues, StudyValues | null> = {
   [Header.Empty]: null,
   [Header.Welcome]: null,
 

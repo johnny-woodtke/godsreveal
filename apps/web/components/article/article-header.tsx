@@ -9,10 +9,10 @@ import { cn } from "@godsreveal/lib";
 import { useToast } from "@godsreveal/ui";
 
 import { usePushUrl } from "@/components/use-push-url";
-import { Header } from "@/lib/constants/url-params";
+import { HeaderValues } from "@/lib/constants/url-params";
 
 type ArticleHeaderProps = {
-  id: Header;
+  id: HeaderValues;
   children: React.ReactNode;
   className?: string;
   as: "h1" | "h2" | "h3" | "h4" | "h5" | "h6";

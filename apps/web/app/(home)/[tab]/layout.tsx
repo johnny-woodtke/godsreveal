@@ -12,12 +12,13 @@ import {
   CHAT_MODAL_OPEN_PARAM,
   Header,
   Study,
+  StudyValues,
 } from "@/lib/constants/url-params";
 
 type HomeLayoutProps = {
   children: React.ReactNode;
   params: {
-    tab: Study;
+    tab: StudyValues;
   };
 };
 
