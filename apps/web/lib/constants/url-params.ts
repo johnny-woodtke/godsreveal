@@ -28,6 +28,7 @@ export enum Header {
   SalvationStop3 = "stop-3",
   SalvationStop4 = "stop-4",
   SalvationStop5 = "stop-5",
+  NextSteps = "next-steps",
 }
 
 export enum Study {
@@ -65,6 +66,7 @@ export const HEADER_STUDY_MAP: Record<Header, Study | null> = {
   [Header.SalvationStop3]: null,
   [Header.SalvationStop4]: null,
   [Header.SalvationStop5]: null,
+  [Header.NextSteps]: null,
 };
 
 export const THREAD_ID_PARAM = "thread";
