@@ -21,6 +21,13 @@ export enum Header {
   IronAndClay = "iron-and-clay",
   NewWorldOrder = "new-world-order",
   ImageOfTheBeast = "image-of-the-beast",
+
+  Salvation = "salvation",
+  SalvationStop1 = "stop-1",
+  SalvationStop2 = "stop-2",
+  SalvationStop3 = "stop-3",
+  SalvationStop4 = "stop-4",
+  SalvationStop5 = "stop-5",
 }
 
 export enum Study {
@@ -51,6 +58,13 @@ export const HEADER_STUDY_MAP: Record<Header, Study | null> = {
   [Header.IronAndClay]: Study.BibleStudies,
   [Header.NewWorldOrder]: Study.BibleStudies,
   [Header.ImageOfTheBeast]: Study.BibleStudies,
+
+  [Header.Salvation]: null,
+  [Header.SalvationStop1]: null,
+  [Header.SalvationStop2]: null,
+  [Header.SalvationStop3]: null,
+  [Header.SalvationStop4]: null,
+  [Header.SalvationStop5]: null,
 };
 
 export const THREAD_ID_PARAM = "thread";

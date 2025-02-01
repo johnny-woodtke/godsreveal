@@ -6,7 +6,7 @@ import ArticleImage from "@/components/article/article-image";
 import Callout from "@/components/article/callout";
 import ExternalLink from "@/components/article/external-link";
 import YoutubePlayer, { YoutubePlayerGrid } from "@/components/youtube-player";
-import { Header } from "@/lib/constants/url-params";
+import { CHAT_MODAL_OPEN_PARAM, Header } from "@/lib/constants/url-params";
 
 export default function ExtraBiblicalStudies() {
   return (
@@ -25,8 +25,9 @@ export default function ExtraBiblicalStudies() {
           God's Word
         </ExternalLink>
         , talk to trusted counsel, or ask{" "}
-        <Link href="/?chat=true">EschatoloGPT</Link> any questions to clarify
-        any concerns you may have while studying these resources.
+        <Link href={`/?${CHAT_MODAL_OPEN_PARAM}=true`}>EschatoloGPT</Link> any
+        questions to clarify any concerns you may have while studying these
+        resources.
       </p>
 
       <ArticleHeader as="h2" id={Header.GotQuestions}>

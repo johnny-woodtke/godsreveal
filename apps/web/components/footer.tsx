@@ -3,6 +3,8 @@ import Link from "next/link";
 
 import { cn } from "@godsreveal/lib";
 
+import { Study } from "@/lib/constants/url-params";
+
 import Reveal from "./reveal";
 
 type FooterLink = {
@@ -14,11 +16,14 @@ type FooterLink = {
 const footerLinks: Record<string, FooterLink[]> = {
   About: [
     { name: "Contact", href: "/contact" },
-    { name: "How to be Saved", href: "/salvation" },
+    { name: "Salvation", href: "/salvation" },
   ],
   Resources: [
-    { name: "Extra-Biblical Studies", href: "/extra-biblical-studies" },
-    { name: "Bible Studies", href: "/bible-studies" },
+    {
+      name: "Extra-Biblical Studies",
+      href: `/${Study.ExtraBiblicalStudies}`,
+    },
+    { name: "Bible Studies", href: `/${Study.BibleStudies}` },
   ],
   EschatoloGPT: [
     {

@@ -8,7 +8,11 @@ import ExternalLink from "@/components/article/external-link";
 import Scripture from "@/components/article/scripture";
 import TableOfContents from "@/components/article/table-of-contents";
 import StudyTabs from "@/components/study-tabs";
-import { Header, Study } from "@/lib/constants/url-params";
+import {
+  CHAT_MODAL_OPEN_PARAM,
+  Header,
+  Study,
+} from "@/lib/constants/url-params";
 
 type HomeLayoutProps = {
   children: React.ReactNode;
@@ -65,7 +69,8 @@ export default function HomeLayout({ children, params }: HomeLayoutProps) {
             <span className="font-bold">EschatoloGPT</span>, an AI-powered tool
             that can answer your questions and clarify any confusion about end
             times Bible prophecy. You can access it at the bottom right of your
-            screen or by clicking <Link href="/?chat=true">here</Link>.
+            screen or by clicking{" "}
+            <Link href={`/?${CHAT_MODAL_OPEN_PARAM}=true`}>here</Link>.
           </p>
 
           <p>
