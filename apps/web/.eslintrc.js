@@ -6,7 +6,4 @@ module.exports = {
   parserOptions: {
     project: true,
   },
-  globals: {
-    Bun: true,
-  },
 };
