@@ -1,4 +1,4 @@
-import { BotIcon, HeartIcon } from "lucide-react";
+import { BotIcon } from "lucide-react";
 import Link from "next/link";
 
 import { cn } from "@godsreveal/lib";
@@ -15,14 +15,12 @@ const footerLinks: Record<string, FooterLink[]> = {
   About: [
     { name: "Contact", href: "/contact" },
     { name: "How to be Saved", href: "/salvation" },
-    { name: "Statement of Faith", href: "/faith" },
   ],
   Resources: [
     { name: "Extra-Biblical Studies", href: "/extra-biblical-studies" },
     { name: "Bible Studies", href: "/bible-studies" },
   ],
   EschatoloGPT: [
-    { name: "Integrate into your Ministry", href: "/integrate" },
     {
       name: "API Documentation",
       href: "https://server.godsreveal.com/docs",
