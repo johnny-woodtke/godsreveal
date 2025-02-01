@@ -1,10 +1,16 @@
+import Link from "next/link";
+
 import Article from "@/components/article";
 import ArticleHeader from "@/components/article/article-header";
 import ArticleImage from "@/components/article/article-image";
 import BibleStudy from "@/components/article/bible-study";
 import Callout from "@/components/article/callout";
 import ExternalLink from "@/components/article/external-link";
-import { Header } from "@/lib/constants/url-params";
+import {
+  CHAT_MODAL_OPEN_PARAM,
+  Header,
+  Study,
+} from "@/lib/constants/url-params";
 
 export default function BibleStudies() {
   return (
@@ -15,12 +21,17 @@ export default function BibleStudies() {
       <p>
         The following section contains a series of end-times Bible studies that
         I've put together over the years. I've done my best to make them short
-        and sweet, but I will typically include references for further study if
-        you're interested.
+        and sweet, but I've also included references for further study if you're
+        interested.
       </p>
       <p>
-        If you have any questions or confusion, please consult the Bible, pray
-        to God, talk to someone you trust, and/or ask EschatoloGPT.
+        If you have any questions or confusion, please consult the{" "}
+        <ExternalLink href="https://www.biblegateway.com/">Bible</ExternalLink>,
+        pray to God, talk to someone you trust, or ask{" "}
+        <Link href={`/${Study.BibleStudies}?${CHAT_MODAL_OPEN_PARAM}=true`}>
+          EschatoloGPT
+        </Link>
+        .
       </p>
 
       <BibleStudy

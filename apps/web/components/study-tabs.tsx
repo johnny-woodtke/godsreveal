@@ -5,10 +5,10 @@ import { useRouter } from "next/navigation";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@godsreveal/ui";
 
 import { usePushUrl } from "@/components/use-push-url";
-import { Study } from "@/lib/constants/url-params";
+import { Study, StudyValues } from "@/lib/constants/url-params";
 
 type StudyTabsProps = {
-  tab: Study;
+  tab: StudyValues;
   children: React.ReactNode;
 };
 
@@ -48,7 +48,7 @@ export default function StudyTabs({ tab, children }: StudyTabsProps) {
 
 const OPTIONS = [Study.ExtraBiblicalStudies, Study.BibleStudies] as const;
 
-const LABELS: Record<Study, string> = {
+const LABELS: Record<StudyValues, string> = {
   [Study.ExtraBiblicalStudies]: "Extra-Biblical Studies",
   [Study.BibleStudies]: "Bible Studies",
 };

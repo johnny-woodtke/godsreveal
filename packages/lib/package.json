@@ -17,7 +17,7 @@
   "devDependencies": {
     "@godsreveal/typescript-config": "*",
     "@godsreveal/prettier-config": "*",
-    "@types/bun": "latest",
+    "@types/bun": "1.2.2",
     "typescript": "^5.5.4"
   }
 }

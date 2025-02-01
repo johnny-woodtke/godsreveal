@@ -1,5 +1,4 @@
 import { Loader2 } from "lucide-react";
-import { useEffect, useRef } from "react";
 import ReactMarkdown from "react-markdown";
 
 import { cn } from "@godsreveal/lib";

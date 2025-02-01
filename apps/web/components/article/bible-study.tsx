@@ -1,10 +1,10 @@
 import ArticleHeader from "@/components/article/article-header";
 import ExternalLink from "@/components/article/external-link";
 import Scripture, { ScriptureProps } from "@/components/article/scripture";
-import { Header } from "@/lib/constants/url-params";
+import { HeaderValues } from "@/lib/constants/url-params";
 
 type Title = {
-  id: Header;
+  id: HeaderValues;
   text: string;
 };
 

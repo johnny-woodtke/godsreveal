@@ -1,11 +1,9 @@
 import Link from "next/link";
-import { Suspense } from "react";
 
 import { cn } from "@godsreveal/lib";
 
+import Reveal from "@/components/reveal";
 import { ModeToggle } from "@/components/theme-provider";
-
-import Reveal from "./reveal";
 
 export default function Header() {
   return (
@@ -16,14 +14,14 @@ export default function Header() {
           "border-b border-border p-4 py-3 sm:py-4",
         )}
       >
-        <Suspense>
-          <Reveal />
-        </Suspense>
+        <Reveal />
+
         <Link href="/">
           <h1 className="text-2xl font-bold tracking-tight sm:text-3xl">
             God's Reveal
           </h1>
         </Link>
+
         <ModeToggle />
       </div>
     </header>

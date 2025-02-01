@@ -8,12 +8,17 @@ import ExternalLink from "@/components/article/external-link";
 import Scripture from "@/components/article/scripture";
 import TableOfContents from "@/components/article/table-of-contents";
 import StudyTabs from "@/components/study-tabs";
-import { Header, Study } from "@/lib/constants/url-params";
+import {
+  CHAT_MODAL_OPEN_PARAM,
+  Header,
+  Study,
+  StudyValues,
+} from "@/lib/constants/url-params";
 
 type HomeLayoutProps = {
   children: React.ReactNode;
   params: {
-    tab: Study;
+    tab: StudyValues;
   };
 };
 
@@ -26,7 +31,7 @@ export default function HomeLayout({ children, params }: HomeLayoutProps) {
   return (
     <div className="flex w-full">
       <div className="w-0 flex-1 max-2xl:invisible"></div>
-      <div className="flex w-full max-w-screen-lg flex-shrink-0 flex-col gap-4">
+      <div className="flex w-full max-w-screen-lg flex-shrink-0 flex-col gap-4 mb-4">
         <Article>
           <ArticleHeader id={Header.Empty} as="h1" className="invisible">
             God's Reveal
@@ -55,37 +60,30 @@ export default function HomeLayout({ children, params }: HomeLayoutProps) {
             Welcome
           </ArticleHeader>
           <p>
-            This website provides resources, tools, and a platform for
-            everyone—from unbelievers to die-hard watchmen—to explore the
-            Biblical end times and the return of Jesus Christ.
+            This website provides resources for everyone to explore the Biblical
+            end times and the return of Jesus Christ.
           </p>
+
           <p>
-            The content here is not exhaustive but represents a growing
-            collection of thoughts, ideas, questions, and resources that have
-            been on my mind since I began exploring this topic in 2020. It acts
-            as more of a testimony than a scholarly work [
-            <ExternalLink href="https://www.biblegateway.com/passage/?search=Revelation%2019%3A10&version=NKJV">
-              Revelation 19:10
-            </ExternalLink>
-            ].
+            Understanding Bible prophecy can be challenging and complex. To help
+            with this, I've developed{" "}
+            <span className="font-bold">EschatoloGPT</span>, an AI-powered tool
+            that can answer your questions and clarify any confusion about end
+            times Bible prophecy. You can access it at the bottom right of your
+            screen or by clicking{" "}
+            <Link href={`/?${CHAT_MODAL_OPEN_PARAM}=true`}>here</Link>.
           </p>
+
           <p>
-            Understanding Biblical prophecy can be complex, involving interwoven
-            ideas, cross-references, and hypotheses. To help with this, I've
-            developed EschatoloGPT, an AI-powered tool that can answer your
-            questions and clarify any confusion about end times Bible prophecy.
-            You can access it at the bottom right of your screen or by clicking{" "}
-            <Link href="/?chat=true">here</Link>.
-          </p>
-          <p>
-            My goal is that as you study what the Bible says about the end times
-            and how it relates to our world today, you will be more willing and
-            able to fall out of love with the world [
+            Ultimately, as you learn what the Bible says about the end times and
+            how it relates to our world today, I pray you will be more willing
+            and able to fall out of love with this wicked, fallen world [
             <ExternalLink href="https://www.biblegateway.com/passage/?search=1%20John%202%3A15-17&version=KJV">
               1 John 2:15-17
             </ExternalLink>
-            ], and instead share in my hope and excitement for the rapidly
-            approaching second coming of our Lord and Savior, Jesus Christ.
+            ], and instead share in my ever-growing hope and excitement for the
+            rapidly approaching second coming of our Lord and Savior, Jesus
+            Christ.
           </p>
 
           <Scripture
@@ -101,7 +99,7 @@ export default function HomeLayout({ children, params }: HomeLayoutProps) {
 
         <StudyTabs tab={params.tab}>{children}</StudyTabs>
       </div>
-      <div className="w-0 flex-1 max-2xl:invisible 2xl:mt-[1050px] 2xl:pr-4">
+      <div className="w-0 flex-1 max-2xl:invisible 2xl:mt-[945px] 2xl:pr-4">
         <TableOfContents />
       </div>
     </div>

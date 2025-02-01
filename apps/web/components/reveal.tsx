@@ -15,8 +15,12 @@ import {
 } from "@godsreveal/ui";
 
 import { usePushUrl } from "@/components/use-push-url";
-import { Study } from "@/lib/constants/url-params";
-import { HEADER_STUDY_MAP, Header } from "@/lib/constants/url-params";
+import {
+  HEADER_STUDY_MAP,
+  Header,
+  HeaderValues,
+  StudyValues,
+} from "@/lib/constants/url-params";
 
 /**
  * Clicking this button will randomly select a study and redirect to it.
@@ -157,8 +161,8 @@ const remixOptions = Object.values(Header).filter(
 );
 
 function getRandomStudy(): {
-  header: Header;
-  study: Study;
+  header: HeaderValues;
+  study: StudyValues;
 } {
   const randomIndex = Math.floor(Math.random() * remixOptions.length);
   const header = remixOptions[randomIndex]!;

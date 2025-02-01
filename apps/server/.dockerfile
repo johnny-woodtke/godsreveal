@@ -1,4 +1,4 @@
-ARG BUN_VERSION=1.1.34
+ARG BUN_VERSION=1.2.2
 
 # Base image with system dependencies
 FROM oven/bun:${BUN_VERSION} AS base
