@@ -24,8 +24,7 @@
     },
     "dev": {
       "cache": false,
-      "persistent": true,
-      "env": ["PORT"]
+      "persistent": true
     }
   }
 }

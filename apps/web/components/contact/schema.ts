@@ -3,12 +3,19 @@ import { z } from "zod";
 export const contactFormSchema = z
   .object({
     name: z.string().min(2, "Name must be at least 2 characters"),
-    phone: z.optional(
-      z.string().refine((value) => /^\d{10}$/.test(value), {
-        message: "Phone number must be 10 digits",
+    phone: z
+      .string()
+      .refine((value) => value === "" || /^\d{10}$/.test(value), {
+        message: "Please enter a valid phone number",
       }),
-    ),
-    email: z.optional(z.string().email("Please enter a valid email address")),
+    email: z
+      .string()
+      .refine(
+        (value) => value === "" || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value),
+        {
+          message: "Please enter a valid email address",
+        },
+      ),
     message: z.string().min(10, "Message must be at least 10 characters"),
   })
   .refine((data) => data.phone || data.email, {

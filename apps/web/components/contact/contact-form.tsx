@@ -1,10 +1,12 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import * as Sentry from "@sentry/nextjs";
 import { useForm } from "react-hook-form";
 
 import { Button, Card, useToast } from "@godsreveal/ui";
 
+import { sendContactFormEmail } from "@/app/contact/actions";
 import { FormField } from "@/components/contact/form-field";
 import {
   ContactFormData,
@@ -14,17 +16,40 @@ import {
 export function ContactForm() {
   const form = useForm<ContactFormData>({
     resolver: zodResolver(contactFormSchema),
+    defaultValues: {
+      name: "",
+      email: "",
+      phone: "",
+      message: "",
+    },
   });
   const { toast } = useToast();
 
   const onSubmit = async (data: ContactFormData) => {
-    // For now, just log the submission
-    console.log("Contact form submission:", data);
-    toast({
-      title: "Success",
-      description: "Your message has been sent successfully!",
-    });
-    form.reset();
+    try {
+      await sendContactFormEmail(data);
+      toast({
+        title: "Success",
+        description: "Contact form submitted successfully!",
+      });
+      form.reset();
+    } catch (error) {
+      Sentry.captureException(error, {
+        tags: {
+          component: "ContactForm",
+          action: "sendContactFormEmail",
+        },
+        extra: {
+          email: data.email,
+          formData: data,
+        },
+      });
+      toast({
+        title: "Error",
+        description: "Failed to submit contact form. Please try again later.",
+        variant: "destructive",
+      });
+    }
   };
 
   return (

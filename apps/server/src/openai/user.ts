@@ -100,6 +100,7 @@ async function listenForThreadRunCompletion(
   let threadId: string | undefined;
 
   // read the stream
+  // eslint-disable-next-line no-constant-condition
   while (true) {
     // read the stream
     const { done, value } = await reader.read();
@@ -126,7 +127,9 @@ async function listenForThreadRunCompletion(
         if (data.thread_id && typeof data.thread_id === "string") {
           threadId = data.thread_id;
         }
-      } catch {}
+      } catch (e) {
+        console.error("Error parsing chunk data", e);
+      }
     }
 
     // check if event is thread.run.completed
@@ -188,8 +191,3 @@ export async function getThreadName({ threadId }: GetThreadNameProps) {
   // return name
   return name;
 }
-
-const roleMap = {
-  user: "User",
-  assistant: "Assistant",
-};

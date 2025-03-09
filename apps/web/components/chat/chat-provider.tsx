@@ -1,5 +1,6 @@
 "use client";
 
+import * as Sentry from "@sentry/nextjs";
 import { useLiveQuery } from "dexie-react-hooks";
 import {
   Dispatch,
@@ -123,7 +124,12 @@ export default function ChatProvider({ threads, children }: ChatProviderProps) {
     sync
       .fetch(() => client.thread({ threadId }).get())
       .catch((e) => {
-        console.error("Failed to fetch thread messages:", e);
+        Sentry.captureException(e, {
+          tags: {
+            component: "ChatProvider",
+            action: "fetchThreadMessages",
+          },
+        });
         form.setError("message", {
           message: "Failed to fetch latest thread messages",
         });
@@ -165,7 +171,12 @@ export default function ChatProvider({ threads, children }: ChatProviderProps) {
         throw new Error("Failed to set thread name");
       }
     } catch (e) {
-      console.error("Failed to set thread name:", e);
+      Sentry.captureException(e, {
+        tags: {
+          component: "ChatProvider",
+          action: "setThreadName",
+        },
+      });
     } finally {
       // unset loading
       setIsThreadNaming(false);
@@ -194,7 +205,12 @@ export default function ChatProvider({ threads, children }: ChatProviderProps) {
       !threads.find((thread) => thread.id === threadId) &&
         setThreadName(threadId);
     } catch (e) {
-      console.error(e);
+      Sentry.captureException(e, {
+        tags: {
+          component: "ChatProvider",
+          action: "runThread",
+        },
+      });
       form.setError("message", { message: "Failed to run thread" });
     } finally {
       // unset submitting
@@ -241,7 +257,12 @@ export default function ChatProvider({ threads, children }: ChatProviderProps) {
       // run post submit
       runThread(res.data.response.threadId);
     } catch (e) {
-      console.error(e);
+      Sentry.captureException(e, {
+        tags: {
+          component: "ChatProvider",
+          action: "onSubmit",
+        },
+      });
       form.setError("message", { message: "Failed to send message" });
     }
   }

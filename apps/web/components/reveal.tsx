@@ -1,5 +1,6 @@
 "use client";
 
+import * as Sentry from "@sentry/nextjs";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -55,7 +56,12 @@ export default function Reveal() {
         }),
       );
     } catch (e) {
-      console.error("Error revealing study:", e);
+      Sentry.captureException(e, {
+        tags: {
+          component: "Reveal",
+          action: "handleClick",
+        },
+      });
     } finally {
       setLoading(false);
     }

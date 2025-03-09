@@ -1,5 +1,6 @@
 "use client";
 
+import * as Sentry from "@sentry/nextjs";
 import { LinkIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
@@ -46,8 +47,13 @@ export default function ArticleHeader({
       urlFragment: id || null,
       includeHost: true,
     });
-    navigator?.clipboard?.writeText(urlWithHost).catch(() => {
-      console.error("Error copying link to clipboard");
+    navigator?.clipboard?.writeText(urlWithHost).catch((e) => {
+      Sentry.captureException(e, {
+        tags: {
+          component: "ArticleHeader",
+          action: "copyUrl",
+        },
+      });
     });
     toast({
       title: "Link copied",
