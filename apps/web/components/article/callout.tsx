@@ -13,7 +13,7 @@ export default function Callout({ Icon, text, className }: CalloutProps) {
     <div
       className={cn(
         "flex w-full items-center gap-4",
-        "my-10 rounded-lg bg-muted py-1 pl-4 pr-6",
+        "my-10 rounded-xl bg-muted py-1 pl-4 pr-6",
         className,
       )}
     >
